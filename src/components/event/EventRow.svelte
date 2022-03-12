@@ -5,9 +5,8 @@
 
   const { send } = useEvents();
 
-  function handleEdit() {
-    console.log({ event });
-    push('/service/events/edit/' + event.id);
+  function selectEvent() {
+    send('SELECT_EVENT', { data: event });
   }
 
   function duplicateEvent() {
@@ -18,7 +17,7 @@
 <tr>
   <td
     class="px-6 py-4 whitespace-nowrap cursor-pointer text-indigo-500 hover:text-indigo-700"
-    on:click={handleEdit}
+    on:click={selectEvent}
   >
     <div class:hidden={!event.name} class="text-sm font-medium ">
       {event.name}

@@ -1,156 +1,61 @@
-import type { VEvent, Job, Shift, User } from '$types';
-import { actions } from './event.actions';
+import { createMachine, type MachineConfig } from 'xstate';
+import type { EventCollection, VEvent } from '$types';
+import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
+import { indexPage } from './eventIndex.machine';
 import { services } from './event.services';
 import { guards } from './event.guards';
-import { createMachine, actions as xstateActions } from 'xstate';
-
-const { log } = xstateActions;
+import { actions } from './event.actions';
 
 export interface EventCtx {
-  events: VEvent[] | null;
-  selectedEvent: VEvent | null;
+  events: EventCollection;
+  loaded: boolean;
+  selectedEventId: string | null;
   error: string | null;
-  autoSaveRef: any;
 }
 
 export type EventEvt =
-  | { type: 'LOAD_EVENTS'; data: unknown }
-  | { type: 'ADD_EVENT'; data: unknown }
-  | { type: 'EDIT_EVENT'; data: unknown }
-  | { type: 'UPDATE_EVENT'; data: unknown }
-  | { type: 'DUPLICATE_EVENT'; data: unknown }
-  | { type: 'ADD_JOB'; data: unknown }
-  | { type: 'DELETE_JOB'; data: unknown }
-  | { type: 'ADD_SHIFT'; data: unknown }
-  | { type: 'DELETE_SHIFT'; data: unknown }
-  | { type: 'STATUS_OPEN'; data: unknown }
-  | { type: 'STATUS_LOCKED'; data: unknown }
-  | { type: 'STATUS_ARCHIVED'; data: unknown }
-  | { type: 'CLOSE_EVENT'; data: unknown }
-  | { type: 'CONFIRM'; data: unknown }
-  | { type: 'CANCEL'; data: unknown };
+  | { type: 'AT_INDEX' }
+  | { type: 'AT_EDIT'; eventId: string }
+  | { type: 'SELECT_EVENT'; data: VEvent }
+  | { type: 'ADD_EVENT' }
+  | { type: 'done.invoke.eventsLoader'; data: QuerySnapshot<DocumentData> }
+  | { type: 'done.invoke.eventAdder'; data: VEvent };
 
-type EventState =
-  | { value: 'idle'; context: EventCtx }
-  | { value: 'loadingEvent'; context: EventCtx }
-  | { value: 'loadingEvents'; context: EventCtx }
-  | { value: 'addingEvent'; context: EventCtx }
-  | { value: 'editingEvent'; context: EventCtx }
-  | { value: 'updatingEvent'; context: EventCtx }
-  | { value: 'duplicatingEvent'; context: EventCtx }
-  | { value: 'validatingEvent'; context: EventCtx };
+export type EventState =
+  | { value: 'pages'; context: EventCtx }
+  | { value: 'indexPage'; context: EventCtx }
+  | { value: 'indexPage.idle'; context: EventCtx }
+  | { value: 'indexPage.loadingEvent'; context: EventCtx }
+  | { value: 'indexPage.addingEvent'; context: EventCtx }
+  | { value: 'editPage'; context: EventCtx };
 
-const config = {
+const config: MachineConfig<EventCtx, any, EventEvt> = {
+  id: 'event',
+  context: {
+    loaded: false,
+    events: {},
+    selectedEventId: null,
+    error: null,
+  },
   schema: {
     context: {} as EventCtx,
     events: {} as EventEvt,
     services: {} as {
       eventsLoader: {
-        data: VEvent[];
+        data: QuerySnapshot<DocumentData>;
       };
     },
   },
-  id: 'event',
-  initial: 'idle',
-  context: {
-    events: [] as VEvent[],
-    selectedEvent: null,
-    error: null,
-    autoSaveRef: null,
-  },
+  initial: 'pages',
   states: {
-    idle: {
+    pages: {
       on: {
-        LOAD_EVENTS: { target: 'loadingEvents' },
-        ADD_EVENT: { target: 'addingEvent' },
-        EDIT_EVENT: { target: 'loadingEvent' },
-        DUPLICATE_EVENT: { target: 'duplicatingEvent' },
-      },
-    },
-    loadingEvent: {
-      invoke: {
-        id: 'eventLoader',
-        src: 'eventLoader',
-        onDone: { actions: 'selectEvent', target: 'editingEvent' },
-      },
-    },
-    loadingEvents: {
-      invoke: {
-        id: 'eventsLoader',
-        src: 'eventsLoader',
-        onDone: { actions: 'setEvents', target: 'idle' },
-        onError: { actions: 'setError' },
-      },
-    },
-    addingEvent: {
-      invoke: {
-        id: 'eventAdder',
-        src: 'eventAdder',
-        onDone: {
-          actions: 'addEvent',
-          target: 'editingEvent',
-        },
-        onError: { actions: 'setError', target: 'idle' },
-      },
-    },
-    editingEvent: {
-      entry: 'initAutoSave',
-      on: {
-        DUPLICATE_EVENT: { actions: 'clearError', target: 'duplicatingEvent' },
-        UPDATE_EVENT: {
-          actions: ['clearError', 'updateEvent'],
-        },
-        ADD_JOB: {
-          actions: ['clearError', 'addJob', 'updateEvent'],
-        },
-        DELETE_JOB: {
-          actions: ['clearError', 'deleteJob', 'updateEvent'],
-        },
-        ADD_SHIFT: {
-          actions: ['clearError', 'addShift', 'updateEvent'],
-        },
-        DELETE_SHIFT: {
-          actions: ['clearError', 'deleteShift', 'updateEvent'],
-        },
-        CLOSE_EVENT: {
-          actions: ['clearError', 'updateEvent'],
-          target: 'idle',
-        },
-        STATUS_OPEN: {
-          actions: ['validateEvent'],
-          target: 'validatingEvent',
+        AT_INDEX: {
+          target: 'indexPage',
         },
       },
     },
-    validatingEvent: {
-      always: {
-        actions: log('ALSWAYS'),
-        target: 'editingEvent',
-        cond: 'eventIsInvalid',
-      },
-      on: {
-        CONFIRM: { actions: log('CONFIRM'), target: 'openingEvent' },
-        CANCEL: { actions: log('CANCEL'), target: 'editingEvent' },
-      },
-    },
-    duplicatingEvent: {
-      invoke: {
-        id: 'eventDuplicator',
-        src: 'eventDuplicator',
-        onDone: { actions: 'addEvent', target: 'editingEvent' },
-        onError: { actions: 'setError', target: 'idle' },
-      },
-    },
-    openingEvent: {
-      entry: log('OPENING_EVENT'),
-      invoke: {
-        id: 'eventOpener',
-        src: 'eventOpener',
-        onDone: { actions: 'openEvent', target: 'editingEvent' },
-        onError: { actions: 'setError', target: 'editingEvent' },
-      },
-      exit: ['updateEvent'],
-    },
+    indexPage: { ...indexPage },
   },
 };
 

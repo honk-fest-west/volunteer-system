@@ -1,15 +1,16 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
   import { getContext, onMount } from 'svelte';
+  import type { VEvent } from '$types';
 
   import MainContainer from '$components/MainContainer.svelte';
   import EventTable from '$components/event/EventTable.svelte';
 
   const { state, send } = getContext('events');
 
-  $: events = $state.context.events;
+  $: events = Object.values($state.context.events) as VEvent[];
 
-  onMount(() => send('LOAD_EVENTS'));
+  onMount(() => send('AT_INDEX'));
 </script>
 
 <div in:fade={{ duration: 100 }}>

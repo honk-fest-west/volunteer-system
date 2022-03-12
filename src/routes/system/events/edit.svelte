@@ -13,7 +13,7 @@
   $: confirmOpenStatus = $state.matches('validatingEvent');
 
   onMount(() => {
-    send('EDIT_EVENT', { data: params.id });
+    send('AT_EDIT', { data: params.id });
   });
 </script>
 
