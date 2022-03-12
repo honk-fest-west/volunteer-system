@@ -1,16 +1,20 @@
 {
   "name": "volunteer-system",
-  "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "description": "Web application for managing volunteers.",
+  "author": "Dwight VanTuyl",
+  "license": "MIT",
+  "homepage": "https://github.com/honk-fest-west/volunteer-system",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "check": "svelte-check --tsconfig ./tsconfig.json"
+    "check": "svelte-check --tsconfig ./tsconfig.json",
+    "firebase:emulators:start": "firebase emulators:start --import=./src/config/seed",
+    "cypress:open": "npx cypress open"
   },
   "devDependencies": {
-    "@rollup/plugin-alias": "^3.1.9",
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
     "@tailwindcss/forms": "^0.5.0",
     "@tailwindcss/typography": "^0.5.2",
@@ -24,6 +28,7 @@
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-svelte3": "^3.4.1",
     "firebase": "^9.6.8",
+    "firebase-admin": "^9.12.0",
     "postcss": "^8.4.8",
     "prettier": "^2.5.1",
     "prettier-plugin-svelte": "^2.6.0",
@@ -35,6 +40,7 @@
     "tslib": "^2.3.1",
     "typescript": "^4.5.4",
     "vite": "^2.8.0",
+    "vite-tsconfig-paths": "^3.4.1",
     "xstate": "^4.30.5"
   }
 }

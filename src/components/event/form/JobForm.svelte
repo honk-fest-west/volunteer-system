@@ -1,0 +1,104 @@
+<script lang="ts">
+  import type { Job, Shift, Shifts } from '$types';
+  import ShiftForm from './ShiftForm.svelte';
+  export let job: Job;
+  export let send;
+
+  let minimized: boolean =
+    !!job.name?.length &&
+    !!Object.values(job.shifts).length &&
+    !!Object.values(job.shifts).every((s) => !!s.from && !!s.to);
+
+  function addShift() {
+    send('ADD_SHIFT', { data: job });
+  }
+  function deleteJob() {
+    send('DELETE_JOB', { data: job });
+  }
+
+  function sortedShifts(shifts: Shifts): Shift[] {
+    return Object.values(shifts).sort(
+      (a, b) => a.createdAt?.seconds - b.createdAt?.seconds
+    );
+  }
+</script>
+
+<fieldset class="mb-4 ">
+  <div class="p-4 rounded bg-gray-100 flex">
+    <div class="mr-4 text-gray-500 flex-none flex flex-col items-center">
+      <button
+        class="rounded-lg border border-gray-300 flex items-center hover:bg-gray-200"
+        on:click={() => (minimized = !minimized)}
+      >
+        {#if minimized}
+          <span class="material-icons"> expand_more </span>
+        {:else}
+          <span class="material-icons"> expand_less </span>
+        {/if}
+      </button>
+      {#if !minimized}
+        <button
+          class="mt-3 rounded-lg border border-gray-300 flex items-center hover:bg-gray-200"
+          on:click={deleteJob}
+        >
+          <span class="material-icons"> delete </span>
+        </button>
+      {/if}
+    </div>
+    {#if minimized}
+      <div>
+        <h3 class="text-md font-medium text-gray-700">{job.name}</h3>
+      </div>
+    {:else}
+      <div class="grid grid-cols-6 gap-6 pt-1 flex-grow">
+        <div class="col-span-6 sm:col-span-3">
+          <label for="name" class="block text-sm font-medium text-gray-700"
+            >Name</label
+          >
+          <input
+            type="text"
+            name="job-name"
+            autocomplete="event-name"
+            class="mt-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            bind:value={job.name}
+          />
+        </div>
+        <div class="col-span-6">
+          <label
+            for="description"
+            class="block text-sm font-medium text-gray-700">Description</label
+          >
+          <div class="mt-2">
+            <textarea
+              name="job-description"
+              autocomplete="event-description"
+              class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
+              bind:value={job.description}
+            />
+            <p class="mt-2 text-sm text-gray-500">
+              Brief description of job responsibilities.
+            </p>
+          </div>
+        </div>
+        <div class="col-span-6">
+          <label for="shifts" class="block text-sm font-medium text-gray-700"
+            >Shifts</label
+          >
+          <div class="mt-4">
+            {#each sortedShifts(job.shifts) as shift}
+              <ShiftForm bind:shift {job} {send} />
+            {/each}
+            <button
+              type="button"
+              class="text-sm font-medium text-indigo-700 flex items-center hover:bg-gray-200 py-1 pr-3 pl-1 rounded mt-2"
+              on:click={addShift}
+            >
+              <span class="material-icons mr-1"> add </span>
+              Add Shift
+            </button>
+          </div>
+        </div>
+      </div>
+    {/if}
+  </div>
+</fieldset>
