@@ -14,11 +14,14 @@ export interface EventIndexCtx {
 export type EventIndexEvt =
   | { type: 'done.invoke.eventsLoader'; data: QuerySnapshot<DocumentData> }
   | { type: 'done.invoke.eventAdder'; data: VEvent }
+  | { type: 'done.invoke.eventDuplicator'; data: VEvent }
   | { type: 'ADD_EVENT' }
+  | { type: 'DUPLICATE_EVENT'; data: VEvent }
   | { type: 'SELECT_EVENT'; data: VEvent };
 
 export const config: MachineConfig<EventIndexCtx, any, EventIndexEvt> = {
   id: 'eventIndex',
+
   context: {
     events: {},
     loaded: false,
@@ -46,6 +49,9 @@ export const config: MachineConfig<EventIndexCtx, any, EventIndexEvt> = {
         ADD_EVENT: {
           target: 'addingEvent',
         },
+        DUPLICATE_EVENT: {
+          target: 'duplicatingEvent',
+        },
       },
     },
     addingEvent: {
@@ -53,6 +59,14 @@ export const config: MachineConfig<EventIndexCtx, any, EventIndexEvt> = {
         id: 'eventAdder',
         src: 'eventAdder',
         onDone: { actions: ['addEvent', 'gotoEvent'], target: 'idle' },
+        onError: { actions: 'setError', target: 'idle' },
+      },
+    },
+    duplicatingEvent: {
+      invoke: {
+        id: 'eventDuplicator',
+        src: 'eventDuplicator',
+        onDone: { actions: 'gotoEvent', target: 'idle' },
         onError: { actions: 'setError', target: 'idle' },
       },
     },

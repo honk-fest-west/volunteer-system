@@ -5,19 +5,24 @@ import { v4 as uuidv4 } from 'uuid';
 import type { EventEditCtx, EventEditEvt } from './eventEdit.machine';
 import { autoSaveMachine } from './autoSave.machine';
 import type { Job, Shift } from '$types';
+import { sharedActions } from '../shared.actions';
 
 export const actions = {
+  ...sharedActions,
   gotoIndex: () => push('/system/events'),
 
   setSelectedEventId: assign({
     selectedEventId: (ctx: EventEditCtx, evt: EventEditEvt) => {
-      if (evt.type !== 'SET_EVENT_ID') return ctx.selectedEventId;
+      if (evt.type !== 'EDIT_EVENT') return ctx.selectedEventId;
       return evt.data.eventId;
     },
   }),
   setSelectedEvent: assign({
     selectedEvent: (ctx: EventEditCtx, evt: EventEditEvt) => {
-      if (evt.type !== 'done.invoke.selectedEventLoader')
+      if (
+        evt.type !== 'done.invoke.selectedEventLoader' &&
+        evt.type !== 'done.invoke.eventDuplicator'
+      )
         return ctx.selectedEvent;
       const { data } = evt;
       return data;

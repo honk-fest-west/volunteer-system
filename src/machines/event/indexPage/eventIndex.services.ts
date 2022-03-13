@@ -9,9 +9,11 @@ import {
 import type { VEvent } from '$types';
 import { Timestamp } from 'firebase/firestore';
 import { db } from '$config/firebase';
+import { sharedServices } from '../shared.services';
 
 function initServices(db) {
   return {
+    ...sharedServices,
     eventsLoader: () => {
       const eventsRef = collection(db, 'events');
       const q = query(eventsRef, where('status', '!=', 'archived'), limit(20));

@@ -14,12 +14,14 @@ export interface EventEditCtx {
 
 export type EventEditEvt =
   | { type: 'done.invoke.selectedEventLoader'; data: VEvent }
-  | { type: 'SET_EVENT_ID'; data: { eventId: string } }
+  | { type: 'done.invoke.eventDuplicator'; data: VEvent }
+  | { type: 'EDIT_EVENT'; data: { eventId: string } }
   | { type: 'UPDATE_EVENT' }
   | { type: 'ADD_JOB' }
   | { type: 'DELETE_JOB'; data: { job: Job } }
   | { type: 'ADD_SHIFT'; data: { job: Job } }
   | { type: 'DELETE_SHIFT'; data: { shift: Shift; job: Job } }
+  | { type: 'DUPLICATE_EVENT'; data: VEvent }
   | { type: 'GOTO_INDEX' };
 
 const config: MachineConfig<EventEditCtx, any, EventEditEvt> = {
@@ -35,7 +37,7 @@ const config: MachineConfig<EventEditCtx, any, EventEditEvt> = {
   states: {
     settingSelectedEvent: {
       on: {
-        SET_EVENT_ID: {
+        EDIT_EVENT: {
           actions: 'setSelectedEventId',
           target: 'loadingSelectedEvent',
         },
@@ -67,6 +69,18 @@ const config: MachineConfig<EventEditCtx, any, EventEditEvt> = {
         DELETE_JOB: { actions: ['clearError', 'deleteJob', 'updateEvent'] },
         ADD_SHIFT: { actions: ['clearError', 'addShift', 'updateEvent'] },
         DELETE_SHIFT: { actions: ['clearError', 'deleteShift', 'updateEvent'] },
+        DUPLICATE_EVENT: { actions: 'clearError', target: 'duplicatingEvent' },
+      },
+    },
+    duplicatingEvent: {
+      invoke: {
+        id: 'eventDuplicator',
+        src: 'eventDuplicator',
+        onDone: {
+          actions: ['setSelectedEvent', 'gotoEvent'],
+          target: 'loadingSelectedEvent',
+        },
+        onError: { actions: 'setError', target: 'idle' },
       },
     },
   },

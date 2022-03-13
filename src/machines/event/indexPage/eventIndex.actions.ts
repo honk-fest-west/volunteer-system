@@ -1,9 +1,11 @@
 import type { QuerySnapshot, DocumentData } from 'firebase/firestore';
 import { push } from 'svelte-spa-router';
 import { assign } from 'xstate';
+import { sharedActions } from '../shared.actions';
 import type { EventIndexCtx, EventIndexEvt } from './eventIndex.machine';
 
 export const actions = {
+  ...sharedActions,
   setEvents: assign({
     events: (ctx: EventIndexCtx, evt: EventIndexEvt) => {
       if (evt.type !== 'done.invoke.eventsLoader') return ctx.events;
@@ -25,15 +27,4 @@ export const actions = {
       return { ...ctx.events, [event.id]: { ...event } };
     },
   }),
-  gotoEvent: (_, evt: EventIndexEvt) => {
-    if (evt.type !== 'SELECT_EVENT' && evt.type !== 'done.invoke.eventAdder')
-      return;
-
-    const event = evt.data;
-    if (event.status === 'draft') {
-      push(`/system/events/${event.id}/edit`);
-    } else {
-      push(`/system/events/${event.id}`);
-    }
-  },
 };
