@@ -1,11 +1,11 @@
 import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { replace } from 'svelte-spa-router';
-import { assign } from 'xstate';
+import { assign, send, spawn } from 'xstate';
 import type { EventCtx, EventEvt } from './event.machine';
+import { autoSaveMachine } from './autoSave.machine';
 
 export const actions = {
   gotoEvent: (_, evt: EventEvt) => {
-    console.log('gotoEvent', evt);
     if (evt.type !== 'SELECT_EVENT' && evt.type !== 'done.invoke.eventAdder')
       return;
 
@@ -28,6 +28,24 @@ export const actions = {
     },
     loaded: true,
   }),
+  setSelectedEventId: assign({
+    selectedEventId: (ctx: EventCtx, evt: EventEvt) => {
+      if (evt.type !== 'AT_EDIT') return ctx.selectedEventId;
+      return evt.eventId;
+    },
+  }),
+  setSelectedEvent: assign({
+    selectedEvent: (ctx: EventCtx, evt: EventEvt) => {
+      if (evt.type !== 'done.invoke.selectedEventLoader')
+        return ctx.selectedEvent;
+      const { data } = evt;
+      return data;
+    },
+    loaded: true,
+  }),
+  setError: assign({
+    error: (_, evt: EventEvt) => console.log({ setError: evt }),
+  }),
   addEvent: assign({
     events: (ctx: EventCtx, evt: EventEvt) => {
       if (evt.type !== 'done.invoke.eventAdder') return ctx.events;
@@ -35,7 +53,19 @@ export const actions = {
       return { ...ctx.events, [event.id]: { ...event } };
     },
   }),
-  setError: assign({
-    error: (_, evt: EventEvt) => console.log({ setError: evt }),
+  initAutoSave: assign({
+    autoSaveRef: ({ selectedEvent }: EventCtx) => {
+      return spawn(autoSaveMachine.withContext({ selectedEvent }));
+    },
   }),
+  clearError: assign({
+    error: () => null,
+  }),
+  updateEvent: send(
+    ({ selectedEvent }: EventCtx) => ({
+      type: 'EVENT_CHANGED',
+      selectedEvent,
+    }),
+    { to: (ctx: EventCtx) => ctx.autoSaveRef }
+  ),
 };

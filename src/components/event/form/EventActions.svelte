@@ -5,6 +5,7 @@
   export let state;
   export let send;
   export let selectedEvent: VEvent;
+  export let autoSave;
 
   let eventMenuOpen = false;
 
@@ -14,7 +15,7 @@
 </script>
 
 <div class="flex items-center">
-  <EventAutoSave {state} />
+  <EventAutoSave {autoSave} />
   <div>
     <button
       class="text-gray-500 hover:text-gray-700 pt-2 pl-2"

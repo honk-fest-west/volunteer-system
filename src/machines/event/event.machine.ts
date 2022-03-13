@@ -2,6 +2,7 @@ import { createMachine, type MachineConfig } from 'xstate';
 import type { EventCollection, VEvent } from '$types';
 import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { indexPage } from './eventIndex.machine';
+import { editPage } from './eventEdit.machine';
 import { services } from './event.services';
 import { guards } from './event.guards';
 import { actions } from './event.actions';
@@ -9,8 +10,10 @@ import { actions } from './event.actions';
 export interface EventCtx {
   events: EventCollection;
   loaded: boolean;
+  selectedEvent: VEvent | null;
   selectedEventId: string | null;
   error: string | null;
+  autoSaveRef: any;
 }
 
 export type EventEvt =
@@ -19,7 +22,9 @@ export type EventEvt =
   | { type: 'SELECT_EVENT'; data: VEvent }
   | { type: 'ADD_EVENT' }
   | { type: 'done.invoke.eventsLoader'; data: QuerySnapshot<DocumentData> }
-  | { type: 'done.invoke.eventAdder'; data: VEvent };
+  | { type: 'done.invoke.eventAdder'; data: VEvent }
+  | { type: 'done.invoke.selectedEventLoader'; data: VEvent }
+  | { type: 'UPDATE_EVENT' };
 
 export type EventState =
   | { value: 'pages'; context: EventCtx }
@@ -34,8 +39,10 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
   context: {
     loaded: false,
     events: {},
+    selectedEvent: null,
     selectedEventId: null,
     error: null,
+    autoSaveRef: null,
   },
   schema: {
     context: {} as EventCtx,
@@ -53,9 +60,14 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
         AT_INDEX: {
           target: 'indexPage',
         },
+        AT_EDIT: {
+          actions: 'setSelectedEventId',
+          target: 'editPage',
+        },
       },
     },
     indexPage: { ...indexPage },
+    editPage: { ...editPage },
   },
 };
 

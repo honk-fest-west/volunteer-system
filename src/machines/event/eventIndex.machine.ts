@@ -7,7 +7,7 @@ export const indexPage: MachineConfig<EventCtx, any, EventEvt> = {
     loadingEvents: {
       always: {
         target: 'idle',
-        cond: 'eventsLoaded',
+        cond: 'isLoaded',
       },
       invoke: {
         id: 'eventsLoader',
@@ -31,10 +31,9 @@ export const indexPage: MachineConfig<EventCtx, any, EventEvt> = {
       invoke: {
         id: 'eventAdder',
         src: 'eventAdder',
-        onDone: { actions: 'addEvent', target: 'idle' },
+        onDone: { actions: ['addEvent', 'gotoEvent'], target: 'idle' },
         onError: { actions: 'setError', target: 'idle' },
       },
-      exit: 'gotoEvent',
     },
   },
   onDone: {

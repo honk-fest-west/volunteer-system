@@ -1,5 +1,5 @@
 import type { EventCtx } from './event.machine';
 
 export const guards = {
-  eventsLoaded: (ctx: EventCtx) => ctx.loaded,
+  isLoaded: (ctx: EventCtx) => ctx.loaded,
 };
