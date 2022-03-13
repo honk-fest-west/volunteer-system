@@ -1,18 +1,14 @@
 import {
   addDoc,
   collection,
-  doc,
-  getDoc,
   getDocs,
   limit,
   query,
-  setDoc,
   where,
-  writeBatch,
 } from 'firebase/firestore';
+import type { VEvent } from '$types';
+import { Timestamp } from 'firebase/firestore';
 import { db } from '$config/firebase';
-import { initializeEvent } from './event.model';
-import type { EventCtx, EventEvt } from './event.machine';
 
 function initServices(db) {
   return {
@@ -26,15 +22,21 @@ function initServices(db) {
       const event = initializeEvent();
       return addDoc(eventsRef, event).then((ref) => ({ ...event, id: ref.id }));
     },
-    selectedEventLoader: (ctx: EventCtx) => {
-      const eventRef = doc(db, 'events', ctx.selectedEventId);
-      return getDoc(eventRef).then((doc) => ({ ...doc.data(), id: doc.id }));
-    },
-    eventUpdater: (ctx: EventCtx) => {
-      const event = ctx.selectedEvent;
-      const eventRef = doc(db, 'events', event.id);
-      return setDoc(eventRef, event);
-    },
   };
 }
+
+function initializeEvent(): VEvent {
+  return {
+    id: null,
+    status: 'draft',
+    name: null,
+    date: null,
+    description: null,
+    locationUrl: null,
+    jobs: {},
+    createdAt: Timestamp.now(),
+    updatedAt: Timestamp.now(),
+  };
+}
+
 export const services = initServices(db);

@@ -2,6 +2,7 @@
   import EventRow from '$components/event/EventRow.svelte';
   import type { VEvent } from '$types';
   export let events: VEvent[];
+  export let send;
 </script>
 
 <div class="flex flex-col">
@@ -35,7 +36,7 @@
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             {#each events as event}
-              <EventRow {event} />
+              <EventRow {event} {send} />
             {/each}
           </tbody>
         </table>

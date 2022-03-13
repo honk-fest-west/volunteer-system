@@ -1,47 +1,22 @@
-import {
-  type DocumentData,
-  type QuerySnapshot,
-  Timestamp,
-} from 'firebase/firestore';
+import { Timestamp } from 'firebase/firestore';
 import { push } from 'svelte-spa-router';
 import { assign, send, spawn } from 'xstate';
 import { v4 as uuidv4 } from 'uuid';
-import type { EventCtx, EventEvt } from './event.machine';
+import type { EventEditCtx, EventEditEvt } from './eventEdit.machine';
 import { autoSaveMachine } from './autoSave.machine';
 import type { Job, Shift } from '$types';
 
 export const actions = {
-  gotoEvent: (_, evt: EventEvt) => {
-    if (evt.type !== 'SELECT_EVENT' && evt.type !== 'done.invoke.eventAdder')
-      return;
-
-    const event = evt.data;
-    if (event.status === 'draft') {
-      push(`/system/events/${event.id}/edit`);
-    } else {
-      push(`/system/events/${event.id}`);
-    }
-  },
   gotoIndex: () => push('/system/events'),
-  setEvents: assign({
-    events: (ctx: EventCtx, evt: EventEvt) => {
-      if (evt.type !== 'done.invoke.eventsLoader') return ctx.events;
-      const { docs } = evt.data as QuerySnapshot<DocumentData>;
-      return docs.reduce((acc, doc) => {
-        acc[doc.id] = { ...doc.data(), id: doc.id };
-        return acc;
-      }, {});
-    },
-    loaded: true,
-  }),
+
   setSelectedEventId: assign({
-    selectedEventId: (ctx: EventCtx, evt: EventEvt) => {
-      if (evt.type !== 'AT_EDIT') return ctx.selectedEventId;
+    selectedEventId: (ctx: EventEditCtx, evt: EventEditEvt) => {
+      if (evt.type !== 'SET_EVENT_ID') return ctx.selectedEventId;
       return evt.data.eventId;
     },
   }),
   setSelectedEvent: assign({
-    selectedEvent: (ctx: EventCtx, evt: EventEvt) => {
+    selectedEvent: (ctx: EventEditCtx, evt: EventEditEvt) => {
       if (evt.type !== 'done.invoke.selectedEventLoader')
         return ctx.selectedEvent;
       const { data } = evt;
@@ -50,17 +25,11 @@ export const actions = {
     loaded: true,
   }),
   setError: assign({
-    error: (_, evt: EventEvt) => console.log({ setError: evt }),
+    error: (_, evt: EventEditEvt) => console.log({ setError: evt }),
   }),
-  addEvent: assign({
-    events: (ctx: EventCtx, evt: EventEvt) => {
-      if (evt.type !== 'done.invoke.eventAdder') return ctx.events;
-      const event = evt.data;
-      return { ...ctx.events, [event.id]: { ...event } };
-    },
-  }),
+
   initAutoSave: assign({
-    autoSaveRef: ({ selectedEvent }: EventCtx) => {
+    autoSaveRef: ({ selectedEvent }: EventEditCtx) => {
       return spawn(autoSaveMachine.withContext({ selectedEvent }));
     },
   }),
@@ -68,14 +37,14 @@ export const actions = {
     error: () => null,
   }),
   updateEvent: send(
-    ({ selectedEvent }: EventCtx) => ({
+    ({ selectedEvent }: EventEditCtx) => ({
       type: 'EVENT_CHANGED',
       selectedEvent,
     }),
-    { to: (ctx: EventCtx) => ctx.autoSaveRef }
+    { to: (ctx: EventEditCtx) => ctx.autoSaveRef }
   ),
   addJob: assign({
-    selectedEvent: (ctx: EventCtx) => {
+    selectedEvent: (ctx: EventEditCtx) => {
       const id = uuidv4();
       const { selectedEvent } = ctx;
       const createdAt = Timestamp.now();
@@ -94,7 +63,7 @@ export const actions = {
     },
   }),
   deleteJob: assign({
-    selectedEvent: (ctx: EventCtx, evt: EventEvt) => {
+    selectedEvent: (ctx: EventEditCtx, evt: EventEditEvt) => {
       if (evt.type !== 'DELETE_JOB') return ctx.selectedEvent;
       const { id } = evt.data.job;
       const jobs = { ...ctx.selectedEvent.jobs };
@@ -103,7 +72,7 @@ export const actions = {
     },
   }),
   addShift: assign({
-    selectedEvent: (ctx: EventCtx, evt: EventEvt) => {
+    selectedEvent: (ctx: EventEditCtx, evt: EventEditEvt) => {
       if (evt.type !== 'ADD_SHIFT') return ctx.selectedEvent;
       const id = uuidv4();
       const { selectedEvent } = ctx;
@@ -127,7 +96,7 @@ export const actions = {
     },
   }),
   deleteShift: assign({
-    selectedEvent: (ctx: EventCtx, evt: EventEvt) => {
+    selectedEvent: (ctx: EventEditCtx, evt: EventEditEvt) => {
       if (evt.type !== 'DELETE_SHIFT') return ctx.selectedEvent;
       const { shift, job } = evt.data;
       const shifts = { ...ctx.selectedEvent.jobs[job.id].shifts };

@@ -9,16 +9,17 @@
   import EventDetails from '$components/event/form/EventDetails.svelte';
   import EventJobs from '$components/event/form/EventJobs.svelte';
   import EventErrors from '$components/event/form/EventErrors.svelte';
+  import { useEventEdit } from '$machines/event';
   export let params: { id?: string } = {};
 
-  const { state, send } = getContext('events');
+  const { state, send } = useEventEdit();
 
   $: selectedEvent = $state.context.selectedEvent;
   $: error = $state.context.error;
   $: confirmOpenStatus = $state.matches('validatingEvent');
   $: autoSave = $state.context.autoSaveRef;
 
-  onMount(() => send('AT_EDIT', { data: { eventId: params.id } }));
+  onMount(() => send('SET_EVENT_ID', { data: { eventId: params.id } }));
 
   function updateEvent(e) {
     if (e.target.name !== 'status') {

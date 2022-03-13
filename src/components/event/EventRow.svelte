@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { useEvents } from '$machines/event';
   import { push } from 'svelte-spa-router';
   export let event;
-
-  const { send } = useEvents();
+  export let send;
 
   function selectEvent() {
     send('SELECT_EVENT', { data: event });

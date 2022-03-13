@@ -1,16 +1,15 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
-  import { getContext, onMount } from 'svelte';
+  import { onMount } from 'svelte';
   import type { VEvent } from '$types';
 
   import MainContainer from '$components/MainContainer.svelte';
   import EventTable from '$components/event/EventTable.svelte';
+  import { useEventIndex } from '$machines/event';
 
-  const { state, send } = getContext('events');
+  const { state, send } = useEventIndex();
 
   $: events = Object.values($state.context.events) as VEvent[];
-
-  onMount(() => send('AT_INDEX'));
 </script>
 
 <div in:fade={{ duration: 100 }}>
@@ -27,6 +26,6 @@
       <span class="material-icons mr-1"> add </span>
       New Event
     </button>
-    <EventTable {events} />
+    <EventTable {events} {send} />
   </MainContainer>
 </div>
