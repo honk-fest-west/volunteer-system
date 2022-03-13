@@ -10,10 +10,10 @@
     !!Object.values(job.shifts).every((s) => !!s.from && !!s.to);
 
   function addShift() {
-    send('ADD_SHIFT', { data: job });
+    send('ADD_SHIFT', { data: { job } });
   }
   function deleteJob() {
-    send('DELETE_JOB', { data: job });
+    send('DELETE_JOB', { data: { job } });
   }
 
   function sortedShifts(shifts: Shifts): Shift[] {

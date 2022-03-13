@@ -1,10 +1,6 @@
 import type { MachineConfig } from 'xstate';
 import type { EventCtx, EventEvt } from './event.machine';
 
-import { createMachine, actions as xstateActions } from 'xstate';
-
-const { log } = xstateActions;
-
 export const editPage: MachineConfig<EventCtx, any, EventEvt> = {
   initial: 'loadingSelectedEvent',
   states: {
@@ -30,6 +26,10 @@ export const editPage: MachineConfig<EventCtx, any, EventEvt> = {
           actions: ['clearError', 'updateEvent', 'gotoIndex'],
           type: 'final',
         },
+        ADD_JOB: { actions: ['clearError', 'addJob', 'updateEvent'] },
+        DELETE_JOB: { actions: ['clearError', 'deleteJob', 'updateEvent'] },
+        ADD_SHIFT: { actions: ['clearError', 'addShift', 'updateEvent'] },
+        DELETE_SHIFT: { actions: ['clearError', 'deleteShift', 'updateEvent'] },
       },
     },
   },

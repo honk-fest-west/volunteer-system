@@ -1,5 +1,5 @@
 import { createMachine, type MachineConfig } from 'xstate';
-import type { EventCollection, VEvent } from '$types';
+import type { EventCollection, Job, Shift, VEvent } from '$types';
 import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import { indexPage } from './eventIndex.machine';
 import { editPage } from './eventEdit.machine';
@@ -18,13 +18,18 @@ export interface EventCtx {
 
 export type EventEvt =
   | { type: 'AT_INDEX' }
-  | { type: 'AT_EDIT'; eventId: string }
+  | { type: 'AT_EDIT'; data: { eventId: string } }
   | { type: 'SELECT_EVENT'; data: VEvent }
   | { type: 'ADD_EVENT' }
   | { type: 'done.invoke.eventsLoader'; data: QuerySnapshot<DocumentData> }
   | { type: 'done.invoke.eventAdder'; data: VEvent }
   | { type: 'done.invoke.selectedEventLoader'; data: VEvent }
-  | { type: 'UPDATE_EVENT' };
+  | { type: 'UPDATE_EVENT' }
+  | { type: 'ADD_JOB' }
+  | { type: 'DELETE_JOB'; data: { job: Job } }
+  | { type: 'ADD_SHIFT'; data: { job: Job } }
+  | { type: 'DELETE_SHIFT'; data: { shift: Shift; job: Job } }
+  | { type: 'GOTO_INDEX' };
 
 export type EventState =
   | { value: 'pages'; context: EventCtx }

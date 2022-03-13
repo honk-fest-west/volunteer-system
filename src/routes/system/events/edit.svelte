@@ -18,7 +18,7 @@
   $: confirmOpenStatus = $state.matches('validatingEvent');
   $: autoSave = $state.context.autoSaveRef;
 
-  onMount(() => send('AT_EDIT', { eventId: params.id }));
+  onMount(() => send('AT_EDIT', { data: { eventId: params.id } }));
 
   function updateEvent(e) {
     if (e.target.name !== 'status') {

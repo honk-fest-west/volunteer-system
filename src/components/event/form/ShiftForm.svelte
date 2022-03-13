@@ -7,7 +7,7 @@
 
   function deleteShift() {
     send('DELETE_SHIFT', {
-      data: { shift, job: job },
+      data: { shift, job },
     });
   }
 </script>

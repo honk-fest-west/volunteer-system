@@ -1,8 +1,14 @@
-import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
+import {
+  type DocumentData,
+  type QuerySnapshot,
+  Timestamp,
+} from 'firebase/firestore';
 import { push } from 'svelte-spa-router';
 import { assign, send, spawn } from 'xstate';
+import { v4 as uuidv4 } from 'uuid';
 import type { EventCtx, EventEvt } from './event.machine';
 import { autoSaveMachine } from './autoSave.machine';
+import type { Job, Shift } from '$types';
 
 export const actions = {
   gotoEvent: (_, evt: EventEvt) => {
@@ -31,7 +37,7 @@ export const actions = {
   setSelectedEventId: assign({
     selectedEventId: (ctx: EventCtx, evt: EventEvt) => {
       if (evt.type !== 'AT_EDIT') return ctx.selectedEventId;
-      return evt.eventId;
+      return evt.data.eventId;
     },
   }),
   setSelectedEvent: assign({
@@ -68,4 +74,68 @@ export const actions = {
     }),
     { to: (ctx: EventCtx) => ctx.autoSaveRef }
   ),
+  addJob: assign({
+    selectedEvent: (ctx: EventCtx) => {
+      const id = uuidv4();
+      const { selectedEvent } = ctx;
+      const createdAt = Timestamp.now();
+      const job = {
+        id,
+        createdAt,
+        name: null,
+        description: null,
+        shifts: {},
+      } as Job;
+      const { jobs } = selectedEvent;
+      return {
+        ...selectedEvent,
+        jobs: { ...jobs, [job.id]: { ...job } },
+      };
+    },
+  }),
+  deleteJob: assign({
+    selectedEvent: (ctx: EventCtx, evt: EventEvt) => {
+      if (evt.type !== 'DELETE_JOB') return ctx.selectedEvent;
+      const { id } = evt.data.job;
+      const jobs = { ...ctx.selectedEvent.jobs };
+      delete jobs[id];
+      return { ...ctx.selectedEvent, jobs };
+    },
+  }),
+  addShift: assign({
+    selectedEvent: (ctx: EventCtx, evt: EventEvt) => {
+      if (evt.type !== 'ADD_SHIFT') return ctx.selectedEvent;
+      const id = uuidv4();
+      const { selectedEvent } = ctx;
+      const job = evt.data.job as Job;
+      const createdAt = Timestamp.now();
+      const shift = {
+        id,
+        createdAt,
+        slots: 1,
+        from: null,
+        to: null,
+      } as Shift;
+      const shifts = job.shifts;
+      return {
+        ...selectedEvent,
+        jobs: {
+          ...selectedEvent.jobs,
+          [job.id]: { ...job, shifts: { ...shifts, [shift.id]: shift } },
+        },
+      };
+    },
+  }),
+  deleteShift: assign({
+    selectedEvent: (ctx: EventCtx, evt: EventEvt) => {
+      if (evt.type !== 'DELETE_SHIFT') return ctx.selectedEvent;
+      const { shift, job } = evt.data;
+      const shifts = { ...ctx.selectedEvent.jobs[job.id].shifts };
+      delete shifts[shift.id];
+      return {
+        ...ctx.selectedEvent,
+        jobs: { ...ctx.selectedEvent.jobs, [job.id]: { ...job, shifts } },
+      };
+    },
+  }),
 };
