@@ -26,6 +26,10 @@ export const editPage: MachineConfig<EventCtx, any, EventEvt> = {
         UPDATE_EVENT: {
           actions: ['clearError', 'updateEvent'],
         },
+        GOTO_INDEX: {
+          actions: ['clearError', 'updateEvent', 'gotoIndex'],
+          type: 'final',
+        },
       },
     },
   },

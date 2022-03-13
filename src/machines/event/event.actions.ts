@@ -1,5 +1,5 @@
 import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
-import { replace } from 'svelte-spa-router';
+import { push } from 'svelte-spa-router';
 import { assign, send, spawn } from 'xstate';
 import type { EventCtx, EventEvt } from './event.machine';
 import { autoSaveMachine } from './autoSave.machine';
@@ -11,12 +11,12 @@ export const actions = {
 
     const event = evt.data;
     if (event.status === 'draft') {
-      replace(`/system/events/${event.id}/edit`);
+      push(`/system/events/${event.id}/edit`);
     } else {
-      replace(`/system/events/${event.id}`);
+      push(`/system/events/${event.id}`);
     }
   },
-  gotoIndex: () => replace('/system/events'),
+  gotoIndex: () => push('/system/events'),
   setEvents: assign({
     events: (ctx: EventCtx, evt: EventEvt) => {
       if (evt.type !== 'done.invoke.eventsLoader') return ctx.events;
