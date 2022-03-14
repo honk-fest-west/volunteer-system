@@ -22,6 +22,9 @@ export type EventEditEvt =
   | { type: 'ADD_SHIFT'; data: { job: Job } }
   | { type: 'DELETE_SHIFT'; data: { shift: Shift; job: Job } }
   | { type: 'DUPLICATE_EVENT'; data: VEvent }
+  | { type: 'PUBLISH_EVENT' }
+  | { type: 'CONFIRM_PUBLISH' }
+  | { type: 'CANCEL_PUBLISH' }
   | { type: 'GOTO_INDEX' };
 
 const config: MachineConfig<EventEditCtx, any, EventEditEvt> = {
@@ -70,6 +73,10 @@ const config: MachineConfig<EventEditCtx, any, EventEditEvt> = {
         ADD_SHIFT: { actions: ['clearError', 'addShift', 'updateEvent'] },
         DELETE_SHIFT: { actions: ['clearError', 'deleteShift', 'updateEvent'] },
         DUPLICATE_EVENT: { actions: 'clearError', target: 'duplicatingEvent' },
+        PUBLISH_EVENT: {
+          actions: ['validateEvent'],
+          target: 'validatingEvent',
+        },
       },
     },
     duplicatingEvent: {
@@ -82,6 +89,22 @@ const config: MachineConfig<EventEditCtx, any, EventEditEvt> = {
         },
         onError: { actions: 'setError', target: 'idle' },
       },
+    },
+    validatingEvent: {
+      always: { target: 'idle', cond: 'eventIsInvalid' },
+      on: {
+        CONFIRM_PUBLISH: { target: 'publishingEvent' },
+        CANCEL_PUBLISH: { target: 'idle' },
+      },
+    },
+    publishingEvent: {
+      invoke: {
+        id: 'eventPublisher',
+        src: 'eventPublisher',
+        onDone: { actions: 'publishEvent', target: 'idle' },
+        onError: { actions: 'setError', target: 'idle' },
+      },
+      exit: ['updateEvent'],
     },
   },
 };

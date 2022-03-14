@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
-  import { getContext, onMount } from 'svelte';
-  import ConfirmationModal from '$components/modals/ConfirmationModal.svelte';
+  import { onMount } from 'svelte';
+  import ConfirmationModal from '$components/event/form/ConfirmationModal.svelte';
   import MainContainer from '$components/MainContainer.svelte';
   import EventHeader from '$components/event/form/Header.svelte';
   import EventActions from '$components/event/form/EventActions.svelte';
@@ -53,7 +53,10 @@
 {#if confirmOpenStatus}
   <ConfirmationModal {send}>
     <span slot="title" class="title">Open Event</span>
-    Opening an event makes it avaliable for volunteers to apply for shifts. This
-    event can not be edited once it is opened. Please confirm everything is correct.
+    Opening an event makes it avaliable for volunteers to sign up for shifts.
+    <span class="font-semibold"
+      >This event can not be edited once it is opened.</span
+    >
+    Please confirm everything is correct.
   </ConfirmationModal>
 {/if}

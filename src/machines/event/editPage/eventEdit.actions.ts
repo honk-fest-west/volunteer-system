@@ -112,4 +112,45 @@ export const actions = {
       };
     },
   }),
+  validateEvent: assign({
+    error: (ctx: EventEditCtx): string | null => {
+      const { selectedEvent } = ctx;
+      const { name, date, jobs } = selectedEvent;
+      if (!name?.length) {
+        return 'Event Name is Required' as string;
+      }
+      if (!date) {
+        return 'Event Date is Required' as string;
+      }
+      if (!Object.values(jobs || {}).length) {
+        return 'At least one Job is Required' as string;
+      }
+      if (Object.values(jobs || {}).some((job) => !job.name?.length)) {
+        return 'Each Job requires a Name' as string;
+      }
+      if (
+        Object.values(jobs || {}).some(
+          (job) => !Object.values(job.shifts || {}).length
+        )
+      ) {
+        return 'Each Job requires at least one Shift' as string;
+      }
+      if (
+        Object.values(jobs || {}).some((job) =>
+          Object.values(job.shifts || {}).some(
+            (shift) => !shift.from || !shift.to
+          )
+        )
+      ) {
+        return 'Shift From and To times are Required' as string;
+      }
+      return null;
+    },
+  }),
+  publishEvent: assign({
+    selectedEvent: (ctx: EventEditCtx) => {
+      const { selectedEvent } = ctx;
+      return { ...selectedEvent, status: 'open' };
+    },
+  }),
 };

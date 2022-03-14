@@ -5,15 +5,15 @@
   export let send;
 
   function openEvent() {
-    send('STATUS_OPEN', { data: selectedEvent });
+    send('PUBLISH_EVENT', { data: selectedEvent });
   }
 
   function lockEvent() {
-    send('STATUS_LOCKED', { data: selectedEvent });
+    send('LOCK_EVENT', { data: selectedEvent });
   }
 
   function archiveEvent() {
-    send('STATUS_ARCHIVED', { data: selectedEvent });
+    send('ARCHIVE_EVENT', { data: selectedEvent });
   }
 </script>
 
