@@ -1,4 +1,7 @@
 import { createMachine, type MachineConfig } from 'xstate';
+import { actions } from './eventShow.actions';
+import { services } from './eventShow.services';
+import { guards } from './eventShow.guards';
 
 import type { VEvent, VolunteerJobShiftsCollection } from '$types';
 
@@ -10,7 +13,10 @@ export interface EventShowCtx {
 }
 
 export type EventShowEvt =
+  | { type: 'done.invoke.selectedEventLoader'; data: VEvent }
+  | { type: 'done.invoke.eventDuplicator'; data: VEvent }
   | { type: 'SHOW_EVENT'; data: { eventId: string } }
+  | { type: 'DUPLICATE_EVENT'; data: VEvent }
   | { type: 'LOAD_JOB'; data: { jobId: string } }
   | { type: 'LOCK_EVENT' }
   | { type: 'OPEN_EVENT' }
@@ -143,4 +149,8 @@ const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
   },
 };
 
-export const machine = createMachine<EventShowCtx, EventShowEvt>(config);
+export const machine = createMachine<EventShowCtx, EventShowEvt>(config, {
+  actions,
+  services,
+  guards,
+});
