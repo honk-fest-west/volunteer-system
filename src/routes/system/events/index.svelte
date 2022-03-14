@@ -1,10 +1,9 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
-  import { onMount } from 'svelte';
   import type { VEvent } from '$types';
 
   import MainContainer from '$components/MainContainer.svelte';
-  import EventTable from '$components/event/EventTable.svelte';
+  import EventTable from '$components/event/table/EventTable.svelte';
   import { useEventIndex } from '$machines/event';
 
   const { state, send } = useEventIndex();

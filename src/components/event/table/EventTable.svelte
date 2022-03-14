@@ -1,5 +1,5 @@
 <script lang="ts">
-  import EventRow from '$components/event/EventRow.svelte';
+  import EventRow from './EventRow.svelte';
   import type { VEvent } from '$types';
   export let events: VEvent[];
   export let send;

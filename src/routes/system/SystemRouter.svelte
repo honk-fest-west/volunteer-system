@@ -3,9 +3,11 @@
   import SystemLayout from '$layouts/SystemLayout.svelte';
   import wrap from 'svelte-spa-router/wrap';
   import home from '$routes/system/home/index.svelte';
-
+  import EventsRouter from '$routes/system/events/EventsRouter.svelte'; // const eventsRoute = wrap({
+  //   asyncComponent: () => import('$routes/system/events/EventsRouter.svelte'),
+  // });
   const eventsRoute = wrap({
-    asyncComponent: () => import('$routes/system/events/EventsRouter.svelte'),
+    component: EventsRouter,
   });
 
   const prefix = '/system';

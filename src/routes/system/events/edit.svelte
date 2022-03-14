@@ -1,15 +1,16 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
   import { onMount } from 'svelte';
+  import { useEventEdit } from '$machines/event';
   import ConfirmationModal from '$components/event/form/ConfirmationModal.svelte';
   import MainContainer from '$components/MainContainer.svelte';
-  import EventHeader from '$components/event/form/Header.svelte';
-  import EventActions from '$components/event/form/EventActions.svelte';
-  import EventStatus from '$components/event/form/EventStatus.svelte';
-  import EventDetails from '$components/event/form/EventDetails.svelte';
-  import EventJobs from '$components/event/form/EventJobs.svelte';
-  import EventErrors from '$components/event/form/EventErrors.svelte';
-  import { useEventEdit } from '$machines/event';
+  import Header from '$/components/event/Header.svelte';
+  import Actions from '$/components/event/Actions.svelte';
+  import StatusSelector from '$/components/event/status/StatusSelector.svelte';
+  import Details from '$/components/event/form/DetailsForm.svelte';
+  import Jobs from '$/components/event/form/JobsForm.svelte';
+  import Errors from '$/components/event/Errors.svelte';
+  import AutoSave from '$components/event/form/AutoSave.svelte';
   export let params: { id?: string } = {};
 
   const { state, send } = useEventEdit();
@@ -22,8 +23,12 @@
   onMount(() => send('EDIT_EVENT', { data: { eventId: params.id } }));
 
   function updateEvent(e) {
-    if (e.target.name !== 'status') {
-      send('UPDATE_EVENT');
+    send('UPDATE_EVENT');
+  }
+
+  function handleStatusChange(event) {
+    if (event.detail === 'open') {
+      send('PUBLISH_EVENT');
     }
   }
 </script>
@@ -32,19 +37,26 @@
   <div in:fade={{ duration: 100 }}>
     <MainContainer>
       <div slot="header">
-        <EventHeader {send} name={selectedEvent.name} />
+        <Header {send} name={selectedEvent.name} />
       </div>
+
       <div slot="actions">
-        <EventActions {state} {send} {selectedEvent} {autoSave} />
+        <div class="flex items-center">
+          <AutoSave {autoSave} />
+          <Actions {state} {send} {selectedEvent} />
+        </div>
       </div>
       <div
         on:input={updateEvent}
         class="bg-white space-y-6 divide-y divide-gray-200"
       >
-        <EventStatus bind:selectedEvent {send} />
-        <EventErrors {error} />
-        <EventDetails bind:selectedEvent />
-        <EventJobs bind:selectedEvent {send} />
+        <StatusSelector
+          status={selectedEvent.status}
+          on:changeStatus={handleStatusChange}
+        />
+        <Errors {error} />
+        <Details bind:selectedEvent />
+        <Jobs bind:selectedEvent {send} />
       </div>
     </MainContainer>
   </div>

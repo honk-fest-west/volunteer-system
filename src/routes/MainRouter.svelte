@@ -2,6 +2,7 @@
   import Router, { replace } from 'svelte-spa-router';
   import wrap from 'svelte-spa-router/wrap';
   import { useAuth } from '$machines/auth';
+  import SystemRouter from '$routes/system/SystemRouter.svelte';
 
   const { state } = useAuth();
 
@@ -13,8 +14,17 @@
     asyncComponent: () => import('$routes/auth/AuthRouter.svelte'),
   });
 
+  // const systemRoute = wrap({
+  //   asyncComponent: () => import('$routes/system/SystemRouter.svelte'),
+  //   conditions: [
+  //     () => {
+  //       return $state.matches('signedIn');
+  //     },
+  //   ],
+  // });
+
   const systemRoute = wrap({
-    asyncComponent: () => import('$routes/system/SystemRouter.svelte'),
+    component: SystemRouter,
     conditions: [
       () => {
         return $state.matches('signedIn');
