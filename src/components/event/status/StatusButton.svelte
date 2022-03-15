@@ -8,7 +8,7 @@
     <p class="text-lg font-semibold text-indigo-700">
       <slot name="name" />
     </p>
-    <p class="text-sm text-indigo-500">
+    <p class="text-sm text-indigo-500 hidden sm:block">
       <slot name="description" />
     </p>
   </button>
@@ -17,7 +17,7 @@
     <p class="text-lg font-semibold text-gray-400">
       <slot name="name" />
     </p>
-    <p class="text-sm text-gray-400">
+    <p class="text-sm text-gray-400 hidden sm:block">
       <slot name="description" />
     </p>
   </button>
@@ -26,7 +26,7 @@
     <p class="text-lg font-semibold text-gray-700">
       <slot name="name" />
     </p>
-    <p class="text-sm text-gray-500">
+    <p class="text-sm text-gray-500 hidden sm:block">
       <slot name="description" />
     </p>
   </button>
