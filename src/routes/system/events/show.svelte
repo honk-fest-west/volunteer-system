@@ -8,13 +8,14 @@
   import StatusSelector from '$/components/event/status/StatusSelector.svelte';
   import Errors from '$components/event/Errors.svelte';
   import Details from '$components/event/Details.svelte';
-  import Jobs from '$components/event/Jobs.svelte';
+  import Jobs from '$/components/event/jobs/Jobs.svelte';
 
   export let params: { id?: string } = {};
 
   const { state, send } = useShowEvent();
 
   $: selectedEvent = $state.context.selectedEvent;
+  $: volunteerJobShifts = $state.context.volunteerJobShifts;
   $: error = $state.context.error;
   $: confirmOpenStatus = $state.matches('confirmingUnlockEvent');
   $: confirmLockStatus = $state.matches('confirmingLockEvent');
@@ -33,7 +34,7 @@
   }
 </script>
 
-{#if selectedEvent}
+{#if selectedEvent && volunteerJobShifts}
   <div in:fade={{ duration: 100 }}>
     <MainContainer>
       <div slot="header">
@@ -51,7 +52,7 @@
         />
         <Errors {error} />
         <Details {selectedEvent} />
-        <Jobs {send} {selectedEvent} />
+        <Jobs {selectedEvent} {volunteerJobShifts} {send} />
       </div>
     </MainContainer>
   </div>

@@ -56,21 +56,14 @@ export interface VolunteerShift {
   id: string;
   eventId: string;
   jobId: string;
-  date: string;
-  name: string;
-  from: string;
-  to: string;
   createdAt: Timestamp;
-  slots: number;
+  updatedAt: Timestamp;
   volunteerUids: string[];
 }
 
 export type VolunteerJobShiftsCollection = {
   [key: string]: {
-    signUpCount: {
-      count: number;
-      outOf: number;
-    };
+    signUpCount: number;
     shifts: VolunteerShift[];
   };
 };

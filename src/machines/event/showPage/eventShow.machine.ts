@@ -4,6 +4,7 @@ import { services } from './eventShow.services';
 import { guards } from './eventShow.guards';
 
 import type { VEvent, VolunteerJobShiftsCollection } from '$types';
+import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
 
 export interface EventShowCtx {
   selectedEventId: string | null;
@@ -13,6 +14,10 @@ export interface EventShowCtx {
 }
 
 export type EventShowEvt =
+  | {
+      type: 'done.invoke.volunteerShiftsLoader';
+      data: QuerySnapshot<DocumentData>;
+    }
   | { type: 'done.invoke.selectedEventLoader'; data: VEvent }
   | { type: 'done.invoke.eventDuplicator'; data: VEvent }
   | { type: 'SHOW_EVENT'; data: { eventId: string } }
@@ -30,7 +35,7 @@ const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
   context: {
     selectedEventId: null,
     selectedEvent: null,
-    volunteerJobShifts: {},
+    volunteerJobShifts: null,
     error: null,
   },
   states: {
@@ -42,24 +47,32 @@ const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
         },
       },
     },
-
     loadingSelectedEvent: {
-      always: {
-        target: 'idle',
-        cond: 'isLoaded',
-      },
       invoke: {
         id: 'selectedEventLoader',
         src: 'selectedEventLoader',
-        onDone: { actions: 'setSelectedEvent', target: 'idle' },
+        onDone: {
+          actions: 'setSelectedEvent',
+          target: 'loadingVolunteerShifts',
+        },
         onError: { actions: 'setError', target: 'idle' },
       },
     },
-
+    loadingVolunteerShifts: {
+      invoke: {
+        id: 'volunteerShiftsLoader',
+        src: 'volunteerShiftsLoader',
+        onDone: {
+          actions: 'setVolunteerJobShifts',
+          target: 'idle',
+        },
+        onError: { actions: 'setError', target: 'idle' },
+      },
+    },
     idle: {
       on: {
         LOAD_JOB: {
-          target: 'loadingJob',
+          target: 'loadingJobVolunteers',
         },
         OPEN_EVENT: {
           target: 'confirmingUnlockEvent',
@@ -73,7 +86,7 @@ const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
       },
     },
 
-    loadingJob: {
+    loadingJobVolunteers: {
       always: { target: 'idle', cond: 'jobIsLoaded' },
       invoke: {
         id: 'jobLoader',

@@ -18,7 +18,6 @@ import { db } from '$config/firebase';
 function initServices(db) {
   return {
     eventDuplicator: (_, evt: EventIndexEvt | EventEditEvt) => {
-      console.log('eventDuplicator', evt);
       if (evt.type !== 'DUPLICATE_EVENT') return;
       const event = evt.data as VEvent;
       const newEvent = {

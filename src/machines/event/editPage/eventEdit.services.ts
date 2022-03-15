@@ -40,7 +40,6 @@ function initServices(db) {
             job,
             shift
           );
-          console.log('eventOpener:', volunteerShift);
           const volunteerShiftRef = doc(
             db,
             'events',
@@ -66,12 +65,8 @@ function initializeVolunteerShift(
     id: shift.id,
     eventId: event.id,
     jobId: job.id,
-    date: event.date,
-    name: job.name,
-    from: shift.from,
-    to: shift.to,
     createdAt: Timestamp.now(),
-    slots: shift.slots,
+    updatedAt: Timestamp.now(),
     volunteerUids: [],
   };
 }

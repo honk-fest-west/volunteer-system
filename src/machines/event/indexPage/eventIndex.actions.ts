@@ -1,5 +1,4 @@
 import type { QuerySnapshot, DocumentData } from 'firebase/firestore';
-import { push } from 'svelte-spa-router';
 import { assign } from 'xstate';
 import { sharedActions } from '../shared.actions';
 import type { EventIndexCtx, EventIndexEvt } from './eventIndex.machine';
