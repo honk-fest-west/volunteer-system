@@ -1,4 +1,4 @@
-import type { VolunteerShift } from '$types';
+import type { ShiftSignUp } from '$types';
 import { assign } from 'xstate';
 import type { EventShowCtx, EventShowEvt } from './eventShow.machine';
 
@@ -20,18 +20,15 @@ export const actions = {
       return data;
     },
   }),
-  setVolunteerJobShifts: assign({
-    volunteerJobShifts: (ctx: EventShowCtx, evt: EventShowEvt) => {
-      if (evt.type !== 'done.invoke.volunteerShiftsLoader')
-        return ctx.volunteerJobShifts;
+  setSignUps: assign({
+    signUps: (ctx: EventShowCtx, evt: EventShowEvt) => {
+      console.log('setSignUps', evt);
+      if (evt.type !== 'done.invoke.shiftSignUpsLoader') return ctx.signUps;
       const { docs } = evt.data;
       return docs.reduce((acc, doc) => {
-        const shift = doc.data() as VolunteerShift;
-        const jobShifts = acc[shift.jobId] || { signUpCount: 0, shifts: [] };
-        jobShifts.shifts = [...jobShifts.shifts, shift];
-        jobShifts.signUpCount =
-          jobShifts.signUpCount + shift.volunteerUids.length;
-        acc[shift.jobId] = jobShifts;
+        const signUp = doc.data() as ShiftSignUp;
+        const jobShifts = acc[signUp.jobId] || [];
+        acc[signUp.jobId] = [...jobShifts, signUp];
         return acc;
       }, {});
     },

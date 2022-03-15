@@ -1,18 +1,15 @@
 <script lang="ts">
-  import type { VolunteerShift, Job } from '$types';
+  import type { ShiftSignUp, Job } from '$types';
 
   export let job: Job;
   export let color: string;
-  export let volunteerJobShifts: {
-    signUpCount: number;
-    shifts: VolunteerShift[];
-  };
+  export let shiftSignUps: ShiftSignUp[];
 
   const totalSlots = Object.values(job.shifts).reduce(
     (acc, shift) => acc + shift.slots,
     0
   );
-  const signedUp = volunteerJobShifts.signUpCount;
+  const signedUp = shiftSignUps.length;
 
   const firstLetters = job.name
     .split(' ')

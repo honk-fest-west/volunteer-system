@@ -74,7 +74,7 @@ const config: MachineConfig<EventEditCtx, any, EventEditEvt> = {
         DELETE_SHIFT: { actions: ['clearError', 'deleteShift', 'updateEvent'] },
         DUPLICATE_EVENT: { actions: 'clearError', target: 'duplicatingEvent' },
         PUBLISH_EVENT: {
-          actions: ['validateEvent'],
+          actions: 'validateEvent',
           target: 'validatingEvent',
         },
       },
@@ -104,7 +104,7 @@ const config: MachineConfig<EventEditCtx, any, EventEditEvt> = {
         onDone: { actions: 'publishEvent', target: 'idle' },
         onError: { actions: 'setError', target: 'idle' },
       },
-      exit: ['updateEvent'],
+      exit: 'gotoShow',
     },
   },
 };

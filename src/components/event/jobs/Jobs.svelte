@@ -1,9 +1,9 @@
 <script lang="ts">
-  import type { VEvent, VolunteerJobShiftsCollection } from '$types';
+  import type { VEvent, JobSignUpCollection } from '$types';
   import { sortedJobs } from '$models/event.model';
   import JobCard from './JobCard.svelte';
   export let selectedEvent: VEvent;
-  export let volunteerJobShifts: VolunteerJobShiftsCollection;
+  export let signUps: JobSignUpCollection;
   export let send;
 
   const colors = [
@@ -18,7 +18,7 @@
   ];
 </script>
 
-{#if selectedEvent && volunteerJobShifts}
+{#if selectedEvent && signUps}
   <section class="pt-4">
     <h3 class="text-xl font-medium text-gray-900">Jobs</h3>
     <ul
@@ -27,7 +27,7 @@
       {#each sortedJobs(selectedEvent.jobs) as job, i}
         <JobCard
           {job}
-          volunteerJobShifts={volunteerJobShifts[job.id]}
+          shiftSignUps={signUps[job.id] || []}
           color={colors[i % colors.length]}
         />
       {/each}

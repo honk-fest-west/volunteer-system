@@ -30,7 +30,6 @@ export interface VEvent {
   name: string | null;
   description: string | null;
   date: string | null;
-  locationUrl: string | null;
   jobs: Jobs;
   createdAt: Timestamp;
   updatedAt: Timestamp;
@@ -41,6 +40,7 @@ export interface Job {
   createdAt: Timestamp;
   name: string | null;
   description: string | null;
+  location: string | null;
   shifts: Shifts;
 }
 
@@ -49,23 +49,23 @@ export interface Shift {
   createdAt: Timestamp;
   from: string | null;
   to: string | null;
+  location: string | null;
   slots: number;
 }
 
-export interface VolunteerShift {
+export interface ShiftSignUp {
   id: string;
   eventId: string;
   jobId: string;
+  shiftId: string;
   createdAt: Timestamp;
   updatedAt: Timestamp;
-  volunteerUids: string[];
+  volunteerUid: string;
+  comment: string | null;
 }
 
-export type VolunteerJobShiftsCollection = {
-  [key: string]: {
-    signUpCount: number;
-    shifts: VolunteerShift[];
-  };
+export type JobSignUpCollection = {
+  [jobId: string]: ShiftSignUp[];
 };
 
 export type Shifts = { [id: string]: Shift };

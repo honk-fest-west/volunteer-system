@@ -53,10 +53,26 @@
           <input
             type="text"
             name="job-name"
-            autocomplete="event-name"
+            autocomplete="job-name"
             class="mt-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
             bind:value={job.name}
           />
+        </div>
+        <div class="col-span-6 sm:col-span-3">
+          <label for="location" class="block text-sm font-medium text-gray-700"
+            >Location</label
+          >
+          <input
+            type="text"
+            name="job-location"
+            autocomplete="job-location"
+            class="mt-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+            bind:value={job.location}
+          />
+          <p class="mt-2 text-sm text-gray-500">
+            Set here to apply to all shifts. Can be overridden by an individual
+            Shift's location.
+          </p>
         </div>
         <div class="col-span-6">
           <label
@@ -67,12 +83,10 @@
             <textarea
               name="job-description"
               autocomplete="event-description"
+              placeholder="Brief description of job responsibilities."
               class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md"
               bind:value={job.description}
             />
-            <p class="mt-2 text-sm text-gray-500">
-              Brief description of job responsibilities.
-            </p>
           </div>
         </div>
         <div class="col-span-6">

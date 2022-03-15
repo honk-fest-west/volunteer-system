@@ -21,7 +21,7 @@
       <span class="material-icons"> delete </span>
     </button>
   </div>
-  <fieldset class="grid grid-cols-3 gap-3 mb-3">
+  <fieldset class="grid grid-cols-4 gap-3 mb-3">
     <div>
       <label for="email" class="block text-sm font-medium text-gray-700"
         >From</label
@@ -57,6 +57,20 @@
           type="number"
           name="slots"
           bind:value={shift.slots}
+          class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+        />
+      </div>
+    </div>
+    <div>
+      <label for="slots" class="block text-sm font-medium text-gray-700"
+        >Location</label
+      >
+      <div class="mt-1">
+        <input
+          type="text"
+          name="location"
+          placeholder="(optional)"
+          bind:value={shift.location}
           class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
         />
       </div>

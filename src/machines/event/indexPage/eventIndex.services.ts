@@ -34,7 +34,6 @@ function initializeEvent(): VEvent {
     name: null,
     date: null,
     description: null,
-    locationUrl: null,
     jobs: {},
     createdAt: Timestamp.now(),
     updatedAt: Timestamp.now(),

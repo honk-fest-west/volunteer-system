@@ -3,19 +3,19 @@ import { actions } from './eventShow.actions';
 import { services } from './eventShow.services';
 import { guards } from './eventShow.guards';
 
-import type { VEvent, VolunteerJobShiftsCollection } from '$types';
+import type { VEvent, JobSignUpCollection } from '$types';
 import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
 
 export interface EventShowCtx {
   selectedEventId: string | null;
   selectedEvent: VEvent | null;
-  volunteerJobShifts: VolunteerJobShiftsCollection;
+  signUps: JobSignUpCollection;
   error: string | null;
 }
 
 export type EventShowEvt =
   | {
-      type: 'done.invoke.volunteerShiftsLoader';
+      type: 'done.invoke.shiftSignUpsLoader';
       data: QuerySnapshot<DocumentData>;
     }
   | { type: 'done.invoke.selectedEventLoader'; data: VEvent }
@@ -35,7 +35,7 @@ const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
   context: {
     selectedEventId: null,
     selectedEvent: null,
-    volunteerJobShifts: null,
+    signUps: null,
     error: null,
   },
   states: {
@@ -53,17 +53,17 @@ const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
         src: 'selectedEventLoader',
         onDone: {
           actions: 'setSelectedEvent',
-          target: 'loadingVolunteerShifts',
+          target: 'loadingSignUps',
         },
         onError: { actions: 'setError', target: 'idle' },
       },
     },
-    loadingVolunteerShifts: {
+    loadingSignUps: {
       invoke: {
-        id: 'volunteerShiftsLoader',
-        src: 'volunteerShiftsLoader',
+        id: 'shiftSignUpsLoader',
+        src: 'shiftSignUpsLoader',
         onDone: {
-          actions: 'setVolunteerJobShifts',
+          actions: 'setSignUps',
           target: 'idle',
         },
         onError: { actions: 'setError', target: 'idle' },

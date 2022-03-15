@@ -37,26 +37,6 @@
         </div>
         <div class="col-span-6">
           <label
-            for="locationUrl"
-            class="block text-sm font-medium text-gray-700"
-            >Location Map URL</label
-          >
-          <div class="mt-2">
-            <input
-              type="url"
-              name="date"
-              id="date"
-              autocomplete="event-date"
-              class="mt-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-              bind:value={selectedEvent.locationUrl}
-            />
-          </div>
-          <p class="mt-2 text-sm text-gray-500">
-            Copy and paste a location map URL for volunteers to meet at.
-          </p>
-        </div>
-        <div class="col-span-6">
-          <label
             for="description"
             class="block text-sm font-medium text-gray-700">Description</label
           >

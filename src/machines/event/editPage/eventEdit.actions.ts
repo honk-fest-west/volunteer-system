@@ -10,6 +10,8 @@ import { sharedActions } from '../shared.actions';
 export const actions = {
   ...sharedActions,
   gotoIndex: () => push('/system/events'),
+  gotoShow: (ctx: EventEditCtx) =>
+    push(`/system/events/${ctx.selectedEventId}`),
 
   setSelectedEventId: assign({
     selectedEventId: (ctx: EventEditCtx, evt: EventEditEvt) => {
@@ -58,6 +60,7 @@ export const actions = {
         createdAt,
         name: null,
         description: null,
+        location: null,
         shifts: {},
       } as Job;
       const { jobs } = selectedEvent;
@@ -89,6 +92,7 @@ export const actions = {
         slots: 1,
         from: null,
         to: null,
+        location: null,
       } as Shift;
       const shifts = job.shifts;
       return {

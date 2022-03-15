@@ -11,7 +11,7 @@ import {
   writeBatch,
   Timestamp,
 } from 'firebase/firestore';
-import type { VEvent, Job, Shift, VolunteerShift } from '$types';
+import type { VEvent, Job, Shift } from '$types';
 
 import { db } from '$config/firebase';
 import type { EventEditCtx } from './eventEdit.machine';
@@ -30,44 +30,10 @@ function initServices(db) {
       return setDoc(eventRef, event);
     },
     eventPublisher: (ctx: EventEditCtx) => {
-      const { id, jobs } = ctx.selectedEvent;
-      const batch = writeBatch(db);
-
-      Object.values(jobs).forEach((job) => {
-        Object.entries(job.shifts).forEach(([shiftId, shift]) => {
-          const volunteerShift = initializeVolunteerShift(
-            ctx.selectedEvent,
-            job,
-            shift
-          );
-          const volunteerShiftRef = doc(
-            db,
-            'events',
-            id,
-            'volunteerShifts',
-            shiftId
-          );
-          batch.set(volunteerShiftRef, volunteerShift);
-        });
-      });
-
-      return batch.commit();
+      const event = ctx.selectedEvent;
+      const eventRef = doc(db, 'events', event.id);
+      return setDoc(eventRef, { ...event, status: 'open' });
     },
-  };
-}
-
-function initializeVolunteerShift(
-  event: VEvent,
-  job: Job,
-  shift: Shift
-): VolunteerShift {
-  return {
-    id: shift.id,
-    eventId: event.id,
-    jobId: job.id,
-    createdAt: Timestamp.now(),
-    updatedAt: Timestamp.now(),
-    volunteerUids: [],
   };
 }
 

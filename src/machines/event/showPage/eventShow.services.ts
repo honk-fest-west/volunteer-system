@@ -8,14 +8,14 @@ function initServices(db) {
       const eventRef = doc(db, 'events', ctx.selectedEventId);
       return getDoc(eventRef).then((doc) => ({ ...doc.data(), id: doc.id }));
     },
-    volunteerShiftsLoader: (ctx: EventShowCtx) => {
-      const shiftsRef = collection(
+    shiftSignUpsLoader: (ctx: EventShowCtx) => {
+      const signUpsRef = collection(
         db,
         'events',
         ctx.selectedEventId,
-        'volunteerShifts'
+        'shiftSignUps'
       );
-      return getDocs(shiftsRef);
+      return getDocs(signUpsRef).catch(() => ({ docs: [] }));
     },
   };
 }
