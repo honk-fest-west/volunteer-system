@@ -90,6 +90,7 @@ export const actions = {
         id,
         createdAt,
         slots: 1,
+        signedUp: 0,
         from: null,
         to: null,
         location: null,

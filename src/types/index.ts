@@ -51,6 +51,7 @@ export interface Shift {
   to: string | null;
   location: string | null;
   slots: number;
+  signedUp: number;
 }
 
 export interface ShiftSignUp {
@@ -61,6 +62,8 @@ export interface ShiftSignUp {
   createdAt: Timestamp;
   updatedAt: Timestamp;
   volunteerUid: string;
+  volunteerDisplayName: string | null;
+  volunteerPhotoURL: string | null;
   comment: string | null;
 }
 
