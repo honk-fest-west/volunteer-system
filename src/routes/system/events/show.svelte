@@ -5,10 +5,10 @@
   import MainContainer from '$components/MainContainer.svelte';
   import Header from '$components/event/Header.svelte';
   import Actions from '$components/event/Actions.svelte';
-  import StatusSelector from '$/components/event/status/StatusSelector.svelte';
+  import StatusSelector from '$components/event/status/StatusSelector.svelte';
   import Errors from '$components/event/Errors.svelte';
   import Details from '$components/event/Details.svelte';
-  import Jobs from '$/components/event/jobs/Jobs.svelte';
+  import Jobs from '$components/event/jobs/Jobs.svelte';
 
   export let params: { id?: string } = {};
 

@@ -1,5 +1,6 @@
 <script lang="ts">
-  import type { VEvent, Job } from '$types';
+  import type { VEvent } from '$types';
+  import { sortedJobs } from '$models/event.model';
 
   import JobForm from './JobForm.svelte';
   export let selectedEvent: VEvent;
@@ -8,12 +9,6 @@
   function addJob() {
     send('ADD_JOB');
   }
-
-  function sortedJobs(event: VEvent): Job[] {
-    return Object.values(event.jobs).sort(
-      (a: Job, b: Job) => a.createdAt?.seconds - b.createdAt?.seconds
-    );
-  }
 </script>
 
 <fieldset class="pt-4">
@@ -21,7 +16,7 @@
     <legend class="text-xl font-medium text-gray-900">Jobs</legend>
   </div>
   <div class="mt-4">
-    {#each sortedJobs(selectedEvent) as job}
+    {#each sortedJobs(selectedEvent.jobs) as job}
       <JobForm bind:job {send} />
     {/each}
     <button

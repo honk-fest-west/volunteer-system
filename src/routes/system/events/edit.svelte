@@ -4,12 +4,12 @@
   import { useEventEdit } from '$machines/event';
   import ConfirmationModal from '$components/event/form/ConfirmationModal.svelte';
   import MainContainer from '$components/MainContainer.svelte';
-  import Header from '$/components/event/Header.svelte';
-  import Actions from '$/components/event/Actions.svelte';
-  import StatusSelector from '$/components/event/status/StatusSelector.svelte';
-  import Details from '$/components/event/form/DetailsForm.svelte';
-  import Jobs from '$/components/event/form/JobsForm.svelte';
-  import Errors from '$/components/event/Errors.svelte';
+  import Header from '$components/event/Header.svelte';
+  import Actions from '$components/event/Actions.svelte';
+  import StatusSelector from '$components/event/status/StatusSelector.svelte';
+  import Details from '$components/event/form/DetailsForm.svelte';
+  import Jobs from '$components/event/form/JobsForm.svelte';
+  import Errors from '$components/event/Errors.svelte';
   import AutoSave from '$components/event/form/AutoSave.svelte';
   export let params: { id?: string } = {};
 

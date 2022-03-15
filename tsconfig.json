@@ -27,8 +27,6 @@
     "allowJs": true,
     "checkJs": true,
     "paths": {
-      "$": ["src"],
-      "$/*": ["src/*"],
       "$config": ["src/config"],
       "$config/*": ["src/config/*"],
       "$components": ["src/components"],
@@ -40,7 +38,9 @@
       "$routes": ["src/routes"],
       "$routes/*": ["src/routes/*"],
       "$types": ["src/types"],
-      "$types/*": ["src/types/*"]
+      "$types/*": ["src/types/*"],
+      "$models": ["src/models"],
+      "$models/*": ["src/models/*"]
     }
   },
   "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],

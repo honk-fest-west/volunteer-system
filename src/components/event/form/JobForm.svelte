@@ -1,6 +1,7 @@
 <script lang="ts">
-  import type { Job, Shift, Shifts } from '$types';
+  import type { Job } from '$types';
   import ShiftForm from './ShiftForm.svelte';
+  import { sortedShifts } from '$models/event.model';
   export let job: Job;
   export let send;
 
@@ -14,12 +15,6 @@
   }
   function deleteJob() {
     send('DELETE_JOB', { data: { job } });
-  }
-
-  function sortedShifts(shifts: Shifts): Shift[] {
-    return Object.values(shifts).sort(
-      (a, b) => a.createdAt?.seconds - b.createdAt?.seconds
-    );
   }
 </script>
 
