@@ -15,7 +15,6 @@
   const { state, send } = useShowEvent();
 
   $: selectedEvent = $state.context.selectedEvent;
-  $: signUps = $state.context.signUps;
   $: error = $state.context.error;
   $: confirmOpenStatus = $state.matches('confirmingUnlockEvent');
   $: confirmLockStatus = $state.matches('confirmingLockEvent');
@@ -38,11 +37,11 @@
   }
 
   function showJobShifts(e) {
-    send('SHOW_JOB_SHIFTS', { data: e.detail });
+    // TODO: show job shifts
   }
 </script>
 
-{#if selectedEvent && signUps}
+{#if selectedEvent}
   <div in:fade={{ duration: 100 }}>
     <MainContainer>
       <div slot="header">
@@ -60,7 +59,7 @@
         />
         <Errors {error} />
         <Details {selectedEvent} />
-        <Jobs {selectedEvent} {signUps} on:selectJob={showJobShifts} />
+        <Jobs {selectedEvent} on:selectJob={showJobShifts} />
       </div>
     </MainContainer>
   </div>

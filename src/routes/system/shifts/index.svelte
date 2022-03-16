@@ -4,15 +4,18 @@
 
   import MainContainer from '$components/MainContainer.svelte';
   import EventTable from '$components/event/table/EventTable.svelte';
-  import { getContext } from 'svelte';
+  import { getContext, onMount } from 'svelte';
 
   const { state, send } = getContext('shiftMachine');
 
   $: events = $state.context.events as VEvent[];
 
+  onMount(() => {
+    send('INDEX.AT');
+  });
+
   function showEvent(e) {
-    console.log('showEvent', e);
-    send('SHOW_EVENT', { data: e.detail.id });
+    send('INDEX.GOTO_SHOW', { data: e.detail });
   }
 </script>
 

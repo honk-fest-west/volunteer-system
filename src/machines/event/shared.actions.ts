@@ -11,11 +11,11 @@ export const sharedActions = {
     )
       return;
 
-    const event = evt.data;
-    if (event.status === 'draft') {
-      push(`/system/events/${event.id}/edit`);
+    const { id, status } = evt.data;
+    if (status === 'draft') {
+      push(`/system/events/${id}/edit`);
     } else {
-      push(`/system/events/${event.id}`);
+      push(`/system/events/${id}`);
     }
   },
 };

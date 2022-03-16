@@ -55,17 +55,6 @@ const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
         src: 'selectedEventLoader',
         onDone: {
           actions: 'setSelectedEvent',
-          target: 'loadingSignUps',
-        },
-        onError: { actions: 'setError', target: 'idle' },
-      },
-    },
-    loadingSignUps: {
-      invoke: {
-        id: 'shiftSignUpsLoader',
-        src: 'shiftSignUpsLoader',
-        onDone: {
-          actions: 'setSignUps',
           target: 'idle',
         },
         onError: { actions: 'setError', target: 'idle' },

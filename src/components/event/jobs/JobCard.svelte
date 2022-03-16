@@ -1,22 +1,25 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import type { ShiftSignUp, Job } from '$types';
+  import type { Job } from '$types';
 
   export let job: Job;
   export let color: string;
-  export let shiftSignUps: ShiftSignUp[];
 
   const totalSlots = Object.values(job.shifts).reduce(
     (acc, shift) => acc + shift.slots,
     0
   );
-  const signedUp = shiftSignUps.length;
+  const signedUp = Object.values(job.shifts).reduce(
+    (acc, shift) => acc + shift.signedUp,
+    0
+  );
 
   const firstLetters = job.name
     .split(' ')
     .map((word) => word[0])
     .join('')
-    .slice(0, 3);
+    .slice(0, 3)
+    .toUpperCase();
 
   const dispatch = createEventDispatcher();
 
