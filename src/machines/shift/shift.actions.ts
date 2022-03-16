@@ -1,4 +1,5 @@
 import { createEventsObservable } from '$machines/events.observable';
+import { push } from 'svelte-spa-router';
 import { assign, spawn } from 'xstate';
 import type { ShiftCtx, ShiftEvt } from './shift.machine';
 
@@ -20,4 +21,9 @@ export const actions = {
       return data;
     },
   }),
+  gotoShowEvent: (ctx: ShiftCtx, evt: ShiftEvt) => {
+    if (evt.type !== 'SHOW_EVENT') return;
+    const { data } = evt;
+    push(`/system/shifts/${data}`);
+  },
 };

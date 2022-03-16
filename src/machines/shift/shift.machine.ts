@@ -14,8 +14,8 @@ export interface ShiftCtx {
 
 export type ShiftEvt =
   | { type: 'EVENTS.UPDATE'; data: DocumentData[] }
-  | { type: 'SHOW_EVENT'; data: { eventId: string } }
-  | { type: 'SELECT_EVENT'; data: { eventId: string } };
+  | { type: 'SHOW_EVENT'; data: string }
+  | { type: 'SELECT_EVENT'; data: string };
 
 const config: MachineConfig<ShiftCtx, any, ShiftEvt> = {
   id: 'shift',
