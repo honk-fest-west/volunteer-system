@@ -1,8 +1,10 @@
 <script lang="ts">
+  import type { EventStatus } from '$types';
+
   import { createEventDispatcher } from 'svelte';
   import StatusButton from './StatusButton.svelte';
 
-  export let status: 'draft' | 'open' | 'locked' | 'archived' = 'draft';
+  export let status: EventStatus = 'draft';
 
   const isDraftActive = status === 'draft';
   const isDraftDisabled = status !== 'draft';
@@ -18,7 +20,7 @@
 
   const dispatch = createEventDispatcher();
 
-  function handleClick(newStatus: 'draft' | 'open' | 'locked' | 'archived') {
+  function handleClick(newStatus: EventStatus) {
     dispatch('changeStatus', newStatus);
   }
 </script>

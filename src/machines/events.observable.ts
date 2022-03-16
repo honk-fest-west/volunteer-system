@@ -1,11 +1,16 @@
 import { db } from '$config/firebase';
-import { collection, query, where, onSnapshot } from 'firebase/firestore';
+import type { EventStatus } from '$types';
+import { collection, query, where } from 'firebase/firestore';
+import { collectionData } from 'rxfire/firestore';
+import { map } from 'rxjs/operators';
 
-const q = query(collection(db, 'events'), where('status', '!=', 'archived'));
-const unsubscribe = onSnapshot(q, (querySnapshot) => {
-  const cities = [];
-  querySnapshot.forEach((doc) => {
-    cities.push(doc.data().name);
-  });
-  console.log('Current cities in CA: ', cities.join(', '));
-});
+export const createEventsObservable = (selectStatuses: EventStatus[]) => {
+  const q = query(
+    collection(db, 'events'),
+    where('status', 'in', selectStatuses)
+  );
+
+  return collectionData(q, { idField: 'id' }).pipe(
+    map((events) => ({ type: 'EVENTS.UPDATE', data: events }))
+  );
+};

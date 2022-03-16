@@ -4,10 +4,11 @@
 
   import MainContainer from '$components/MainContainer.svelte';
   import EventTable from '$components/event/table/EventTable.svelte';
-  import { useEventIndex } from '$machines/event';
+  import { getContext } from 'svelte';
 
-  const { state, send } = useEventIndex();
-  $: events = Object.values($state.context.events) as VEvent[];
+  const { state, send } = getContext('shiftMachine');
+
+  $: events = $state.context.events as VEvent[];
 
   function selectEvent(e) {
     send('SELECT_EVENT', { data: e.detail });

@@ -13,7 +13,7 @@
   });
 
   const shiftsRoute = wrap({
-    component: EventsRouter,
+    component: ShiftsRouter,
   });
 
   const prefix = '/system';

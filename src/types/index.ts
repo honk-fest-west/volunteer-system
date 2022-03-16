@@ -26,7 +26,7 @@ export type EventCollection = {
 
 export interface VEvent {
   id: string | null;
-  status: 'draft' | 'open' | 'locked' | 'archived';
+  status: EventStatus;
   name: string | null;
   description: string | null;
   date: string | null;
@@ -35,6 +35,7 @@ export interface VEvent {
   updatedAt: Timestamp;
 }
 
+export type EventStatus = 'draft' | 'open' | 'locked' | 'archived';
 export interface Job {
   id: string;
   createdAt: Timestamp;
