@@ -31,13 +31,17 @@
       send('PUBLISH_EVENT');
     }
   }
+
+  function gotoIndex() {
+    send('GOTO_INDEX');
+  }
 </script>
 
 {#if selectedEvent}
   <div in:fade={{ duration: 100 }}>
     <MainContainer>
       <div slot="header">
-        <Header {send} name={selectedEvent.name} />
+        <Header on:goBack={gotoIndex} name={selectedEvent.name} />
       </div>
 
       <div slot="actions">

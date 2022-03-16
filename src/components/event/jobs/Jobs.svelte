@@ -4,7 +4,6 @@
   import JobCard from './JobCard.svelte';
   export let selectedEvent: VEvent;
   export let signUps: JobSignUpCollection;
-  export let send;
 
   const colors = [
     'bg-orange-600',
@@ -29,6 +28,7 @@
           {job}
           shiftSignUps={signUps[job.id] || []}
           color={colors[i % colors.length]}
+          on:selectJob
         />
       {/each}
     </ul>

@@ -2,7 +2,6 @@
   import EventRow from './EventRow.svelte';
   import type { VEvent } from '$types';
   export let events: VEvent[];
-  export let send;
 </script>
 
 <div class="flex flex-col">
@@ -29,14 +28,11 @@
                 class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >Status</th
               >
-              <th scope="col" class="relative px-6 py-3">
-                <span class="sr-only">Edit</span>
-              </th>
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
             {#each events as event}
-              <EventRow {event} {send} />
+              <EventRow {event} on:select />
             {/each}
           </tbody>
         </table>

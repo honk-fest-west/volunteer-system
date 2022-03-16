@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
   import type { ShiftSignUp, Job } from '$types';
 
   export let job: Job;
@@ -16,6 +17,12 @@
     .map((word) => word[0])
     .join('')
     .slice(0, 3);
+
+  const dispatch = createEventDispatcher();
+
+  function selectJob() {
+    dispatch('selectJob', job);
+  }
 </script>
 
 <li class="col-span-1 flex shadow-sm rounded-md">
@@ -28,8 +35,9 @@
     class="flex-1 flex items-center justify-between border-t border-r border-b border-gray-200 bg-white rounded-r-md truncate"
   >
     <div class="flex-1 px-4 py-2 text-sm truncate">
-      <a href="#" class="text-gray-900 font-medium hover:text-gray-600"
-        >{job.name}</a
+      <button
+        on:click={selectJob}
+        class="text-gray-900 font-medium hover:text-gray-600">{job.name}</button
       >
       <p class="text-gray-500">{signedUp}/{totalSlots} Volunteers</p>
     </div>

@@ -1,14 +1,11 @@
 <script lang="ts">
-  import { push } from 'svelte-spa-router';
+  import { createEventDispatcher } from 'svelte';
   export let event;
-  export let send;
+
+  const dispatch = createEventDispatcher();
 
   function selectEvent() {
-    send('SELECT_EVENT', { data: event });
-  }
-
-  function duplicateEvent() {
-    send('DUPLICATE_EVENT', { data: event });
+    dispatch('select', event);
   }
 </script>
 
@@ -52,17 +49,5 @@
         Archived
       </span>
     {/if}
-  </td>
-  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-    <button
-      on:click={duplicateEvent}
-      type="button"
-      class="text-gray-500 hover:text-gray-700"
-      role="menuitem"
-      tabindex="-1"
-      id="options-menu-item-0"
-    >
-      <span class="material-icons mr-2"> content_copy </span>
-    </button>
   </td>
 </tr>
