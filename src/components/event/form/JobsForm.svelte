@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { VEvent } from '$types';
+  import type { VEvent } from '$models';
   import { sortedJobs } from '$models/event.model';
 
   import JobForm from './JobForm.svelte';

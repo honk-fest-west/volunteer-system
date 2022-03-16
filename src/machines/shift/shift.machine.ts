@@ -1,6 +1,5 @@
 import { createMachine, type MachineConfig } from 'xstate';
-import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
-import type { EventCollection, VEvent } from '$types';
+import type { DocumentData } from 'firebase/firestore';
 import { actions } from './shift.actions';
 import { guards } from './shift.guards';
 import { services } from './shift.services';
@@ -26,10 +25,11 @@ const config: MachineConfig<ShiftCtx, any, ShiftEvt> = {
     error: null,
     eventsRef: null,
   },
-  entry: 'spawnEventsObservable',
+
   initial: 'idle',
   states: {
     idle: {
+      entry: 'spawnEventsObservable',
       on: {
         SHOW_EVENT: {
           actions: 'gotoShowEvent',

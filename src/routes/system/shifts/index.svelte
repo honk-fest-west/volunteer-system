@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade } from 'svelte/transition';
-  import type { VEvent } from '$types';
+  import type { VEvent } from '$models';
 
   import MainContainer from '$components/MainContainer.svelte';
   import EventTable from '$components/event/table/EventTable.svelte';

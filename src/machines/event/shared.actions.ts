@@ -1,19 +1,5 @@
-import {
-  addDoc,
-  collection,
-  doc,
-  getDocs,
-  limit,
-  Query,
-  query,
-  setDoc,
-  where,
-  writeBatch,
-} from 'firebase/firestore';
 import type { EventIndexEvt } from './indexPage/eventIndex.machine';
 import type { EventEditEvt } from './editPage/eventEdit.machine';
-import type { VEvent } from '$types';
-import { db } from '$config/firebase';
 import { push } from 'svelte-spa-router';
 
 export const sharedActions = {

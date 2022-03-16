@@ -1,6 +1,6 @@
 <script lang="ts">
   import EventRow from './EventRow.svelte';
-  import type { VEvent } from '$types';
+  import type { VEvent } from '$models';
   export let events: VEvent[];
 </script>
 

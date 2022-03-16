@@ -1,6 +1,6 @@
 import { createMachine, assign, actions } from 'xstate';
 import { services } from './eventEdit.services';
-import type { VEvent } from '$types';
+import type { VEvent } from '$models';
 
 const { cancel, send } = actions;
 

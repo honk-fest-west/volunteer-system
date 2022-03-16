@@ -1,6 +1,7 @@
 import { createMachine, type MachineConfig } from 'xstate';
 import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
-import type { EventCollection, VEvent } from '$types';
+import type { VEvent } from '$models';
+import type { EventCollection } from '$types';
 import { actions } from './eventIndex.actions';
 import { guards } from './eventIndex.guards';
 import { services } from './eventIndex.services';
@@ -12,7 +13,7 @@ export interface EventIndexCtx {
 }
 
 export type EventIndexEvt =
-  | { type: 'done.invoke.eventsLoader'; data: QuerySnapshot<DocumentData> }
+  | { type: 'done.invoke.eventsLoader'; data: QuerySnapshot<VEvent> }
   | { type: 'done.invoke.eventAdder'; data: VEvent }
   | { type: 'done.invoke.eventDuplicator'; data: VEvent }
   | { type: 'ADD_EVENT' }

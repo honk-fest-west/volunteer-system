@@ -1,13 +1,13 @@
 import {
-  addDoc,
   collection,
+  doc,
   getDocs,
   limit,
   query,
+  setDoc,
   where,
 } from 'firebase/firestore';
-import type { VEvent } from '$types';
-import { Timestamp } from 'firebase/firestore';
+import { VEvent } from '$models';
 import { db } from '$config/firebase';
 import { sharedServices } from '../shared.services';
 
@@ -15,28 +15,20 @@ function initServices(db) {
   return {
     ...sharedServices,
     eventsLoader: () => {
-      const eventsRef = collection(db, 'events');
-      const q = query(eventsRef, where('status', '!=', 'archived'), limit(20));
+      const q = query(
+        collection(db, 'events'),
+        where('status', '!=', 'archived'),
+        limit(20)
+      ).withConverter(VEvent.firebaseConverter());
       return getDocs(q);
     },
     eventAdder: () => {
-      const eventsRef = collection(db, 'events');
-      const event = initializeEvent();
-      return addDoc(eventsRef, event).then((ref) => ({ ...event, id: ref.id }));
+      const eventsRef = doc(collection(db, 'events')).withConverter(
+        VEvent.firebaseConverter()
+      );
+      const event = new VEvent(eventsRef.id);
+      return setDoc(eventsRef, event).then(() => event);
     },
-  };
-}
-
-function initializeEvent(): VEvent {
-  return {
-    id: null,
-    status: 'draft',
-    name: null,
-    date: null,
-    description: null,
-    jobs: {},
-    createdAt: Timestamp.now(),
-    updatedAt: Timestamp.now(),
   };
 }
 

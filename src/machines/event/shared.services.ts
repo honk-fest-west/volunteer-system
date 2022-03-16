@@ -1,18 +1,7 @@
-import {
-  addDoc,
-  collection,
-  doc,
-  getDocs,
-  limit,
-  Query,
-  query,
-  setDoc,
-  where,
-  writeBatch,
-} from 'firebase/firestore';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
 import type { EventIndexEvt } from './indexPage/eventIndex.machine';
 import type { EventEditEvt } from './editPage/eventEdit.machine';
-import type { VEvent } from '$types';
+import { VEvent } from '$models';
 import { db } from '$config/firebase';
 
 function initServices(db) {
@@ -20,17 +9,12 @@ function initServices(db) {
     eventDuplicator: (_, evt: EventIndexEvt | EventEditEvt) => {
       if (evt.type !== 'DUPLICATE_EVENT') return;
       const event = evt.data as VEvent;
-      const newEvent = {
-        ...event,
-        id: null,
-        name: `${event.name} - COPY`,
-        status: 'draft',
-      };
-      const eventsRef = collection(db, 'events');
-      return addDoc(eventsRef, newEvent).then((eventRef) => ({
-        ...newEvent,
-        id: eventRef.id,
-      }));
+
+      const eventsRef = doc(collection(db, 'events')).withConverter(
+        VEvent.firebaseConverter()
+      );
+      const newEvent = event.duplicate(eventsRef.id);
+      return setDoc(eventsRef, newEvent).then(() => newEvent);
     },
   };
 }

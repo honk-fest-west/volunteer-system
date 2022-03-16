@@ -1,5 +1,6 @@
 import type { User as AuthUser } from 'firebase/auth';
 import type { Timestamp } from 'firebase/firestore';
+import type { VEvent } from '$models';
 
 export interface AuthState {
   user: Partial<User> | null;
@@ -23,17 +24,6 @@ export interface User extends AuthUser {
 export type EventCollection = {
   [key: string]: VEvent;
 };
-
-export interface VEvent {
-  id: string | null;
-  status: EventStatus;
-  name: string | null;
-  description: string | null;
-  date: string | null;
-  jobs: Jobs;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
-}
 
 export type EventStatus = 'draft' | 'open' | 'locked' | 'archived';
 export interface Job {

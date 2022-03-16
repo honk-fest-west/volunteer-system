@@ -3,7 +3,9 @@ import { actions } from './eventShow.actions';
 import { services } from './eventShow.services';
 import { guards } from './eventShow.guards';
 
-import type { VEvent, JobSignUpCollection } from '$types';
+import type { VEvent } from '$models';
+
+import type { JobSignUpCollection } from '$types';
 import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
 
 export interface EventShowCtx {

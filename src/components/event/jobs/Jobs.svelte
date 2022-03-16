@@ -1,5 +1,6 @@
 <script lang="ts">
-  import type { VEvent, JobSignUpCollection } from '$types';
+  import type { VEvent } from '$models';
+  import type { JobSignUpCollection } from '$types';
   import { sortedJobs } from '$models/event.model';
   import JobCard from './JobCard.svelte';
   export let selectedEvent: VEvent;

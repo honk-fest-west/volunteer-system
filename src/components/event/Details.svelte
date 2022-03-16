@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { VEvent } from '$types';
+  import type { VEvent } from '$models';
 
   export let selectedEvent: VEvent;
 </script>

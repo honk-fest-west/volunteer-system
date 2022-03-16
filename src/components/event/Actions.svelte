@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { VEvent } from '$types';
+  import type { VEvent } from '$models';
   import { fly } from 'svelte/transition';
   export let state;
   export let send;
