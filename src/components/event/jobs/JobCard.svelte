@@ -1,9 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import type { Job } from '$types';
+  import { Job } from '$models';
 
   export let job: Job;
-  export let color: string;
 
   const totalSlots = Object.values(job.shifts).reduce(
     (acc, shift) => acc + shift.slots,
@@ -30,7 +29,8 @@
 
 <li class="col-span-1 flex shadow-sm rounded-md">
   <div
-    class={`${color} flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md`}
+    class={`flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md`}
+    style="background-color: {job.color}"
   >
     {firstLetters}
   </div>

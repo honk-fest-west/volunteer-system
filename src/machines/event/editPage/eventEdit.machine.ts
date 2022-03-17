@@ -1,6 +1,6 @@
 import { createMachine, type MachineConfig } from 'xstate';
-import type { VEvent } from '$models';
-import type { Job, Shift } from '$types';
+import type { VEvent, Job } from '$models';
+import type { Shift } from '$types';
 import { actions } from './eventEdit.actions';
 import { guards } from './eventEdit.guards';
 import { services } from './eventEdit.services';

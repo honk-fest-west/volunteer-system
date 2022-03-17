@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Shift, Job } from '$types';
-
+  import type { Shift } from '$types';
+  import type { Job } from '$models';
   export let shift: Shift;
   export let job: Job;
   export let send;

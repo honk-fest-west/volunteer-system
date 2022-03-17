@@ -1,4 +1,5 @@
-import type { Jobs, Job, Shifts, Shift, EventStatus } from '$types';
+import type { Jobs, Shifts, Shift, EventStatus } from '$types';
+import type { Job } from '$models';
 import { Timestamp, type FirestoreDataConverter } from 'firebase/firestore';
 
 export function sortedJobs(jobs: Jobs): Job[] {
@@ -40,8 +41,8 @@ export class VEvent {
         return rest;
       },
       fromFirestore: (snapshot, options) => {
-        const { id, ...rest } = snapshot.data(options);
-        return new VEvent(id).update(rest);
+        const rest = snapshot.data(options);
+        return new VEvent(snapshot.id).update(rest);
       },
     };
   }

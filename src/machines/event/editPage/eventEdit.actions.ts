@@ -4,8 +4,9 @@ import { assign, send, spawn } from 'xstate';
 import { v4 as uuidv4 } from 'uuid';
 import type { EventEditCtx, EventEditEvt } from './eventEdit.machine';
 import { autoSaveMachine } from './autoSave.machine';
-import type { Job, Shift } from '$types';
+import type { Shift } from '$types';
 import { sharedActions } from '../shared.actions';
+import { Job } from '$models';
 
 export const actions = {
   ...sharedActions,
@@ -52,21 +53,12 @@ export const actions = {
   ),
   addJob: assign({
     selectedEvent: (ctx: EventEditCtx) => {
-      const id = uuidv4();
       const { selectedEvent } = ctx;
-      const createdAt = Timestamp.now();
-      const job = {
-        id,
-        createdAt,
-        name: null,
-        description: null,
-        location: null,
-        shifts: {},
-      } as Job;
+      const job = new Job();
       const { jobs } = selectedEvent;
       return {
         ...selectedEvent,
-        jobs: { ...jobs, [job.id]: { ...job } },
+        jobs: { ...jobs, [job.id]: job },
       };
     },
   }),

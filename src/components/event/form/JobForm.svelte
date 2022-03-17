@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Job } from '$types';
+  import type { Job } from '$models';
   import ShiftForm from './ShiftForm.svelte';
   import { sortedShifts } from '$models/event.model';
   export let job: Job;
