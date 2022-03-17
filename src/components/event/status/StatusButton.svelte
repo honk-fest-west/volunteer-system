@@ -4,11 +4,11 @@
 </script>
 
 {#if active}
-  <button class="rounded ring-2 ring-indigo-200 p-2" disabled>
-    <p class="text-lg font-semibold text-indigo-700">
+  <button class="rounded ring-2 ring-gray-300 p-2" disabled>
+    <p class="text-lg font-semibold text-gray-700">
       <slot name="name" />
     </p>
-    <p class="text-sm text-indigo-500 hidden sm:block">
+    <p class="text-sm text-gray-500 hidden sm:block">
       <slot name="description" />
     </p>
   </button>
@@ -22,11 +22,14 @@
     </p>
   </button>
 {:else}
-  <button class="rounded p-2 hover:ring-2 hover:ring-gray-200" on:click>
-    <p class="text-lg font-semibold text-gray-700">
+  <button
+    class="rounded p-2 opacity-70 hover:opacity-100 hover:ring-2 hover:ring-indigo-200"
+    on:click
+  >
+    <p class="text-lg font-semibold text-indigo-700">
       <slot name="name" />
     </p>
-    <p class="text-sm text-gray-500 hidden sm:block">
+    <p class="text-sm text-indigo-500 hidden sm:block">
       <slot name="description" />
     </p>
   </button>

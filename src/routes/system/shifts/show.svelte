@@ -5,7 +5,7 @@
   import Header from '$components/event/Header.svelte';
   import Errors from '$components/event/Errors.svelte';
   import Details from '$components/event/Details.svelte';
-  import Jobs from '$components/event/jobs/Jobs.svelte';
+  import Jobs from '$components/shift/jobs/Jobs.svelte';
 
   export let params: { id?: string } = {};
 

@@ -34,7 +34,7 @@
         active={isDraftActive}
         disabled={isDraftDisabled}
       >
-        <span slot="name">Draft</span>
+        <span slot="name">1. Draft</span>
         <span slot="description"
           >Event shifts are being drafted and are not available to volunteers.</span
         >
@@ -44,7 +44,7 @@
         active={isOpenActive}
         disabled={isOpenDisabled}
       >
-        <span slot="name">Open</span>
+        <span slot="name">2. Open</span>
         <span slot="description"
           >Event shifts are open and volunteers can sign up and also change
           shift selections.</span
@@ -55,7 +55,7 @@
         active={isLockActive}
         disabled={isLockDisabled}
       >
-        <span slot="name">Lock</span>
+        <span slot="name">3. Lock</span>
         <span slot="description"
           >Event shifts are locked and volunteers can no longer change their
           shift selection.</span
@@ -66,7 +66,7 @@
         active={isArchiveActive}
         disabled={isArchiveDisabled}
       >
-        <span slot="name">Archive</span>
+        <span slot="name">4. Archive</span>
         <span slot="description"
           >Event shifts are archived and no longer presented to volunteers.</span
         >
