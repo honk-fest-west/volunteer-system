@@ -6,7 +6,7 @@ import type { ShiftCtx, ShiftEvt } from './shift.machine';
 
 export const actions = {
   spawnEventsObservable: assign({
-    eventsRef: () => spawn(createEventsObservable(['open'])),
+    eventsRef: () => spawn(createEventsObservable(['open', 'locked'])),
   }),
   spawnSelectedEventObservable: assign({
     selectedEventRef: (ctx: ShiftCtx) =>

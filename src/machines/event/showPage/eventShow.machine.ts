@@ -29,7 +29,8 @@ export type EventShowEvt =
   | { type: 'OPEN_EVENT' }
   | { type: 'ARCHIVE_EVENT' }
   | { type: 'CONFIRM_STATUS_CHANGE' }
-  | { type: 'CANCEL_STATUS_CHANGE' };
+  | { type: 'CANCEL_STATUS_CHANGE' }
+  | { type: 'GOTO_INDEX' };
 
 const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
   id: 'eventShow',
@@ -73,6 +74,9 @@ const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
         },
         ARCHIVE_EVENT: {
           target: 'confirmingArchiveEvent',
+        },
+        GOTO_INDEX: {
+          actions: 'gotoIndex',
         },
       },
     },

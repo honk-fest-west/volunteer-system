@@ -1,8 +1,10 @@
 import type { ShiftSignUp } from '$types';
+import { push } from 'svelte-spa-router';
 import { assign } from 'xstate';
 import type { EventShowCtx, EventShowEvt } from './eventShow.machine';
 
 export const actions = {
+  gotoIndex: () => push('/system/events'),
   setSelectedEventId: assign({
     selectedEventId: (ctx: EventShowCtx, evt: EventShowEvt) => {
       if (evt.type !== 'SHOW_EVENT') return ctx.selectedEventId;
