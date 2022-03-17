@@ -58,7 +58,7 @@ export const actions = {
       const { jobs } = selectedEvent;
       return {
         ...selectedEvent,
-        jobs: { ...jobs, [job.id]: job },
+        jobs: { ...jobs, [job.id]: { ...job } },
       };
     },
   }),

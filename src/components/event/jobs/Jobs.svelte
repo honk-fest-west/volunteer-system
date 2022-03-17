@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { VEvent } from '$models';
+  import { Job, type VEvent } from '$models';
   import { sortedJobs } from '$models/event.model';
-  import JobCard from './JobCard.svelte';
+  import JobApplyCard from './JobApplyCard.svelte';
   export let selectedEvent: VEvent;
 </script>
 
@@ -12,7 +12,9 @@
       class="mt-3 grid grid-cols-1 gap-5 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4"
     >
       {#each sortedJobs(selectedEvent.jobs) as job, i}
-        <JobCard {job} on:selectJob />
+        <li class="col-span-1">
+          <JobApplyCard job={Job.from(job)} on:selectJob />
+        </li>
       {/each}
     </ul>
   </section>

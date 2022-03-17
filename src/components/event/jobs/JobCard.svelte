@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { Job } from '$models';
+  import type { Job } from '$models';
 
   export let job: Job;
 
@@ -27,7 +27,7 @@
   }
 </script>
 
-<li class="col-span-1 flex shadow-sm rounded-md">
+<div class="flex shadow-sm rounded-md">
   <div
     class={`flex-shrink-0 flex items-center justify-center w-16 text-white text-sm font-medium rounded-l-md`}
     style="background-color: {job.color}"
@@ -65,4 +65,4 @@
       </button>
     </div>
   </div>
-</li>
+</div>
