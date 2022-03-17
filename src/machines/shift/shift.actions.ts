@@ -14,7 +14,8 @@ export const actions = {
   }),
   setSelectedEventId: assign({
     selectedEventId: (ctx: ShiftCtx, evt: ShiftEvt) => {
-      if (evt.type !== 'SHOW.AT') return ctx.selectedEventId;
+      if (evt.type !== 'SHOW.AT' && evt.type !== 'INDEX.GOTO_SHOW')
+        return ctx.selectedEventId;
       return evt.data;
     },
   }),
@@ -32,7 +33,7 @@ export const actions = {
   }),
   gotoShow: (ctx: ShiftCtx, evt: ShiftEvt) => {
     if (evt.type !== 'INDEX.GOTO_SHOW') return;
-    const { id } = evt.data;
+    const id = evt.data;
     push(`/system/shifts/${id}`);
   },
   gotoIndex: () => {

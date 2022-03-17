@@ -6,16 +6,20 @@
   import EventTable from '$components/event/table/EventTable.svelte';
   import { getContext, onMount } from 'svelte';
 
-  const { state, send } = getContext('shiftMachine');
+  // export let state;
+  // export let send;
+  // $: console.log({ state });
+  // $: events = state ? (state.context.events as VEvent[]) : [];
 
-  $: events = $state.context.events as VEvent[];
+  const { state, send } = getContext('shiftMachine');
+  $: events = ($state.context?.events as VEvent[]) || [];
 
   onMount(() => {
     send('INDEX.AT');
   });
 
   function showEvent(e) {
-    send('INDEX.GOTO_SHOW', { data: e.detail });
+    send('INDEX.GOTO_SHOW', { data: e.detail.id });
   }
 </script>
 

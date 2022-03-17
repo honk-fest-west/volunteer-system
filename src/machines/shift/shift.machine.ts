@@ -16,7 +16,7 @@ export interface ShiftCtx {
 
 export type ShiftEvt =
   | { type: 'INDEX.AT' }
-  | { type: 'INDEX.GOTO_SHOW'; data: VEvent }
+  | { type: 'INDEX.GOTO_SHOW'; data: string }
   | { type: 'SHOW.AT'; data: string }
   | { type: 'SHOW.GOTO_INDEX' }
   | { type: 'EVENTS.UPDATE'; data: DocumentData[] }
@@ -51,8 +51,8 @@ const config: MachineConfig<ShiftCtx, any, ShiftEvt> = {
       entry: 'spawnEventsObservable',
       on: {
         'INDEX.GOTO_SHOW': {
-          actions: 'gotoShow',
-          target: 'router',
+          actions: ['gotoShow', 'setSelectedEventId'],
+          target: 'show',
         },
         'EVENTS.UPDATE': {
           actions: 'setEvents',
@@ -64,6 +64,7 @@ const config: MachineConfig<ShiftCtx, any, ShiftEvt> = {
       on: {
         'SHOW.GOTO_INDEX': {
           actions: 'gotoIndex',
+          target: 'index',
         },
         'SELECTED_EVENT.UPDATE': {
           actions: 'setSelectedEvent',

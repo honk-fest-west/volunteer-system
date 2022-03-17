@@ -9,10 +9,12 @@
 
   export let params: { id?: string } = {};
 
-  const { state, send } = getContext('shiftMachine');
+  // export let state;
+  // export let send;
 
-  $: selectedEvent = $state.context.selectedEvent;
-  $: error = $state.context.error;
+  const { state, send } = getContext('shiftMachine');
+  $: selectedEvent = $state.context?.selectedEvent;
+  $: error = $state.context?.error;
 
   onMount(() => send('SHOW.AT', { data: params.id }));
 
