@@ -1,17 +1,28 @@
 <script lang="ts">
-  import { machine } from '$machines/shift/shift.machine';
+  import { createShiftMachine } from '$machines/shift/shift.machine';
 
   import { setContext } from 'svelte';
   import Router from 'svelte-spa-router';
-  import wrap from 'svelte-spa-router/wrap';
   import { interpret } from 'xstate';
   import index from './index.svelte';
   import show from './show.svelte';
+  import { useAuth } from '$machines/auth';
 
-  const state = interpret(machine).start();
-  const send = state.send;
+  // getContext<{state: any, send: any}>('authMachine').state.on('done.signIn', () => {
 
-  setContext('shiftMachine', { state, send });
+  //   setContext('shiftMachine', {
+  //     state: interpret(createShiftMachine()).start(),
+  //     send: (...args) => getContext('authMachine').state.send(...args),
+  //   });
+  // });
+
+  const { state } = useAuth();
+  $: if ($state.context?.user?.uid) {
+    const shiftMachine = createShiftMachine($state.context.user);
+    const shiftState = interpret(shiftMachine).start();
+
+    setContext('shiftMachine', { state: shiftState, send: shiftState.send });
+  }
 
   const prefix = '/system/shifts';
   const routes = {

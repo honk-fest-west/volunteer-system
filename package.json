@@ -11,7 +11,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "emulators": "firebase emulators:start --import=./src/config/seed",
+    "emulators": "firebase emulators:start --import=./emulatorData",
+    "emulators:export": "firebase emulators:start --import=./emulatorData --export-on-exit",
     "cypress": "npx cypress open"
   },
   "devDependencies": {
@@ -36,6 +37,7 @@
     "rxjs": "^7.5.5",
     "svelte": "^3.44.0",
     "svelte-check": "^2.2.7",
+    "svelte-loading-spinners": "^0.1.7",
     "svelte-preprocess": "^4.9.8",
     "svelte-spa-router": "^3.2.0",
     "tailwindcss": "^3.0.23",

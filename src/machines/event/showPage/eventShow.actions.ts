@@ -1,4 +1,4 @@
-import type { ShiftSignUp } from '$types';
+import type { ShiftSignUp } from '$models';
 import { push } from 'svelte-spa-router';
 import { assign } from 'xstate';
 import type { EventShowCtx, EventShowEvt } from './eventShow.machine';
@@ -24,7 +24,6 @@ export const actions = {
   }),
   setSignUps: assign({
     signUps: (ctx: EventShowCtx, evt: EventShowEvt) => {
-      console.log('setSignUps', evt);
       if (evt.type !== 'done.invoke.shiftSignUpsLoader') return ctx.signUps;
       const { docs } = evt.data;
       return docs.reduce((acc, doc) => {

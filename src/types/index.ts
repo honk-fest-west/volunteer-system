@@ -1,6 +1,6 @@
 import type { User as AuthUser } from 'firebase/auth';
 import type { Timestamp } from 'firebase/firestore';
-import type { VEvent, Job } from '$models';
+import type { VEvent, Job, ShiftSignUp } from '$models';
 
 export interface AuthState {
   user: Partial<User> | null;
@@ -34,23 +34,13 @@ export interface Shift {
   location: string | null;
   slots: number;
   signedUp: number;
-}
-
-export interface ShiftSignUp {
-  id: string;
-  eventId: string;
-  jobId: string;
-  shiftId: string;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
-  volunteerUid: string;
-  volunteerDisplayName: string | null;
-  volunteerPhotoURL: string | null;
-  comment: string | null;
+  // selected: boolean; // not saved to firestore
+  // conflict: boolean; // not saved to firestore
+  // signUpId: string; // not saved to firestore
 }
 
 export type JobSignUpCollection = {
-  [jobId: string]: ShiftSignUp[];
+  [jobId: string]: { [signUpId: string]: ShiftSignUp };
 };
 
 export type Shifts = { [id: string]: Shift };

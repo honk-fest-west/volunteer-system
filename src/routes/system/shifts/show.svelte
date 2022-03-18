@@ -6,15 +6,17 @@
   import Errors from '$components/event/Errors.svelte';
   import Details from '$components/event/Details.svelte';
   import Jobs from '$components/shift/jobs/Jobs.svelte';
+  import ShiftPicker from '$components/shift/picker/ShiftPicker.svelte';
+  import { keys } from 'xstate/lib/utils';
 
   export let params: { id?: string } = {};
-
-  // export let state;
-  // export let send;
 
   const { state, send } = getContext('shiftMachine');
   $: selectedEvent = $state.context?.selectedEvent;
   $: error = $state.context?.error;
+  $: selectedJobId = $state.context?.selectedJobId;
+  $: signUps = $state.context?.signUps;
+  $: disableShiftPicker = !$state.matches('show');
 
   onMount(() => send('SHOW.AT', { data: params.id }));
 
@@ -23,7 +25,19 @@
   }
 
   function showJobShifts(e) {
-    // TODO: show job shifts
+    send('SHOW.SELECT_JOB', { data: e.detail });
+  }
+
+  function closeJobShifts() {
+    send('SHOW.CLEAR_SELECTED_JOB');
+  }
+
+  function signUp(e) {
+    send('SHOW.SIGN_UP', { data: e.detail });
+  }
+
+  function unsignUp(e) {
+    send('SHOW.UNSIGN_UP', { data: e.detail });
   }
 </script>
 
@@ -36,8 +50,20 @@
       <div class="bg-white space-y-6 divide-y divide-gray-200">
         <Errors {error} />
         <Details {selectedEvent} />
-        <Jobs {selectedEvent} on:selectJob={showJobShifts} />
+        {#key signUps}
+          <Jobs {selectedEvent} {signUps} on:selectJobId={showJobShifts} />
+        {/key}
       </div>
     </MainContainer>
   </div>
 {/if}
+
+<ShiftPicker
+  on:signUp={signUp}
+  on:unsignUp={unsignUp}
+  on:close={closeJobShifts}
+  disabled={disableShiftPicker}
+  {selectedEvent}
+  {selectedJobId}
+  {signUps}
+/>

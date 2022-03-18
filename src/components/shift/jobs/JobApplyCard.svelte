@@ -2,11 +2,22 @@
   import { createEventDispatcher } from 'svelte';
   import type { Job } from '$models';
   export let job: Job;
+  export let shiftsSignedUpCount: number;
 
   const dispatch = createEventDispatcher();
 
   function selectJob() {
-    dispatch('selectJob', job);
+    dispatch('selectJobId', job.id);
+  }
+
+  function shiftCount() {
+    if (shiftsSignedUpCount > 1) {
+      return `${shiftsSignedUpCount} Shifts`;
+    } else if (shiftsSignedUpCount === 1) {
+      return `${shiftsSignedUpCount} Shift`;
+    } else {
+      return 'Shifts';
+    }
   }
 </script>
 
@@ -33,7 +44,7 @@
         on:click={selectJob}
         class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
-        {job.filledShifts}/{job.totalShifts} Shifts
+        {shiftCount()}
       </button>
     </div>
   </div>

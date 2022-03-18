@@ -1,16 +1,7 @@
-// export interface Job {
-//   id: string;
-//   createdAt: Timestamp;
-//   color: string;
-//   name: string | null;
-//   description: string | null;
-//   location: string | null;
-//   shifts: Shifts;
-// }
-
 import { v4 as uuidv4 } from 'uuid';
-import type { Shifts } from '$types';
+import type { Shifts, Shift, JobSignUpCollection } from '$types';
 import { Timestamp } from 'firebase/firestore';
+import type { ShiftSignUp } from '$models';
 
 export class Job {
   id: string;
@@ -37,10 +28,6 @@ export class Job {
     return job;
   }
 
-  get bgColor(): string {
-    return `bg-[${this.color}]`;
-  }
-
   get totalSlots(): number {
     return Object.values(this.shifts).reduce(
       (acc, shift) => acc + shift.slots,
@@ -48,7 +35,7 @@ export class Job {
     );
   }
 
-  get totalSignedUp() {
+  get totalSignedUp(): number {
     return Object.values(this.shifts).reduce(
       (acc, shift) => acc + shift.signedUp,
       0
@@ -64,6 +51,40 @@ export class Job {
       const { slots, signedUp } = shift;
       return acc + (slots > signedUp ? 0 : 1);
     }, 0);
+  }
+
+  get sortedShifts(): Shift[] {
+    return Object.values(this.shifts).sort(
+      (a, b) => a.createdAt?.seconds - b.createdAt?.seconds
+    );
+  }
+
+  // Takes a list of current signUps and returns
+  // a list of shifts that are available for signup.
+  //
+  // Takes into account if a shift conflicts with
+  // another signed up shift and sets a conflict marker.
+  public selectableShifts(
+    signUps: JobSignUpCollection
+  ): { shift: Shift; signUpId: string; checked: boolean }[] {
+    const shiftSignedUpIds = Object.keys(signUps[this.id] || {});
+    return Object.values(this.shifts)
+      .filter(
+        (shift) =>
+          // Only return shifts that are not signed up
+          // or that the user has already signed up for.
+          shift.slots > shift.signedUp || shiftSignedUpIds.includes(shift.id)
+      )
+      .map((shift) => {
+        // Set a selected marker if the shift is already signed up.
+        // shift.selected = shiftSignedUpIds.includes(shift.id);
+        // if (shift.selected) {
+        const signUpId = (signUps[this.id] || {})[shift.id]?.id;
+
+        // Set a conflict marker if the shift conflicts with user schedule
+        //shift.conflict = false; // TODO: Implement conflict detection
+        return { shift, signUpId, checked: !!signUpId };
+      });
   }
 
   private getRandomDarkColor(): string {

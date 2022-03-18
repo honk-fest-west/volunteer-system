@@ -6,11 +6,6 @@
   import EventTable from '$components/event/table/EventTable.svelte';
   import { getContext, onMount } from 'svelte';
 
-  // export let state;
-  // export let send;
-  // $: console.log({ state });
-  // $: events = state ? (state.context.events as VEvent[]) : [];
-
   const { state, send } = getContext('shiftMachine');
   $: events = ($state.context?.events as VEvent[]) || [];
 

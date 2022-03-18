@@ -1,81 +1,172 @@
-import { createMachine, type MachineConfig } from 'xstate';
-import type { DocumentData } from 'firebase/firestore';
+import { createMachine, type MachineConfig, type StateMachine } from 'xstate';
 import { actions } from './shift.actions';
 import { guards } from './shift.guards';
 import { services } from './shift.services';
-import type { VEvent } from '$models';
+import type { ShiftSignUp, VEvent } from '$models';
+import type { JobSignUpCollection, User } from '$types';
 
 export interface ShiftCtx {
+  user: User;
   events: Event[];
+  signUps: JobSignUpCollection;
   selectedEventId: string | null;
   selectedEvent: VEvent | null;
+  selectedJobId: string | null;
   error: string | null;
   eventsRef: any;
   selectedEventRef: any;
+  signUpsRef: any;
 }
 
 export type ShiftEvt =
-  | { type: 'INDEX.AT' }
+  | {
+      type: 'done.invoke.signUpAdder';
+      data: ShiftSignUp;
+    }
+  | {
+      type: 'done.invoke.signUpRemover';
+      data: ShiftSignUp;
+    }
+  | { type: 'INDEX.AT'; data: null }
   | { type: 'INDEX.GOTO_SHOW'; data: string }
   | { type: 'SHOW.AT'; data: string }
-  | { type: 'SHOW.GOTO_INDEX' }
-  | { type: 'EVENTS.UPDATE'; data: DocumentData[] }
-  | { type: 'SELECTED_EVENT.UPDATE'; data: VEvent };
+  | { type: 'SHOW.GOTO_INDEX'; data: null }
+  | { type: 'SHOW.SELECT_JOB'; data: string }
+  | { type: 'SHOW.CLEAR_SELECTED_JOB'; data: null }
+  | {
+      type: 'SHOW.SIGN_UP';
+      data: { eventId: string; jobId: string; shiftId: string };
+    }
+  | {
+      type: 'SHOW.UNSIGN_UP';
+      data: {
+        eventId: string;
+        jobId: string;
+        shiftId: string;
+        signUpId: string;
+      };
+    }
+  | { type: 'EVENTS.UPDATE'; data: VEvent[] }
+  | { type: 'SELECTED_EVENT.UPDATE'; data: VEvent }
+  | { type: 'SIGN_UPS.UPDATE'; data: ShiftSignUp[] };
 
-const config: MachineConfig<ShiftCtx, any, ShiftEvt> = {
-  id: 'shift',
+export function createShiftMachine(
+  user: User
+): StateMachine<ShiftCtx, any, ShiftEvt> {
+  return createMachine<ShiftCtx, ShiftEvt>(
+    {
+      id: 'shift',
 
-  context: {
-    events: [],
-    selectedEvent: null,
-    selectedEventId: null,
-    error: null,
-    eventsRef: null,
-    selectedEventRef: null,
-  },
+      context: {
+        user,
+        events: [],
+        signUps: {},
+        selectedEvent: null,
+        selectedEventId: null,
+        selectedJobId: null,
+        error: null,
+        eventsRef: null,
+        selectedEventRef: null,
+        signUpsRef: null,
+      },
 
-  initial: 'router',
-  states: {
-    router: {
-      on: {
-        'INDEX.AT': {
-          target: 'index',
+      initial: 'router',
+      states: {
+        router: {
+          on: {
+            'INDEX.AT': {
+              target: 'index',
+            },
+            'SHOW.AT': {
+              actions: 'setSelectedEventId',
+              target: 'show',
+            },
+          },
         },
-        'SHOW.AT': {
-          actions: 'setSelectedEventId',
-          target: 'show',
+        index: {
+          entry: 'spawnEventsObservable',
+          on: {
+            'INDEX.GOTO_SHOW': {
+              actions: ['gotoShow', 'setSelectedEventId'],
+              target: 'show',
+            },
+            'EVENTS.UPDATE': {
+              actions: 'setEvents',
+            },
+          },
+        },
+        show: {
+          entry: ['spawnSelectedEventObservable', 'spawnSignUpsObservable'],
+          on: {
+            'SHOW.GOTO_INDEX': {
+              actions: 'gotoIndex',
+              target: 'index',
+            },
+            'SHOW.SELECT_JOB': {
+              actions: 'setSelectedJobId',
+            },
+            'SELECTED_EVENT.UPDATE': {
+              actions: 'setSelectedEvent',
+            },
+            'SIGN_UPS.UPDATE': {
+              actions: 'setSignUps',
+            },
+            'SHOW.SIGN_UP': {
+              target: 'signingUp',
+            },
+            'SHOW.UNSIGN_UP': {
+              target: 'unsigningUp',
+            },
+            'SHOW.CLEAR_SELECTED_JOB': {
+              actions: 'clearSelectedJobId',
+            },
+          },
+        },
+        signingUp: {
+          invoke: {
+            id: 'signUpAdder',
+            src: 'signUpAdder',
+            onDone: {
+              target: 'show',
+            },
+            onError: {
+              actions: 'setError',
+              target: 'show',
+            },
+          },
+        },
+        unsigningUp: {
+          invoke: {
+            id: 'signUpRemover',
+            src: 'signUpRemover',
+            onDone: {
+              target: 'show',
+            },
+            onError: {
+              actions: 'setError',
+              target: 'show',
+            },
+          },
+        },
+        updateEvent: {
+          invoke: {
+            id: 'eventUpdater',
+            src: 'eventUpdater',
+            onDone: {
+              target: 'show',
+            },
+            onError: {
+              actions: 'setError',
+              target: 'show',
+            },
+          },
         },
       },
     },
-    index: {
-      entry: 'spawnEventsObservable',
-      on: {
-        'INDEX.GOTO_SHOW': {
-          actions: ['gotoShow', 'setSelectedEventId'],
-          target: 'show',
-        },
-        'EVENTS.UPDATE': {
-          actions: 'setEvents',
-        },
-      },
-    },
-    show: {
-      entry: 'spawnSelectedEventObservable',
-      on: {
-        'SHOW.GOTO_INDEX': {
-          actions: 'gotoIndex',
-          target: 'index',
-        },
-        'SELECTED_EVENT.UPDATE': {
-          actions: 'setSelectedEvent',
-        },
-      },
-    },
-  },
-};
-
-export const machine = createMachine<ShiftCtx, ShiftEvt>(config, {
-  actions,
-  services,
-  guards,
-});
+    {
+      actions,
+      services,
+      guards,
+    }
+  );
+}

@@ -5,6 +5,7 @@
   import home from '$routes/system/home/index.svelte';
   import EventsRouter from '$routes/system/events/EventsRouter.svelte';
   import ShiftsRouter from '$routes/system/shifts/ShiftsRouter.svelte';
+
   // const eventsRoute = wrap({
   //   asyncComponent: () => import('$routes/system/events/EventsRouter.svelte'),
   // });

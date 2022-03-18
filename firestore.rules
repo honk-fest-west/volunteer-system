@@ -12,18 +12,25 @@ service cloud.firestore {
 
     match /events/{eventId} {
     	allow read, write: if isLead();
+      allow read, update: if signedIn()
     }
 
-    match/events/{eventId}/volunteerShifts/{shiftId} {
-      allow read, write: if isLead();
+    match/events/{eventId}/signUps/{signUpId} {
+      allow read, write: if signedIn();
+      // allow create: if signedIn();
+      // allow read, write: if belongsTo(resource.data.uid) 
     }
 
     function belongsTo(userId) {
-      return request.auth != null && request.auth.uid == userId;
+      return signedIn() && request.auth.uid == userId;
     }
 
     function isLead() {
-      return request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'lead';
+      return signedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'lead';
+    }
+
+    function signedIn() {
+      return request.auth != null
     }
   }
 }

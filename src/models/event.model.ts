@@ -24,7 +24,6 @@ export class VEvent {
   updatedAt: Timestamp;
 
   constructor(public id: string) {
-    this.id = id;
     this.status = 'draft';
     this.name = null;
     this.date = null;
@@ -53,6 +52,16 @@ export class VEvent {
     return event;
   }
 
+  public static signedUpPath({
+    jobId,
+    shiftId,
+  }: {
+    jobId: string;
+    shiftId: string;
+  }): string {
+    return `jobs.${jobId}.shifts.${shiftId}.signedUp`;
+  }
+
   public update(data: Partial<VEvent>): VEvent {
     delete data.id;
     Object.assign(this, data);
@@ -66,5 +75,49 @@ export class VEvent {
     event.name = `${this.name} (copy)`;
     event.status = 'draft';
     return event;
+  }
+
+  public incrementSignedUp(jobId: string, shiftId: string): VEvent {
+    const job = this.jobs[jobId];
+    if (!job) {
+      return this;
+    }
+    const shift = job.shifts[shiftId];
+    if (!shift) {
+      return this;
+    }
+    shift.signedUp += 1;
+    return this;
+  }
+
+  public decrementSignedUp(jobId: string, shiftId: string): VEvent {
+    const job = this.jobs[jobId];
+    if (!job) {
+      return this;
+    }
+    const shift = job.shifts[shiftId];
+    if (!shift) {
+      return this;
+    }
+    shift.signedUp -= 1;
+    return this;
+  }
+
+  public signedUp({
+    jobId,
+    shiftId,
+  }: {
+    jobId: string;
+    shiftId: string;
+  }): number {
+    const job = this.jobs[jobId];
+    if (!job) {
+      return 0;
+    }
+    const shift = job.shifts[shiftId];
+    if (!shift) {
+      return 0;
+    }
+    return shift.signedUp;
   }
 }
