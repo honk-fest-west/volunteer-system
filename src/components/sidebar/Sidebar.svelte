@@ -10,7 +10,7 @@
     <SidebarItem href="/system">
       <!-- Heroicon name: outline/home -->
       <svg
-        class="text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
+        class=" mr-3 flex-shrink-0 h-6 w-6"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -30,7 +30,7 @@
     <SidebarItem href="/system/volunteers">
       <!-- Heroicon name: outline/users -->
       <svg
-        class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
+        class=" group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -50,7 +50,7 @@
     <SidebarItem href="/system/events">
       <!-- Heroicon name: outline/calendar -->
       <svg
-        class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
+        class=" group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
@@ -68,10 +68,28 @@
     </SidebarItem>
 
     <SidebarItem href="/system/shifts">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class=" group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+        />
+      </svg>
+      Sign Up Here >></SidebarItem
+    >
+
+    <SidebarItem href="/system/my-schedule">
       <!-- Heroicon name: outline/calendar -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
+        class=" group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
         fill="none"
         viewBox="0 0 24 24"
         stroke="currentColor"
@@ -83,13 +101,13 @@
           d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
         />
       </svg>
-      Sign Up Here >>
+      My Schedule
     </SidebarItem>
 
     <SidebarItem href="/system/documents">
       <!-- Heroicon name: outline/inbox -->
       <svg
-        class="text-gray-400 group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
+        class="group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
