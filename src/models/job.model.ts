@@ -79,7 +79,7 @@ export class Job {
         // Set a selected marker if the shift is already signed up.
         // shift.selected = shiftSignedUpIds.includes(shift.id);
         // if (shift.selected) {
-        const signUpId = (signUps[this.id] || {})[shift.id]?.id;
+        const signUpId = ((signUps[this.id] || {})[shift.id] || [])[0]?.id;
 
         // Set a conflict marker if the shift conflicts with user schedule
         //shift.conflict = false; // TODO: Implement conflict detection

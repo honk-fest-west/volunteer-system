@@ -3,7 +3,7 @@ import { actions } from './eventShow.actions';
 import { services } from './eventShow.services';
 import { guards } from './eventShow.guards';
 
-import type { VEvent } from '$models';
+import type { ShiftSignUp, VEvent } from '$models';
 
 import type { JobSignUpCollection } from '$types';
 import type { DocumentData, QuerySnapshot } from 'firebase/firestore';
@@ -13,6 +13,7 @@ export interface EventShowCtx {
   selectedEvent: VEvent | null;
   signUps: JobSignUpCollection;
   error: string | null;
+  signUpsRef: ReturnType<typeof import('xstate').spawn> | null;
 }
 
 export type EventShowEvt =
@@ -24,13 +25,13 @@ export type EventShowEvt =
   | { type: 'done.invoke.eventDuplicator'; data: VEvent }
   | { type: 'SHOW_EVENT'; data: { eventId: string } }
   | { type: 'DUPLICATE_EVENT'; data: VEvent }
-  | { type: 'LOAD_JOB'; data: { jobId: string } }
   | { type: 'LOCK_EVENT' }
   | { type: 'OPEN_EVENT' }
   | { type: 'ARCHIVE_EVENT' }
   | { type: 'CONFIRM_STATUS_CHANGE' }
   | { type: 'CANCEL_STATUS_CHANGE' }
-  | { type: 'GOTO_INDEX' };
+  | { type: 'GOTO_INDEX' }
+  | { type: 'SIGN_UPS.UPDATE'; data: ShiftSignUp[] };
 
 const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
   id: 'eventShow',
@@ -40,6 +41,7 @@ const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
     selectedEvent: null,
     signUps: null,
     error: null,
+    signUpsRef: null,
   },
   states: {
     settingSelectedEvent: {
@@ -62,10 +64,8 @@ const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
       },
     },
     idle: {
+      entry: 'spawnSignUpsObservable',
       on: {
-        LOAD_JOB: {
-          target: 'loadingJobVolunteers',
-        },
         OPEN_EVENT: {
           target: 'confirmingUnlockEvent',
         },
@@ -78,16 +78,9 @@ const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
         GOTO_INDEX: {
           actions: 'gotoIndex',
         },
-      },
-    },
-
-    loadingJobVolunteers: {
-      always: { target: 'idle', cond: 'jobIsLoaded' },
-      invoke: {
-        id: 'jobLoader',
-        src: 'jobLoader',
-        onDone: { actions: 'setJob', target: 'idle' },
-        onError: { actions: 'setError', target: 'idle' },
+        'SIGN_UPS.UPDATE': {
+          actions: 'setSignUps',
+        },
       },
     },
 

@@ -8,14 +8,14 @@
   import StatusSelector from '$components/event/status/StatusSelector.svelte';
   import Errors from '$components/event/Errors.svelte';
   import Details from '$components/event/Details.svelte';
-  import Jobs from '$components/event/jobs/Jobs.svelte';
-
+  import EventSchedule from '$components/event/schedule/EventSchedule.svelte';
   export let params: { id?: string } = {};
 
   const { state, send } = useShowEvent();
 
   $: selectedEvent = $state.context.selectedEvent;
   $: error = $state.context.error;
+  $: signUps = $state.context.signUps;
   $: confirmOpenStatus = $state.matches('confirmingUnlockEvent');
   $: confirmLockStatus = $state.matches('confirmingLockEvent');
   $: confirmingArchiveStatus = $state.matches('confirmingArchiveEvent');
@@ -34,10 +34,6 @@
 
   function gotoIndex() {
     send('GOTO_INDEX');
-  }
-
-  function showJobShifts(e) {
-    // TODO: show job shifts
   }
 </script>
 
@@ -58,8 +54,8 @@
           on:changeStatus={handleStatusChange}
         />
         <Errors {error} />
-        <Details {selectedEvent} />
-        <Jobs {selectedEvent} on:selectJob={showJobShifts} />
+        <Details name={selectedEvent.name} date={selectedEvent.date} />
+        <EventSchedule {selectedEvent} {signUps} />
       </div>
     </MainContainer>
   </div>

@@ -1,7 +1,8 @@
+import type { EventShowCtx, EventShowEvt } from './eventShow.machine';
 import type { ShiftSignUp } from '$models';
 import { push } from 'svelte-spa-router';
-import { assign } from 'xstate';
-import type { EventShowCtx, EventShowEvt } from './eventShow.machine';
+import { assign, spawn } from 'xstate';
+import { createSignUpsObservable } from '$machines/signUps.observable';
 
 export const actions = {
   gotoIndex: () => push('/system/events'),
@@ -24,17 +25,24 @@ export const actions = {
   }),
   setSignUps: assign({
     signUps: (ctx: EventShowCtx, evt: EventShowEvt) => {
-      if (evt.type !== 'done.invoke.shiftSignUpsLoader') return ctx.signUps;
-      const { docs } = evt.data;
-      return docs.reduce((acc, doc) => {
-        const signUp = doc.data() as ShiftSignUp;
-        const jobShifts = acc[signUp.jobId] || [];
-        acc[signUp.jobId] = [...jobShifts, signUp];
+      if (evt.type !== 'SIGN_UPS.UPDATE') return ctx.signUps;
+      const signUps = evt.data;
+      return signUps.reduce((acc, signUp) => {
+        const job = acc[signUp.jobId] || {};
+        const shiftSignUps = job[signUp.shiftId] || [];
+        acc[signUp.jobId] = {
+          ...job,
+          [signUp.shiftId]: [...shiftSignUps, { ...signUp }],
+        };
         return acc;
       }, {});
     },
   }),
   setError: assign({
     error: (_, evt: EventShowEvt) => console.log({ setError: evt }),
+  }),
+  spawnSignUpsObservable: assign({
+    signUpsRef: (ctx: EventShowCtx) =>
+      spawn(createSignUpsObservable(ctx.selectedEventId)),
   }),
 };

@@ -40,7 +40,7 @@ export interface Shift {
 }
 
 export type JobSignUpCollection = {
-  [jobId: string]: { [signUpId: string]: ShiftSignUp };
+  [jobId: string]: { [shiftId: string]: ShiftSignUp[] };
 };
 
 export type Shifts = { [id: string]: Shift };

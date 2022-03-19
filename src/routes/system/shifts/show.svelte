@@ -7,7 +7,6 @@
   import Details from '$components/event/Details.svelte';
   import Jobs from '$components/shift/jobs/Jobs.svelte';
   import ShiftPicker from '$components/shift/picker/ShiftPicker.svelte';
-  import { keys } from 'xstate/lib/utils';
 
   export let params: { id?: string } = {};
 
@@ -49,7 +48,7 @@
       </div>
       <div class="bg-white space-y-6 divide-y divide-gray-200">
         <Errors {error} />
-        <Details {selectedEvent} />
+        <Details {...selectedEvent} />
         {#key signUps}
           <Jobs {selectedEvent} {signUps} on:selectJobId={showJobShifts} />
         {/key}

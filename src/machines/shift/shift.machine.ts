@@ -13,9 +13,9 @@ export interface ShiftCtx {
   selectedEvent: VEvent | null;
   selectedJobId: string | null;
   error: string | null;
-  eventsRef: any;
-  selectedEventRef: any;
-  signUpsRef: any;
+  eventsRef: ReturnType<typeof import('xstate').spawn> | null;
+  selectedEventRef: ReturnType<typeof import('xstate').spawn> | null;
+  signUpsRef: ReturnType<typeof import('xstate').spawn> | null;
 }
 
 export type ShiftEvt =

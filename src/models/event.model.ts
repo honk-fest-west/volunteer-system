@@ -62,6 +62,12 @@ export class VEvent {
     return `jobs.${jobId}.shifts.${shiftId}.signedUp`;
   }
 
+  get sortedJobs(): Job[] {
+    return Object.values(this.jobs).sort(
+      (a: Job, b: Job) => a.createdAt?.seconds - b.createdAt?.seconds
+    );
+  }
+
   public update(data: Partial<VEvent>): VEvent {
     delete data.id;
     Object.assign(this, data);

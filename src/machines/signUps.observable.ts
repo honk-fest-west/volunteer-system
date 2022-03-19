@@ -4,10 +4,14 @@ import { ShiftSignUp } from '$models';
 import { collectionData } from 'rxfire/firestore';
 import { map, catchError } from 'rxjs/operators';
 
-export const createSignUpsObservable = (eventId: string, uid: string) => {
-  const q = query(
-    collection(db, 'events', eventId, 'signUps'),
-    where('volunteerUid', '==', uid)
+export const createSignUpsObservable = (eventId: string, uid?: string) => {
+  const q = (
+    uid
+      ? query(
+          collection(db, 'events', eventId, 'signUps'),
+          where('volunteerUid', '==', uid)
+        )
+      : query(collection(db, 'events', eventId, 'signUps'))
   ).withConverter(ShiftSignUp.firebaseConverter());
 
   return collectionData(q, { idField: 'id' }).pipe(

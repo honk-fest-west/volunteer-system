@@ -1,9 +1,9 @@
+import type { ShiftCtx, ShiftEvt } from './shift.machine';
 import { createEventsObservable } from '$machines/events.observable';
 import { createSelectedEventObservable } from '$machines/selectedEvent.observable';
 import { push } from 'svelte-spa-router';
 import { assign, spawn } from 'xstate';
-import type { ShiftCtx, ShiftEvt } from './shift.machine';
-import { createSignUpsObservable } from './signUps.observable';
+import { createSignUpsObservable } from '$machines/signUps.observable';
 
 export const actions = {
   spawnEventsObservable: assign({
@@ -43,7 +43,7 @@ export const actions = {
       const signUps = evt.data;
       return signUps.reduce((acc, signUp) => {
         const jobShifts = acc[signUp.jobId] || {};
-        acc[signUp.jobId] = { ...jobShifts, [signUp.shiftId]: { ...signUp } };
+        acc[signUp.jobId] = { ...jobShifts, [signUp.shiftId]: [{ ...signUp }] };
         return acc;
       }, {});
     },
