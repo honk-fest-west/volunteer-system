@@ -12,7 +12,8 @@
   <div class="col-end-1 w-14" />
   {#each jobs as job}
     <div class="flex items-center justify-center py-3">
-      <span class="items-center justify-center font-semibold text-gray-900"
+      <span
+        class="items-center justify-center font-semibold text-gray-900 text-center"
         >{job.name}</span
       >
     </div>

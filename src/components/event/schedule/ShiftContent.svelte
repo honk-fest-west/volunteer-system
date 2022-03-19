@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ShiftSignUp } from '$models';
+  import { shortTime } from '$util/index';
 
   export let color: string;
   export let date: string;
@@ -19,6 +20,6 @@
   {/each}
 
   <p class="text-white opacity-50 group-hover:opacity-70">
-    <time datetime="{date}T{time}">{time}</time>
+    <time datetime="{date}T{time}">{shortTime(time)}</time>
   </p>
 </a>

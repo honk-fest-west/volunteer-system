@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Shift } from '$types';
+  import { shortTime } from '$util';
   import { createEventDispatcher } from 'svelte';
   import { Square } from 'svelte-loading-spinners';
 
@@ -44,7 +45,7 @@
     </div>
     <div class="ml-3 min-w-0 flex-1 text-sm">
       <label for="candidates" class="font-medium text-gray-700"
-        >{shift.from} to {shift.to}</label
+        >{shortTime(shift.from)} to {shortTime(shift.to)}</label
       >
       <p id="candidates-description" class="text-gray-500">
         {shift.location}

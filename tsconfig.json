@@ -40,7 +40,9 @@
       "$types": ["src/types"],
       "$types/*": ["src/types/*"],
       "$models": ["src/models"],
-      "$models/*": ["src/models/*"]
+      "$models/*": ["src/models/*"],
+      "$util": ["src/util"],
+      "$util/*": ["src/util/*"]
     }
   },
   "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],
