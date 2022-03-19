@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { useAuth } from '$machines/auth';
   import { fly } from 'svelte/transition';
-  export let state;
-  export let send;
+
+  const { state, send } = useAuth();
 
   $: user = $state?.context?.user;
 

@@ -2,17 +2,17 @@
   import { fade } from 'svelte/transition';
   import { getContext } from 'svelte';
   export let show = false;
-  const { state } = getContext('auth');
-  $: show = [
-    'authenticating',
-    'loadingUser',
-    'loadingProfile',
-    'updatingProfile',
-    'signingOut',
-    'signingIn',
-    'signingUp',
-    'deletingAccount',
-  ].some($state.matches);
+  // const { state } = getContext('auth');
+  // $: show = [
+  //   'authenticating',
+  //   'loadingUser',
+  //   'loadingProfile',
+  //   'updatingProfile',
+  //   'signingOut',
+  //   'signingIn',
+  //   'signingUp',
+  //   'deletingAccount',
+  // ].some($state.matches);
 </script>
 
 {#if show}

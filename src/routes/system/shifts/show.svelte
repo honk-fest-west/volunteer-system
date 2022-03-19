@@ -44,7 +44,7 @@
   <div in:fade={{ duration: 100 }}>
     <MainContainer>
       <div slot="header">
-        <Header on:goBack={gotoIndex} name={selectedEvent.name} />
+        <Header on:goBack={gotoIndex} name="Select a Job >>" />
       </div>
       <div class="bg-white space-y-6 divide-y divide-gray-200">
         <Errors {error} />

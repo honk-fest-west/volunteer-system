@@ -2,12 +2,10 @@
   import SidebarAccount from './SidebarAccount.svelte';
   import SidebarItem from './SidebarItem.svelte';
   export let className = '';
-  export let state;
-  export let send;
 </script>
 
 <div class={className}>
-  <SidebarAccount {state} {send} />
+  <SidebarAccount />
   <nav class="mt-5 flex-1 px-2 space-y-1">
     <SidebarItem href="/system">
       <!-- Heroicon name: outline/home -->
@@ -85,7 +83,7 @@
           d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
         />
       </svg>
-      Shifts
+      Sign Up Here >>
     </SidebarItem>
 
     <SidebarItem href="/system/documents">

@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Job } from '$models';
   import type { JobSignUpCollection } from '$types';
-  import JobColumn from './JobColumn.svelte';
+  import Shifts from './Shifts.svelte';
 
   export let date: string;
   export let jobs: Job[] = [];
@@ -15,7 +15,7 @@
     style="--num-jobs: {numJobs}; grid-template-rows: 1.75rem repeat(288, minmax(0, 1fr)) auto"
   >
     {#each jobs as job, i}
-      <JobColumn {date} {job} col={i + 1} jobSignUps={signUps[job.id] || {}} />
+      <Shifts {date} {job} col={i + 1} jobSignUps={signUps[job.id] || {}} />
     {/each}
   </ol>
 {/if}

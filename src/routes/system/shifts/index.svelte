@@ -21,9 +21,9 @@
 <div in:fade={{ duration: 100 }}>
   <MainContainer>
     <h1 slot="header" class="text-3xl font-extrabold text-pink-700 grow">
-      Shifts
+      Select an Event >>
     </h1>
-    <p class="mb-4 text-xl">Select an Event</p>
+
     <EventTable {events} on:select={showEvent} />
   </MainContainer>
 </div>

@@ -8,7 +8,7 @@
   import StatusSelector from '$components/event/status/StatusSelector.svelte';
   import Errors from '$components/event/Errors.svelte';
   import Details from '$components/event/Details.svelte';
-  import EventSchedule from '$components/event/schedule/EventSchedule.svelte';
+  import EventSchedule from '$components/schedule/EventSchedule.svelte';
   export let params: { id?: string } = {};
 
   const { state, send } = useShowEvent();

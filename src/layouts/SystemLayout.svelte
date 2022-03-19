@@ -7,7 +7,7 @@
   import Spinner from '$components/Spinner.svelte';
 
   const { state, send } = useAuth();
-  setContext('auth', { state, send });
+  // setContext('auth', { state, send });
 
   let openSidebar = false;
 </script>
@@ -15,19 +15,11 @@
 <div>
   {#if $state.matches('signedIn')}
     <SidebarMobile bind:open={openSidebar}>
-      <Sidebar
-        {state}
-        {send}
-        className="flex-1 h-0 pt-5 pb-4 overflow-y-auto"
-      />
+      <Sidebar className="flex-1 h-0 pt-5 pb-4 overflow-y-auto" />
     </SidebarMobile>
     <div class="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
       <SidebarDesktop>
-        <Sidebar
-          {state}
-          {send}
-          className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto"
-        />
+        <Sidebar className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto" />
       </SidebarDesktop>
     </div>
     <div class="md:pl-64 flex flex-col flex-1">

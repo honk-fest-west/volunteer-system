@@ -1,8 +1,10 @@
 <script lang="ts">
   import { getContext } from 'svelte';
   import MainContainer from '$components/MainContainer.svelte';
+  import { useAuth } from '$machines/auth';
 
-  const { state } = getContext('auth');
+  const { state } = useAuth();
+  // const { state } = getContext('auth');
 
   $: user = $state?.context?.user;
 </script>

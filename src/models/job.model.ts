@@ -68,7 +68,7 @@ export class Job {
     signUps: JobSignUpCollection
   ): { shift: Shift; signUpId: string; checked: boolean }[] {
     const shiftSignedUpIds = Object.keys(signUps[this.id] || {});
-    return Object.values(this.shifts)
+    return this.sortedShifts
       .filter(
         (shift) =>
           // Only return shifts that are not signed up

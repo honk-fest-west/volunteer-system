@@ -21,7 +21,7 @@
 
 <li
   class="shift relative mt-px flex"
-  style="--col-num = {col}; grid-row: {rowStart} / span {rowEnd}"
+  style="--col-num: {col}; grid-row: {rowStart} / span {rowEnd}"
 >
   <ShiftContent {...{ color, date, time, signUps }} />
 </li>

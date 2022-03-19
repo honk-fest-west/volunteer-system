@@ -4,7 +4,7 @@
   import HorizontalLines from './HorizontalLines.svelte';
   import JobsXAxis from './JobsXAxis.svelte';
   import JobsXAxisMobile from './JobsXAxisMobile.svelte';
-  import Shifts from './Shifts.svelte';
+  import Jobs from './Jobs.svelte';
   import VerticalLines from './VerticalLines.svelte';
 
   export let selectedEvent: VEvent;
@@ -38,7 +38,7 @@
           <VerticalLines numJobs={jobs.length} />
 
           <!-- Shifts -->
-          <Shifts {date} {jobs} {signUps} />
+          <Jobs {date} {jobs} {signUps} />
         </div>
       </div>
     </div>
