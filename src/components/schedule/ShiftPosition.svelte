@@ -8,26 +8,30 @@
   export let from: number;
   export let to: number;
   export let signUps: ShiftSignUp[];
+  export let startTime: number;
 
+  const startDate = new Date(startTime);
   const fromDate = new Date(from);
   const toDate = new Date(to);
 
-  //const shift = job.shifts[shiftId];
-  // const [fromHours, fromMinutes] = shift.from
-  //   .split(':')
-  //   .map((v) => parseInt(v));
-  // const [toHours, toMinutes] = shift.to.split(':').map((v) => parseInt(v));
+  // is 194 should be 74
+
   const rowStart =
-    2 + fromDate.getHours() * 12 + Math.round(fromDate.getMinutes() / 5);
+    2 +
+    (fromDate.getHours() - startDate.getHours()) * 12 +
+    Math.round(fromDate.getMinutes() / 5);
   const rowEnd =
-    2 + toDate.getHours() * 12 + Math.round(toDate.getMinutes() / 5) - rowStart;
+    2 +
+    (toDate.getHours() - startDate.getHours()) * 12 +
+    Math.round(toDate.getMinutes() / 5) -
+    rowStart;
   const color = job.color;
   const time = fromDate.toLocaleTimeString([], {
+    // TODO: this assumes that all shifts in this glob have same start time
     hour12: false,
     hour: '2-digit',
     minute: '2-digit',
   });
-  // TODO: this assumes that all shifts in this glob have same start time
 </script>
 
 <li

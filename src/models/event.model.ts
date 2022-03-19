@@ -1,6 +1,7 @@
 import type { Jobs, Shifts, Shift, EventStatus } from '$types';
 import type { Job } from '$models';
 import { Timestamp, type FirestoreDataConverter } from 'firebase/firestore';
+import { hoursToMilliseconds, timeToInt } from '$util';
 
 export function sortedJobs(jobs: Jobs): Job[] {
   return Object.values(jobs).sort(
@@ -62,10 +63,52 @@ export class VEvent {
     return `jobs.${jobId}.shifts.${shiftId}.signedUp`;
   }
 
+  /**
+   * Returns an array of jobs sorted by their time created.
+   * @return {Job[]} Jobs sorted by their time created.
+   */
   get sortedJobs(): Job[] {
     return Object.values(this.jobs).sort(
       (a: Job, b: Job) => a.createdAt?.seconds - b.createdAt?.seconds
     );
+  }
+
+  /**
+   * Returns the timerange of the event's shifts.
+   * @return {[number, number]} [start, end] - The time range of the event's shifts.
+   */
+  get timeRange(): [number, number] {
+    return Object.values(this.jobs).reduce(
+      ([start, end], job: Job) => {
+        const jobRange = Object.values(job.shifts).reduce(
+          ([jobStart, jobEnd], shift: Shift) => {
+            const shiftStart = timeToInt(shift.from);
+            const shiftEnd = timeToInt(shift.to);
+
+            return [
+              jobStart && shiftStart > jobStart ? jobStart : shiftStart,
+              jobEnd && shiftEnd < jobEnd ? jobEnd : shiftEnd,
+            ];
+          },
+          [null, null]
+        );
+        return [
+          start && jobRange[0] > start ? start : jobRange[0],
+          end && jobRange[1] < end ? end : jobRange[1],
+        ];
+      },
+      [null, null]
+    );
+  }
+
+  get roundedTimeRange(): [number, number] {
+    const [start, end] = this.timeRange;
+
+    const roundedStartTime = start - (start % hoursToMilliseconds(1));
+    const roundedEndTime =
+      end - (end % hoursToMilliseconds(1)) + hoursToMilliseconds(1);
+
+    return [roundedStartTime, roundedEndTime];
   }
 
   public update(data: Partial<VEvent>): VEvent {

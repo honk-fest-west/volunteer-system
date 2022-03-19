@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { ShiftSignUp } from '$models';
-  import { shortTime } from '$util/index';
+  import { shortTime } from '$util';
 
   export let color: string;
   export let date: string;

@@ -12,6 +12,7 @@
 
   $: jobs = selectedEvent?.sortedJobs || [];
   $: date = selectedEvent?.date;
+  $: [startTime, endTime] = selectedEvent?.roundedTimeRange || [0, 0];
 </script>
 
 <div class="flex h-full flex-col">
@@ -32,13 +33,13 @@
         />
         <div class="grid flex-auto grid-cols-1 grid-rows-1">
           <!-- Horizontal lines -->
-          <HorizontalLines />
+          <HorizontalLines {startTime} {endTime} />
 
           <!-- Vertical lines -->
           <VerticalLines numJobs={jobs.length} />
 
           <!-- Shifts -->
-          <Jobs {date} {jobs} {signUps} />
+          <Jobs {date} {jobs} {signUps} {startTime} {endTime} />
         </div>
       </div>
     </div>

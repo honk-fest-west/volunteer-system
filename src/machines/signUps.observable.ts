@@ -16,7 +16,6 @@ export const createSignUpsObservable = (eventId: string, uid?: string) => {
 
   return collectionData(q, { idField: 'id' }).pipe(
     map((signUps) => ({ type: 'SIGN_UPS.UPDATE', data: signUps })),
-    tap((action) => console.log('SIGN_UPS.UPDATE', action)),
     catchError(() => [{ type: 'SIGN_UPS.UPDATE', data: [] }])
   );
 };
