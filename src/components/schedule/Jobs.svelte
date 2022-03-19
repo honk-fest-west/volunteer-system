@@ -2,7 +2,7 @@
   import type { Job } from '$models';
   import type { JobSignUpCollection } from '$types';
   import { hoursToMilliseconds } from '$util';
-  import Shifts from './Shifts.svelte';
+  import JobColumn from './JobColumn.svelte';
 
   export let date: string;
   export let jobs: Job[] = [];
@@ -21,7 +21,7 @@
     style="--num-jobs: {numJobs}; grid-template-rows: 1.75rem repeat({numRows}, minmax(0, 1fr)) auto"
   >
     {#each jobs as job, i}
-      <Shifts
+      <JobColumn
         {date}
         {job}
         {startTime}

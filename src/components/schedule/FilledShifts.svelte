@@ -3,6 +3,9 @@
   import type { Job, ShiftSignUp } from '$models';
   import ShiftPosition from './ShiftPosition.svelte';
   import { timeToInt } from '$util';
+  import FilledShiftContent from './FilledShiftContent.svelte';
+  import { mapValues } from 'xstate/lib/utils';
+  import OpenShiftContent from './OpenShiftContent.svelte';
 
   export let date: string;
   export let job: Job;
@@ -10,6 +13,7 @@
   export let startTime: number;
   export let jobSignUps: { [shiftId: string]: ShiftSignUp[] };
 
+  const color = job.color;
   const shiftSignUps = Object.entries(jobSignUps);
   const mergedShiftSignUps = shiftSignUps.reduce((acc, [shiftId, signUps]) => {
     const shift = job.shifts[shiftId];
@@ -38,5 +42,17 @@
 </script>
 
 {#each mergedShiftSignUps as shiftSignUps}
-  <ShiftPosition {date} {job} {col} {startTime} {...shiftSignUps} />
+  <ShiftPosition
+    {col}
+    {startTime}
+    from={shiftSignUps.from}
+    to={shiftSignUps.to}
+  >
+    <FilledShiftContent
+      {color}
+      {date}
+      from={shiftSignUps.from}
+      signUps={shiftSignUps.signUps}
+    />
+  </ShiftPosition>
 {/each}

@@ -4,8 +4,15 @@
 
   export let color: string;
   export let date: string;
-  export let time: string;
+  export let from: number;
   export let signUps: ShiftSignUp[];
+
+  const time = new Date(from).toLocaleTimeString([], {
+    // TODO: this assumes that all shifts in this glob have same start time
+    hour12: false,
+    hour: '2-digit',
+    minute: '2-digit',
+  });
 </script>
 
 <a
