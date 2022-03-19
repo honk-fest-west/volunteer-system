@@ -29,12 +29,16 @@ export const actions = {
       const signUps = evt.data;
       return signUps.reduce((acc, signUp) => {
         const job = acc[signUp.jobId] || {};
-        const shiftSignUps = job[signUp.shiftId] || [];
-        acc[signUp.jobId] = {
-          ...job,
-          [signUp.shiftId]: [...shiftSignUps, { ...signUp }],
+        const shift = job[signUp.shiftId] || {};
+        const signUps = shift.signUps || [];
+        const newAcc = {
+          ...acc,
+          [signUp.jobId]: {
+            ...job,
+            [signUp.shiftId]: [...signUps, signUp],
+          },
         };
-        return acc;
+        return newAcc;
       }, {});
     },
   }),

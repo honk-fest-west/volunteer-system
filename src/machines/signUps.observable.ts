@@ -2,7 +2,7 @@ import { collection, query, where } from 'firebase/firestore';
 import { db } from '$config/firebase';
 import { ShiftSignUp } from '$models';
 import { collectionData } from 'rxfire/firestore';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 
 export const createSignUpsObservable = (eventId: string, uid?: string) => {
   const q = (
@@ -16,6 +16,7 @@ export const createSignUpsObservable = (eventId: string, uid?: string) => {
 
   return collectionData(q, { idField: 'id' }).pipe(
     map((signUps) => ({ type: 'SIGN_UPS.UPDATE', data: signUps })),
+    tap((action) => console.log('SIGN_UPS.UPDATE', action)),
     catchError(() => [{ type: 'SIGN_UPS.UPDATE', data: [] }])
   );
 };

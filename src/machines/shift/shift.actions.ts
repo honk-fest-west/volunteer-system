@@ -42,9 +42,17 @@ export const actions = {
       if (evt.type !== 'SIGN_UPS.UPDATE') return ctx.signUps;
       const signUps = evt.data;
       return signUps.reduce((acc, signUp) => {
-        const jobShifts = acc[signUp.jobId] || {};
-        acc[signUp.jobId] = { ...jobShifts, [signUp.shiftId]: [{ ...signUp }] };
-        return acc;
+        const job = acc[signUp.jobId] || {};
+        const shift = job[signUp.shiftId] || {};
+        const signUps = shift.signUps || [];
+        const newAcc = {
+          ...acc,
+          [signUp.jobId]: {
+            ...job,
+            [signUp.shiftId]: [...signUps, signUp],
+          },
+        };
+        return newAcc;
       }, {});
     },
   }),

@@ -7,7 +7,6 @@
   export let col: number;
   export let jobSignUps: { [shiftId: string]: ShiftSignUp[] };
 
-  console.log('Shifts', col);
   const shiftSignUps = Object.entries(jobSignUps);
 </script>
 
