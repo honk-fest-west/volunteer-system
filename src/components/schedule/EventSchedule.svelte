@@ -22,7 +22,7 @@
       class="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full"
     >
       <div
-        class="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8"
+        class="sticky top-0  z-20 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8"
       >
         <JobsXAxisMobile {jobs} />
         <JobsXAxis {jobs} />

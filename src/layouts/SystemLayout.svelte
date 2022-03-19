@@ -6,8 +6,7 @@
   import { useAuth } from '$machines/auth';
   import Spinner from '$components/Spinner.svelte';
 
-  const { state, send } = useAuth();
-  // setContext('auth', { state, send });
+  const { state } = useAuth();
 
   let openSidebar = false;
 </script>
@@ -24,7 +23,7 @@
     </div>
     <div class="md:pl-64 flex flex-col flex-1">
       <div
-        class="sticky top-0 z-10 md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3 bg-gray-100"
+        class="sticky top-0 z-30 md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3 bg-gray-100"
       >
         <button
           type="button"

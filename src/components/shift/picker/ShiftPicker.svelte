@@ -38,7 +38,7 @@
 
 {#if job}
   <div
-    class="fixed inset-0 overflow-hidden z-20"
+    class="fixed inset-0 overflow-hidden z-30"
     aria-labelledby="slide-over-title"
     role="dialog"
     aria-modal="true"
