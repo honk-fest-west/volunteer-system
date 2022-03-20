@@ -10,7 +10,8 @@
     $state.context?.user?.role === 'lead' ||
     href === '/system' ||
     href.startsWith('/system/shifts') ||
-    href.startsWith('/system/documents');
+    href.startsWith('/system/documents') ||
+    href.startsWith('/system/my-schedule');
 
   function isCurrent() {
     return (

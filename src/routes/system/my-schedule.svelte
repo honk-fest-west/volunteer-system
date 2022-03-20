@@ -8,16 +8,19 @@
   import { setContext } from 'svelte';
 
   const { state } = useAuth();
+  let scheduleState;
 
   $: if ($state.context?.user?.uid) {
     const scheduleMachine = createScheduleMachine($state.context.user);
-    const scheduleState = interpret(scheduleMachine).start();
+    scheduleState = interpret(scheduleMachine).start();
 
     setContext('scheduleMachine', {
       state: scheduleState,
       send: scheduleState.send,
     });
   }
+
+  $: console.log('scheduleState', $scheduleState.context.schedule);
 </script>
 
 <div in:fade={{ duration: 100 }}>
