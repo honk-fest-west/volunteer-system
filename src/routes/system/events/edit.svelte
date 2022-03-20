@@ -4,13 +4,14 @@
   import { useEventEdit } from '$machines/event';
   import ConfirmationModal from '$components/event/form/ConfirmationModal.svelte';
   import MainContainer from '$components/MainContainer.svelte';
-  import Header from '$components/event/Header.svelte';
+  import Header from '$components/header/Header.svelte';
   import Actions from '$components/event/Actions.svelte';
   import StatusSelector from '$components/event/status/StatusSelector.svelte';
   import Details from '$components/event/form/DetailsForm.svelte';
   import Jobs from '$components/event/form/JobsForm.svelte';
   import Errors from '$components/event/Errors.svelte';
   import AutoSave from '$components/event/form/AutoSave.svelte';
+  import BackButton from '$components/header/BackButton.svelte';
   export let params: { id?: string } = {};
 
   const { state, send } = useEventEdit();
@@ -41,7 +42,9 @@
   <div in:fade={{ duration: 100 }}>
     <MainContainer>
       <div slot="header">
-        <Header on:goBack={gotoIndex} name={selectedEvent.name} />
+        <Header name={selectedEvent.name}>
+          <BackButton slot="left" on:goBack={gotoIndex} />
+        </Header>
       </div>
 
       <div slot="actions">

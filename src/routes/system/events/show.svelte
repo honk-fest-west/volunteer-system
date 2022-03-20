@@ -3,12 +3,13 @@
   import { onMount } from 'svelte';
   import { useShowEvent } from '$machines/event';
   import MainContainer from '$components/MainContainer.svelte';
-  import Header from '$components/event/Header.svelte';
+  import Header from '$components/header/Header.svelte';
   import Actions from '$components/event/Actions.svelte';
   import StatusSelector from '$components/event/status/StatusSelector.svelte';
   import Errors from '$components/event/Errors.svelte';
   import Details from '$components/event/Details.svelte';
   import EventSchedule from '$components/schedule/EventSchedule.svelte';
+  import BackButton from '$components/header/BackButton.svelte';
   export let params: { id?: string } = {};
 
   const { state, send } = useShowEvent();
@@ -41,7 +42,9 @@
   <div in:fade={{ duration: 100 }}>
     <MainContainer>
       <div slot="header">
-        <Header on:goBack={gotoIndex} name={selectedEvent.name} />
+        <Header name={selectedEvent.name}>
+          <BackButton slot="left" on:goBack={gotoIndex} />
+        </Header>
       </div>
       <div slot="actions">
         <div class="flex items-center">

@@ -2,11 +2,12 @@
   import { fade } from 'svelte/transition';
   import { getContext, onMount } from 'svelte';
   import MainContainer from '$components/MainContainer.svelte';
-  import Header from '$components/event/Header.svelte';
+  import Header from '$components/header/Header.svelte';
   import Errors from '$components/event/Errors.svelte';
   import Details from '$components/event/Details.svelte';
   import Jobs from '$components/shift/jobs/Jobs.svelte';
   import ShiftPicker from '$components/shift/picker/ShiftPicker.svelte';
+  import BackButton from '$components/header/BackButton.svelte';
 
   export let params: { id?: string } = {};
 
@@ -44,7 +45,9 @@
   <div in:fade={{ duration: 100 }}>
     <MainContainer>
       <div slot="header">
-        <Header on:goBack={gotoIndex} name="Select a Job >>" />
+        <Header name="Select a Job >>">
+          <BackButton slot="left" on:goBack={gotoIndex} />
+        </Header>
       </div>
       <div class="bg-white space-y-6 divide-y divide-gray-200">
         <Errors {error} />
