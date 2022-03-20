@@ -17,8 +17,6 @@
   $: selectedEvent = $state.context.selectedEvent;
   $: error = $state.context.error;
   $: signUps = $state.context.signUps;
-  $: confirmOpenStatus = $state.matches('confirmingUnlockEvent');
-  $: confirmLockStatus = $state.matches('confirmingLockEvent');
   $: confirmingArchiveStatus = $state.matches('confirmingArchiveEvent');
 
   onMount(() => send('SHOW_EVENT', { data: { eventId: params.id } }));

@@ -28,6 +28,12 @@
   }
 
   function handleStatusChange(event) {
+    if (event.detail === 'draft') {
+      send('DRAFT_EVENT');
+    }
+    if (event.detail === 'preview') {
+      send('PREVIEW_EVENT');
+    }
     if (event.detail === 'open') {
       send('PUBLISH_EVENT');
     }

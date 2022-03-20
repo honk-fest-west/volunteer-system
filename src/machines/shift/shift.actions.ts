@@ -7,7 +7,7 @@ import { createSignUpsObservable } from '$machines/signUps.observable';
 
 export const actions = {
   spawnEventsObservable: assign({
-    eventsRef: () => spawn(createEventsObservable(['open', 'locked'])),
+    eventsRef: () => spawn(createEventsObservable(['open'])),
   }),
   spawnSelectedEventObservable: assign({
     selectedEventRef: (ctx: ShiftCtx) =>

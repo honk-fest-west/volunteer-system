@@ -42,7 +42,7 @@
       <button
         type="button"
         on:click={selectJob}
-        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white opacity-70  hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-md text-white opacity-70  hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         style="background-color: {job.color};"
       >
         <span class:font-bold={shiftsSignedUpCount}>{shiftCount()}</span>
@@ -55,7 +55,7 @@
   <button
     type="button"
     on:click={selectJob}
-    class="flex w-full items-center px-4 py-2 border border-transparent text-xl font-medium rounded-md shadow-sm text-white opacity-70  hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    class="flex w-full shadow-md items-center px-4 py-2 border border-transparent text-xl font-medium rounded-md  text-white opacity-70  hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
     style="background-color: {job.color};"
   >
     <span class:font-bold={shiftsSignedUpCount}>{shiftCount()}&nbsp;</span>| {job.name}

@@ -144,10 +144,35 @@ export const actions = {
       return null;
     },
   }),
+  draftEvent: assign({
+    selectedEvent: (ctx: EventEditCtx) => {
+      const { selectedEvent } = ctx;
+      return { ...selectedEvent, status: 'draft' };
+    },
+  }),
+  previewEvent: assign({
+    selectedEvent: (ctx: EventEditCtx) => {
+      const { selectedEvent } = ctx;
+      return { ...selectedEvent, status: 'preview' };
+    },
+  }),
   publishEvent: assign({
     selectedEvent: (ctx: EventEditCtx) => {
       const { selectedEvent } = ctx;
       return { ...selectedEvent, status: 'open' };
+    },
+  }),
+
+  lockEvent: assign({
+    selectedEvent: (ctx: EventEditCtx) => {
+      const { selectedEvent } = ctx;
+      return { ...selectedEvent, status: 'lock' };
+    },
+  }),
+  archiveEvent: assign({
+    selectedEvent: (ctx: EventEditCtx) => {
+      const { selectedEvent } = ctx;
+      return { ...selectedEvent, status: 'archive' };
     },
   }),
 };

@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
+  import EventTable from './EventTable.svelte';
   export let event;
 
   const dispatch = createEventDispatcher();
@@ -29,6 +30,12 @@
         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800"
       >
         Draft
+      </span>
+    {:else if event.status === 'preview'}
+      <span
+        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800"
+      >
+        Preview
       </span>
     {:else if event.status === 'open'}
       <span

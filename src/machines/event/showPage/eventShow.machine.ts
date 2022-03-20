@@ -25,8 +25,9 @@ export type EventShowEvt =
   | { type: 'done.invoke.eventDuplicator'; data: VEvent }
   | { type: 'SHOW_EVENT'; data: { eventId: string } }
   | { type: 'DUPLICATE_EVENT'; data: VEvent }
-  | { type: 'LOCK_EVENT' }
+  | { type: 'DRAFT_EVENT'; data: null }
   | { type: 'OPEN_EVENT' }
+  | { type: 'LOCK_EVENT'; data: VEvent }
   | { type: 'ARCHIVE_EVENT' }
   | { type: 'CONFIRM_STATUS_CHANGE' }
   | { type: 'CANCEL_STATUS_CHANGE' }
@@ -66,11 +67,12 @@ const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
     idle: {
       entry: 'spawnSignUpsObservable',
       on: {
+        DRAFT_EVENT: { actions: 'clearError', target: 'draftingEvent' },
         OPEN_EVENT: {
-          target: 'confirmingUnlockEvent',
+          target: 'publishingEvent',
         },
         LOCK_EVENT: {
-          target: 'confirmingLockEvent',
+          target: 'lockingEvent',
         },
         ARCHIVE_EVENT: {
           target: 'confirmingArchiveEvent',
@@ -84,39 +86,12 @@ const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
       },
     },
 
-    confirmingLockEvent: {
-      always: { target: 'idle', cond: 'eventIsLockedOrArchived' },
-      on: {
-        CONFIRM_STATUS_CHANGE: {
-          target: 'lockingEvent',
-        },
-        CANCEL_STATUS_CHANGE: {
-          target: 'idle',
-        },
-      },
-    },
-
-    confirmingUnlockEvent: {
-      always: { target: 'idle', cond: 'eventIsUnlockedOrArchived' },
-      on: {
-        CONFIRM_STATUS_CHANGE: {
-          target: 'unlockingEvent',
-        },
-        CANCEL_STATUS_CHANGE: {
-          target: 'idle',
-        },
-      },
-    },
-
-    confirmingArchiveEvent: {
-      always: { target: 'idle', cond: 'eventIsUnlockedOrArchived' },
-      on: {
-        CONFIRM_STATUS_CHANGE: {
-          target: 'archivingEvent',
-        },
-        CANCEL_STATUS_CHANGE: {
-          target: 'idle',
-        },
+    publishingEvent: {
+      invoke: {
+        id: 'eventPublisher',
+        src: 'eventPublisher',
+        onDone: { actions: 'setSelectedEvent', target: 'idle' },
+        onError: { actions: 'setError', target: 'idle' },
       },
     },
 
@@ -130,12 +105,15 @@ const config: MachineConfig<EventShowCtx, any, EventShowEvt> = {
       },
     },
 
-    unlockingEvent: {
-      invoke: {
-        id: 'eventLocker',
-        src: 'eventLocker',
-        onDone: { actions: 'setSelectedEvent', target: 'idle' },
-        onError: { actions: 'setError', target: 'idle' },
+    confirmingArchiveEvent: {
+      always: { target: 'idle', cond: 'eventIsArchived' },
+      on: {
+        CONFIRM_STATUS_CHANGE: {
+          target: 'archivingEvent',
+        },
+        CANCEL_STATUS_CHANGE: {
+          target: 'idle',
+        },
       },
     },
 

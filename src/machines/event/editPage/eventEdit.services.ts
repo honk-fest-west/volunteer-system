@@ -20,6 +20,22 @@ function initServices(db) {
       );
       return setDoc(eventRef, event);
     },
+    eventDrafter: (ctx: EventEditCtx) => {
+      const event = ctx.selectedEvent;
+      event.status = 'draft';
+      const eventRef = doc(db, 'events', event.id).withConverter(
+        VEvent.firebaseConverter()
+      );
+      return setDoc(eventRef, event);
+    },
+    eventPreviewer: (ctx: EventEditCtx) => {
+      const event = ctx.selectedEvent;
+      event.status = 'preview';
+      const eventRef = doc(db, 'events', event.id).withConverter(
+        VEvent.firebaseConverter()
+      );
+      return setDoc(eventRef, event);
+    },
     eventPublisher: (ctx: EventEditCtx) => {
       const event = ctx.selectedEvent;
       event.status = 'open';

@@ -25,7 +25,7 @@ export type EventCollection = {
   [key: string]: VEvent;
 };
 
-export type EventStatus = 'draft' | 'open' | 'locked' | 'archived';
+export type EventStatus = 'draft' | 'preview' | 'open' | 'locked' | 'archived';
 export interface Shift {
   id: string;
   createdAt: Timestamp;

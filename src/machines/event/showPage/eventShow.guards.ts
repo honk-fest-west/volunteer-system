@@ -1,6 +1,9 @@
 import type { EventShowCtx } from './eventShow.machine';
 
 export const guards = {
-  isLoaded: (ctx: EventShowCtx) =>
-    !!ctx.selectedEvent && !!ctx.volunteerJobShifts,
+  eventIsArchived: (ctx: EventShowCtx) =>
+    ctx.selectedEvent?.status === 'archived',
+  eventIsLockedOrArchived: (ctx: EventShowCtx) =>
+    ctx.selectedEvent?.status === 'locked' ||
+    ctx.selectedEvent?.status === 'archived',
 };
