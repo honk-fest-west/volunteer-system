@@ -8,14 +8,6 @@
   import show from './show.svelte';
   import { useAuth } from '$machines/auth';
 
-  // getContext<{state: any, send: any}>('authMachine').state.on('done.signIn', () => {
-
-  //   setContext('shiftMachine', {
-  //     state: interpret(createShiftMachine()).start(),
-  //     send: (...args) => getContext('authMachine').state.send(...args),
-  //   });
-  // });
-
   const { state } = useAuth();
   $: if ($state.context?.user?.uid) {
     const shiftMachine = createShiftMachine($state.context.user);

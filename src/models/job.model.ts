@@ -28,31 +28,6 @@ export class Job {
     return job;
   }
 
-  get totalSlots(): number {
-    return Object.values(this.shifts).reduce(
-      (acc, shift) => acc + shift.slots,
-      0
-    );
-  }
-
-  get totalSignedUp(): number {
-    return Object.values(this.shifts).reduce(
-      (acc, shift) => acc + shift.signedUp,
-      0
-    );
-  }
-
-  get totalShifts(): number {
-    return Object.keys(this.shifts).length;
-  }
-
-  get filledShifts(): number {
-    return Object.values(this.shifts).reduce((acc, shift) => {
-      const { slots, signedUp } = shift;
-      return acc + (slots > signedUp ? 0 : 1);
-    }, 0);
-  }
-
   get sortedShifts(): Shift[] {
     return Object.values(this.shifts).sort(
       (a, b) => a.createdAt?.seconds - b.createdAt?.seconds
