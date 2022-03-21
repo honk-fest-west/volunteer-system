@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { scale } from 'svelte/transition';
+
   export let active = false;
   export let disabled = false;
 </script>

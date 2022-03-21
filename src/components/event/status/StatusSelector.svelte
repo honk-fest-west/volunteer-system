@@ -13,7 +13,7 @@
   const isPreviewDisabled = status !== 'preview' && status !== 'draft';
 
   const isOpenActive = status === 'open';
-  const isOpenDisabled = status === 'archive';
+  const isOpenDisabled = ['draft', 'archive'].includes(status);
 
   const isLockActive = status === 'lock';
   const isLockDisabled = ['draft', 'archive', 'preview'].includes(status);
