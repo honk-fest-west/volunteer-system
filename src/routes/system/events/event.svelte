@@ -24,12 +24,6 @@
   $: confirmOpenStatus = $state.matches('confirmingOpenEvent');
   $: autoSave = $state.context.autoSaveRef;
   $: status = $state.context.selectedEvent?.status;
-  $: console.log(
-    'state',
-    $state.event.type,
-    $state.value,
-    $state.context.selectedEvent?.status
-  );
 
   onMount(() => send('AT.EVENT', { data: { eventId: params.id } }));
 
@@ -60,15 +54,15 @@
   }
 
   function removeJob(e) {
-    send('EVENT.REMOVE_JOB', e.detail);
+    send('EVENT.REMOVE_JOB', { data: e.detail });
   }
 
   function addShift(e) {
-    send('EVENT.ADD_SHIFT', e.detail);
+    send('EVENT.ADD_SHIFT', { data: e.detail });
   }
 
   function removeShift(e) {
-    send('EVENT.REMOVE_SHIFT', e.detail);
+    send('EVENT.REMOVE_SHIFT', { data: e.detail });
   }
 
   function gotoIndex() {
@@ -107,7 +101,7 @@
             on:addjob={addJob}
             on:removejob={removeJob}
             on:addshift={addShift}
-            on:removeshift{removeShift}
+            on:removeshift={removeShift}
           />
         </div>
       {:else}

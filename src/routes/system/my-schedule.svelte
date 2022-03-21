@@ -19,8 +19,6 @@
       send: scheduleState.send,
     });
   }
-
-  $: console.log('scheduleState', $scheduleState.context.schedule);
 </script>
 
 <div in:fade={{ duration: 100 }}>

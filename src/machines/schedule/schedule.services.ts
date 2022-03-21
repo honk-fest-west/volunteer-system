@@ -19,7 +19,6 @@ export const services = {
 function scheduleLoader(ctx: ScheduleCtx): Promise<VEvent[]> {
   return firstValueFrom(
     collectionData(eventsQuery(), { idField: 'id' }).pipe(
-      tap((events) => console.log('events', events)),
       switchMap((events) => eventsToSchedule(events, ctx.user.uid))
     )
   );
@@ -33,17 +32,13 @@ function eventsQuery(): Query<VEvent> {
 }
 
 function eventsToSchedule(events: VEvent[], uid: string): Observable<VEvent[]> {
-  console.log('eventsToSchedule', events, uid);
   return collectionData(
     signUpsQuery(
       uid,
       events.map((e) => e.id)
     ),
     { idField: 'id' }
-  ).pipe(
-    tap((signUps) => console.log('signUps', signUps)),
-    map((signUps) => buildSchedule(events, signUps))
-  );
+  ).pipe(map((signUps) => buildSchedule(events, signUps)));
 }
 
 function signUpsQuery(uid: string, eventIds: string[]): Query<ShiftSignUp> {
