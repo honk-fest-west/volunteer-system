@@ -1,14 +1,12 @@
 <script lang="ts">
   import type { Shift } from '$types';
-  import type { Job } from '$models';
+  import { createEventDispatcher } from 'svelte';
   export let shift: Shift;
-  export let job: Job;
-  export let send;
 
-  function deleteShift() {
-    send('DELETE_SHIFT', {
-      data: { shift, job },
-    });
+  const dispatch = createEventDispatcher();
+
+  function removeShift() {
+    dispatch('removeshift', shift.id);
   }
 </script>
 
@@ -16,7 +14,7 @@
   <div class="mr-4 text-gray-500">
     <button
       class="mt-3 rounded-lg border border-gray-300 flex items-center hover:bg-gray-200"
-      on:click={deleteShift}
+      on:click={removeShift}
     >
       <span class="material-icons"> delete </span>
     </button>

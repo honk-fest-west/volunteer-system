@@ -1,9 +1,11 @@
 <script lang="ts">
   import type { Job } from '$models';
+  import { createEventDispatcher } from 'svelte';
   import ShiftForm from './ShiftForm.svelte';
   import { sortedShifts } from '$models/event.model';
   export let job: Job;
-  export let send;
+
+  const dispatch = createEventDispatcher();
 
   let minimized: boolean =
     !!job.name?.length &&
@@ -11,10 +13,10 @@
     !!Object.values(job.shifts).every((s) => !!s.from && !!s.to);
 
   function addShift() {
-    send('ADD_SHIFT', { data: { job } });
+    dispatch('addshift', job.id);
   }
-  function deleteJob() {
-    send('DELETE_JOB', { data: { job } });
+  function removeJob() {
+    dispatch('removejob', job.id);
   }
 </script>
 
@@ -34,7 +36,7 @@
       {#if !minimized}
         <button
           class="mt-3 rounded-lg border border-gray-300 flex items-center hover:bg-gray-200"
-          on:click={deleteJob}
+          on:click={removeJob}
         >
           <span class="material-icons"> delete </span>
         </button>
@@ -95,7 +97,7 @@
           >
           <div class="mt-4">
             {#each sortedShifts(job.shifts) as shift}
-              <ShiftForm bind:shift {job} {send} />
+              <ShiftForm bind:shift on:removeshift />
             {/each}
             <button
               type="button"

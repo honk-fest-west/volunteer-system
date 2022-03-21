@@ -4,9 +4,9 @@
 
 {#key $autoSave}
   <div class="text-gray-400 font-semibold text-md flex items-center">
-    {#if $autoSave.value === 'waitingChanges'}
+    {#if $autoSave?.value === 'waitingChanges'}
       <p>Saved</p>
-    {:else if autoSave && ['debouncing', 'saving'].some($autoSave.matches)}
+    {:else if $autoSave && ['debouncing', 'saving'].some($autoSave?.matches)}
       <p class="mr-2">Saving</p>
       <svg
         class="animate-spin h-6 w-6"

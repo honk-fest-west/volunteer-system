@@ -1,12 +1,11 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import EventTable from './EventTable.svelte';
   export let event;
 
   const dispatch = createEventDispatcher();
 
   function selectEvent() {
-    dispatch('select', event);
+    dispatch('select', event.id);
   }
 </script>
 
@@ -43,13 +42,13 @@
       >
         Open
       </span>
-    {:else if event.status === 'locked'}
+    {:else if event.status === 'lock'}
       <span
         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"
       >
         Locked
       </span>
-    {:else if event.status === 'archived'}
+    {:else if event.status === 'archive'}
       <span
         class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800"
       >

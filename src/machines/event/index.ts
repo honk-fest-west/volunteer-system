@@ -1,3 +1,1 @@
-export * from './editPage';
-export * from './indexPage';
-export * from './showPage';
+export * from './event.machine';

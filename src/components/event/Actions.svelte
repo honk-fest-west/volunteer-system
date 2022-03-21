@@ -1,14 +1,14 @@
 <script lang="ts">
   import type { VEvent } from '$models';
+  import { createEventDispatcher } from 'svelte';
   import { fly } from 'svelte/transition';
-  export let state;
-  export let send;
-  export let selectedEvent: VEvent;
 
   let eventMenuOpen = false;
 
+  const dispatch = createEventDispatcher();
+
   function duplicateEvent() {
-    send('DUPLICATE_EVENT', { data: selectedEvent });
+    dispatch('duplicate');
   }
 </script>
 

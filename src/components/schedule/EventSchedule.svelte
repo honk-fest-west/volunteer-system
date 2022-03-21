@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { VEvent } from '$models';
+  import { VEvent } from '$models';
   import type { JobSignUpCollection } from '$types';
   import HorizontalLines from './HorizontalLines.svelte';
   import JobsXAxis from './JobsXAxis.svelte';
@@ -10,9 +10,10 @@
   export let selectedEvent: VEvent;
   export let signUps: JobSignUpCollection;
 
-  $: jobs = selectedEvent?.sortedJobs || [];
-  $: date = selectedEvent?.date;
-  $: [startTime, endTime] = selectedEvent?.roundedTimeRange || [0, 0];
+  $: event = VEvent.from(selectedEvent);
+  $: jobs = event.sortedJobs || [];
+  $: date = event.date;
+  $: [startTime, endTime] = event.roundedTimeRange || [0, 0];
 </script>
 
 <div class="flex h-full flex-col">

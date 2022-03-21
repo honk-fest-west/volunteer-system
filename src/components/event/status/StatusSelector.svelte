@@ -13,13 +13,13 @@
   const isPreviewDisabled = status !== 'preview' && status !== 'draft';
 
   const isOpenActive = status === 'open';
-  const isOpenDisabled = status === 'archived';
+  const isOpenDisabled = status === 'archive';
 
-  const isLockActive = status === 'locked';
-  const isLockDisabled = status === 'archived' || status === 'draft';
+  const isLockActive = status === 'lock';
+  const isLockDisabled = ['draft', 'archive', 'preview'].includes(status);
 
-  const isArchiveActive = status === 'archived';
-  const isArchiveDisabled = status === 'draft';
+  const isArchiveActive = status === 'archive';
+  const isArchiveDisabled = ['draft', 'preview'].includes(status);
 
   const dispatch = createEventDispatcher();
 
@@ -71,7 +71,7 @@
         >
       </StatusButton>
       <StatusButton
-        on:click={() => handleClick('locked')}
+        on:click={() => handleClick('lock')}
         active={isLockActive}
         disabled={isLockDisabled}
       >
@@ -84,7 +84,7 @@
         >
       </StatusButton>
       <StatusButton
-        on:click={() => handleClick('archived')}
+        on:click={() => handleClick('archive')}
         active={isArchiveActive}
         disabled={isArchiveDisabled}
       >

@@ -1,14 +1,18 @@
 <script lang="ts">
   import Router from 'svelte-spa-router';
+  import { interpret } from 'xstate';
+  import { setContext } from 'svelte';
   import index from './index.svelte';
-  import edit from './edit.svelte';
-  import show from './show.svelte';
+  import event from './event.svelte';
+  import { eventMachine } from '$machines/event';
+
+  const eventState = interpret(eventMachine).start();
+  setContext('eventMachine', { state: eventState, send: eventState.send });
 
   const prefix = '/system/events';
   const routes = {
     '/': index,
-    '/:id/edit': edit,
-    '/:id': show,
+    '/:id': event,
   };
 </script>
 

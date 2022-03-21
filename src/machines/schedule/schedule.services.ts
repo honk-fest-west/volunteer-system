@@ -28,7 +28,7 @@ function scheduleLoader(ctx: ScheduleCtx): Promise<VEvent[]> {
 function eventsQuery(): Query<VEvent> {
   return query(
     collection(db, 'events'),
-    where('status', '!=', 'archived')
+    where('status', '!=', 'archive')
   ).withConverter(VEvent.firebaseConverter());
 }
 

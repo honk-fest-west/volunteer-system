@@ -1,13 +1,15 @@
 <script lang="ts">
   import type { VEvent } from '$models';
+  import { createEventDispatcher } from 'svelte';
   import { sortedJobs } from '$models/event.model';
 
   import JobForm from './JobForm.svelte';
   export let selectedEvent: VEvent;
-  export let send;
+
+  const dispatch = createEventDispatcher();
 
   function addJob() {
-    send('ADD_JOB');
+    dispatch('addjob');
   }
 </script>
 
@@ -17,7 +19,7 @@
   </div>
   <div class="mt-4">
     {#each sortedJobs(selectedEvent.jobs) as job}
-      <JobForm bind:job {send} />
+      <JobForm bind:job on:addshift on:removejob on:removeshift />
     {/each}
     <button
       type="button"
