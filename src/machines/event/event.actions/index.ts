@@ -62,7 +62,7 @@ export const actions = {
   clearSelectedEvent: assign({
     selectedEventId: () => null,
     selectedEvent: () => null,
-    signUps: () => {},
+    signUps: () => ({}),
   }),
 
   setError: assign({

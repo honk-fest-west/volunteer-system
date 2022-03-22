@@ -34,9 +34,6 @@ export interface Shift {
   location: string | null;
   slots: number;
   signedUp: number;
-  // selected: boolean; // not saved to firestore
-  // conflict: boolean; // not saved to firestore
-  // signUpId: string; // not saved to firestore
 }
 
 export type JobSignUpCollection = {

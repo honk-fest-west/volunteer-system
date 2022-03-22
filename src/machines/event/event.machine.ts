@@ -1,6 +1,6 @@
 import type { VEvent, ShiftSignUp } from '$models';
 import type { JobSignUpCollection } from '$types';
-import { createMachine, type MachineConfig } from 'xstate';
+import { createMachine, assign, type MachineConfig } from 'xstate';
 
 import { actions } from './event.actions';
 import { services } from './event.services';
