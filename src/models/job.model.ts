@@ -1,7 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import type { Shifts, Shift, JobSignUpCollection } from '$types';
 import { Timestamp } from 'firebase/firestore';
-import type { ShiftSignUp } from '$models';
 
 export class Job {
   id: string;
@@ -9,7 +8,6 @@ export class Job {
   color: string;
   name: string | null;
   description: string | null;
-  location: string | null;
   shifts: Shifts;
 
   constructor() {
@@ -17,7 +15,6 @@ export class Job {
     this.createdAt = Timestamp.now();
     this.name = null;
     this.description = null;
-    this.location = null;
     this.shifts = {};
     this.color = this.getRandomDarkColor(); //'#' + Math.floor(Math.random() * 16777215).toString(16);
   }

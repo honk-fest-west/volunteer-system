@@ -72,12 +72,15 @@ export const draftActions = {
   }),
 
   validateEvent: assign({
-    error: ({ selectedEvent: { name, date, jobs } }: EventCtx) => {
+    error: ({ selectedEvent: { name, date, location, jobs } }: EventCtx) => {
       if (!name?.length) {
         return 'Event Name is Required' as string;
       }
       if (!date) {
         return 'Event Date is Required' as string;
+      }
+      if (!location?.length) {
+        return 'Event Location is Required' as string;
       }
       if (!Object.values(jobs || {}).length) {
         return 'At least one Job is Required' as string;

@@ -5,9 +5,6 @@ import type { VEvent } from '$models';
 const { cancel, send } = actions;
 
 const DEBOUNCE_DELAY = 3000;
-interface AutoSaveCtx {
-  selectedEvent: VEvent | null;
-}
 
 type AutoSaveEvt =
   | { type: 'EVENT_CHANGED'; selectedEvent: VEvent }

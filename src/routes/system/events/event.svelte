@@ -109,7 +109,11 @@
           <div class="bg-white space-y-6 divide-y divide-gray-200">
             <StatusSelector {status} on:changeStatus={handleStatusChange} />
             <Errors {error} />
-            <Details name={selectedEvent.name} date={selectedEvent.date} />
+            <Details
+              name={selectedEvent.name}
+              location={selectedEvent.location}
+              date={selectedEvent.date}
+            />
             <EventSchedule {selectedEvent} {signUps} />
           </div>
         {/key}

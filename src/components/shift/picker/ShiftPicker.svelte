@@ -109,6 +109,7 @@
                       <SelectShift
                         {selectableShift}
                         {disabled}
+                        eventLocation={selectedEvent.location}
                         on:signUp={signUp}
                         on:unsignUp={unsignUp}
                       />

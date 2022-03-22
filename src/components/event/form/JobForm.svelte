@@ -4,6 +4,7 @@
   import ShiftForm from './ShiftForm.svelte';
   import { sortedShifts } from '$models/event.model';
   export let job: Job;
+  export let location: string;
 
   const dispatch = createEventDispatcher();
 
@@ -60,22 +61,7 @@
             bind:value={job.name}
           />
         </div>
-        <div class="col-span-6 sm:col-span-3">
-          <label for="location" class="block text-sm font-medium text-gray-700"
-            >Location</label
-          >
-          <input
-            type="text"
-            name="job-location"
-            autocomplete="job-location"
-            class="mt-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-            bind:value={job.location}
-          />
-          <p class="mt-2 text-sm text-gray-500">
-            Set here to apply to all shifts. Can be overridden by an individual
-            Shift's location.
-          </p>
-        </div>
+
         <div class="col-span-6">
           <label
             for="description"
@@ -97,7 +83,7 @@
           >
           <div class="mt-4">
             {#each sortedShifts(job.shifts) as shift}
-              <ShiftForm bind:shift on:removeshift />
+              <ShiftForm bind:shift {location} on:removeshift />
             {/each}
             <button
               type="button"

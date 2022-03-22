@@ -19,6 +19,7 @@ export class VEvent {
   status: EventStatus;
   name: string | null;
   date: string | null;
+  location: string | null;
   description: string | null;
   jobs: Jobs;
   createdAt: Timestamp;
@@ -28,6 +29,7 @@ export class VEvent {
     this.status = 'draft';
     this.name = null;
     this.date = null;
+    this.location = null;
     this.description = null;
     this.jobs = {};
     this.createdAt = Timestamp.now();

@@ -10,6 +10,7 @@
     checked: boolean;
   };
   export let disabled = true;
+  export let eventLocation;
 
   $: shift = selectableShift.shift;
   $: signUpId = selectableShift.signUpId;
@@ -56,7 +57,7 @@
         >{shortTime(shift.from)} to {shortTime(shift.to)}</label
       >
       <p id="candidates-description" class="text-gray-500">
-        {shift.location}
+        {shift.location || eventLocation}
       </p>
     </div>
   </div>

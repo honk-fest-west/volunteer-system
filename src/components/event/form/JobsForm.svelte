@@ -19,7 +19,13 @@
   </div>
   <div class="mt-4">
     {#each sortedJobs(selectedEvent.jobs) as job}
-      <JobForm bind:job on:addshift on:removejob on:removeshift />
+      <JobForm
+        bind:job
+        location={selectedEvent.location}
+        on:addshift
+        on:removejob
+        on:removeshift
+      />
     {/each}
     <button
       type="button"
