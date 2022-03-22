@@ -154,7 +154,7 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
           target: 'validatingEvent',
         },
         'EVENT.SAVE': {
-          actions: 'saveEvent',
+          actions: ['clearError', 'saveEvent'],
         },
         'EVENT.ADD_JOB': {
           actions: ['clearError', 'addJob', 'saveEvent'],
@@ -169,11 +169,12 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
           actions: ['clearError', 'removeShift', 'saveEvent'],
         },
         'EVENT.DUPLICATE': {
+          actions: 'clearError',
           target: 'duplicatingEvent',
         },
         'GOTO.INDEX': {
           target: 'listingEvents',
-          actions: 'gotoIndex',
+          actions: ['clearError', 'gotoIndex'],
         },
       },
       invoke: {
