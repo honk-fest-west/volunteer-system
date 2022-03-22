@@ -125,6 +125,8 @@ export class VEvent {
     event.id = newId;
     event.name = `${this.name} (copy)`;
     event.status = 'draft';
+    event.createdAt = Timestamp.now();
+    event.updatedAt = Timestamp.now();
     return event;
   }
 

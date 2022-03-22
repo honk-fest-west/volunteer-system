@@ -1,5 +1,5 @@
 import type { EventCtx } from './event.machine';
-import { doc, collection, getDoc, setDoc } from 'firebase/firestore';
+import { doc, collection, getDoc, setDoc, Timestamp } from 'firebase/firestore';
 import { db } from '$config/firebase';
 import { VEvent } from '$models';
 
@@ -21,13 +21,14 @@ function eventUpdater({ selectedEvent }: EventCtx) {
   const eventRef = doc(db, 'events', selectedEvent.id).withConverter(
     VEvent.firebaseConverter()
   );
-  return setDoc(eventRef, selectedEvent);
+
+  return setDoc(eventRef, { ...selectedEvent, updatedAt: Timestamp.now() });
 }
 
 function eventDuplicator({ selectedEvent }: EventCtx) {
   const eventsRef = doc(collection(db, 'events')).withConverter(
     VEvent.firebaseConverter()
   );
-  const newEvent = selectedEvent.duplicate(eventsRef.id);
-  return setDoc(eventsRef, newEvent).then(() => newEvent);
+  const newEvent = VEvent.from(selectedEvent).duplicate(eventsRef.id);
+  return setDoc(eventsRef, newEvent).then(() => newEvent.id);
 }

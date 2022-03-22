@@ -312,8 +312,8 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
         id: 'eventDuplicator',
         src: 'eventDuplicator',
         onDone: {
-          actions: 'setSelectedEventId',
-          target: 'listingEvents',
+          actions: ['setSelectedEventId', 'gotoEvent'],
+          target: 'loadingSelectedEvent',
         },
         onError: {
           actions: ['setError', 'gotoIndex'],
