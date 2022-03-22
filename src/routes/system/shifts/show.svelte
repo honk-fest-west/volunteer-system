@@ -16,7 +16,11 @@
   $: error = $state.context?.error;
   $: selectedJobId = $state.context?.selectedJobId;
   $: signUps = $state.context?.signUps;
-  $: disableShiftPicker = !$state.matches('show');
+  $: disableShiftPicker = [
+    'show.signingUp',
+    'show.unsigningUp',
+    'show.updateEvent',
+  ].some($state.matches);
 
   onMount(() => send('SHOW.AT', { data: params.id }));
 

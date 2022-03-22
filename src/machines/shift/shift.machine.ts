@@ -94,6 +94,7 @@ export function createShiftMachine(
               actions: 'setEvents',
             },
           },
+          exit: 'stopEventsObservable',
         },
         show: {
           entry: ['spawnSelectedEventObservable', 'spawnSignUpsObservable'],
@@ -102,64 +103,77 @@ export function createShiftMachine(
               actions: 'gotoIndex',
               target: 'index',
             },
-            'SHOW.SELECT_JOB': {
-              actions: 'setSelectedJobId',
-            },
-            'SELECTED_EVENT.UPDATE': {
-              actions: 'setSelectedEvent',
-            },
             'SIGN_UPS.UPDATE': {
               actions: 'setSignUps',
             },
-            'SHOW.SIGN_UP': {
-              target: 'signingUp',
+          },
+          initial: 'idle',
+          states: {
+            idle: {
+              on: {
+                'SHOW.SELECT_JOB': {
+                  actions: 'setSelectedJobId',
+                },
+                'SELECTED_EVENT.UPDATE': {
+                  actions: 'setSelectedEvent',
+                },
+
+                'SHOW.SIGN_UP': {
+                  target: 'signingUp',
+                },
+                'SHOW.UNSIGN_UP': {
+                  target: 'unsigningUp',
+                },
+                'SHOW.CLEAR_SELECTED_JOB': {
+                  actions: 'clearSelectedJobId',
+                },
+              },
             },
-            'SHOW.UNSIGN_UP': {
-              target: 'unsigningUp',
+            signingUp: {
+              invoke: {
+                id: 'signUpAdder',
+                src: 'signUpAdder',
+                onDone: {
+                  target: 'idle',
+                },
+                onError: {
+                  actions: 'setError',
+                  target: 'idle',
+                },
+              },
             },
-            'SHOW.CLEAR_SELECTED_JOB': {
-              actions: 'clearSelectedJobId',
+            unsigningUp: {
+              invoke: {
+                id: 'signUpRemover',
+                src: 'signUpRemover',
+                onDone: {
+                  target: 'idle',
+                },
+                onError: {
+                  actions: 'setError',
+                  target: 'idle',
+                },
+              },
+            },
+            updateEvent: {
+              invoke: {
+                id: 'eventUpdater',
+                src: 'eventUpdater',
+                onDone: {
+                  target: 'idle',
+                },
+                onError: {
+                  actions: 'setError',
+                  target: 'idle',
+                },
+              },
             },
           },
-        },
-        signingUp: {
-          invoke: {
-            id: 'signUpAdder',
-            src: 'signUpAdder',
-            onDone: {
-              target: 'show',
-            },
-            onError: {
-              actions: 'setError',
-              target: 'show',
-            },
-          },
-        },
-        unsigningUp: {
-          invoke: {
-            id: 'signUpRemover',
-            src: 'signUpRemover',
-            onDone: {
-              target: 'show',
-            },
-            onError: {
-              actions: 'setError',
-              target: 'show',
-            },
-          },
-        },
-        updateEvent: {
-          invoke: {
-            id: 'eventUpdater',
-            src: 'eventUpdater',
-            onDone: {
-              target: 'show',
-            },
-            onError: {
-              actions: 'setError',
-              target: 'show',
-            },
-          },
+          exit: [
+            'stopSelectedEventObservable',
+            'stopSignUpsObservable',
+            () => console.log('SHOW.EXIT'),
+          ],
         },
       },
     },

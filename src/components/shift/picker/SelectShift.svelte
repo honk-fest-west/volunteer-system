@@ -11,12 +11,15 @@
   };
   export let disabled = true;
 
-  const dispatch = createEventDispatcher();
   $: shift = selectableShift.shift;
   $: signUpId = selectableShift.signUpId;
   $: checked = selectableShift.checked;
 
+  const dispatch = createEventDispatcher();
+  let focused = false;
+
   function handleChange() {
+    focused = true;
     if (signUpId) {
       dispatch('unsignUp', { shiftId: shift.id, signUpId: signUpId });
     } else {
@@ -28,17 +31,22 @@
 {#if shift}
   <div class="relative flex items-start py-4">
     <div class="flex items-center h-5">
-      {#if disabled}
-        <Square size="16" color="#4338CA" />
+      {#if focused && disabled}
+        <div on:mouseleave={() => (focused = false)}>
+          <Square size="16" color="#4338CA" />
+        </div>
       {:else}
         <input
-          id="candidates"
-          aria-describedby="candidates-description"
-          name="candidates"
+          id={`shift-checkbox-${shift.id}`}
+          aria-describedby={`${shortTime(shift.from)} to ${shortTime(
+            shift.to
+          )}`}
+          name={`shift-checkbox-${shift.id}`}
           type="checkbox"
           class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
           bind:checked
           on:click={handleChange}
+          on:mouseleave={() => (focused = false)}
           {disabled}
         />
       {/if}

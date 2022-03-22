@@ -14,7 +14,7 @@
   });
 
   function showEvent(e) {
-    send('INDEX.GOTO_SHOW', { data: e.detail.id });
+    send('INDEX.GOTO_SHOW', { data: e.detail });
   }
 </script>
 

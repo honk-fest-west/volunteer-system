@@ -1,4 +1,5 @@
 import type { ShiftCtx, ShiftEvt } from './shift.machine';
+import { stop } from 'xstate/lib/actions';
 import { createEventsObservable } from '$machines/events.observable';
 import { createSelectedEventObservable } from '$machines/selectedEvent.observable';
 import { push } from 'svelte-spa-router';
@@ -9,14 +10,21 @@ export const actions = {
   spawnEventsObservable: assign({
     eventsRef: () => spawn(createEventsObservable(['open'])),
   }),
+  stopEventsObservable: stop(({ eventsRef }: ShiftCtx) => eventsRef),
+
   spawnSelectedEventObservable: assign({
     selectedEventRef: (ctx: ShiftCtx) =>
       spawn(createSelectedEventObservable(ctx.selectedEventId)),
   }),
+  stopSelectedEventObservable: stop(
+    ({ selectedEventRef }: ShiftCtx) => selectedEventRef
+  ),
+
   spawnSignUpsObservable: assign({
     signUpsRef: (ctx: ShiftCtx) =>
       spawn(createSignUpsObservable(ctx.selectedEventId, ctx.user.uid)),
   }),
+  stopSignUpsObservable: stop(({ signUpsRef }: ShiftCtx) => signUpsRef),
 
   setSelectedEventId: assign({
     selectedEventId: (ctx: ShiftCtx, evt: ShiftEvt) => {
