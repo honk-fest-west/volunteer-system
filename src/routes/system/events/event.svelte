@@ -114,7 +114,9 @@
               location={selectedEvent.location}
               date={selectedEvent.date}
             />
-            <EventSchedule {selectedEvent} {signUps} />
+            {#key signUps}
+              <EventSchedule {selectedEvent} {signUps} />
+            {/key}
           </div>
         {/key}
       {/if}

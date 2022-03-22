@@ -38,10 +38,6 @@ export const actions = {
       return evt.data;
     },
   }),
-  clearSelectedEvent: assign({
-    selectedEvent: () => null,
-    selectedEventId: () => null,
-  }),
 
   setSignUps: assign({
     signUps: (ctx: EventCtx, evt: EventEvt) => {
@@ -61,6 +57,12 @@ export const actions = {
         return newAcc;
       }, {});
     },
+  }),
+
+  clearSelectedEvent: assign({
+    selectedEventId: () => null,
+    selectedEvent: () => null,
+    signUps: () => {},
   }),
 
   setError: assign({
