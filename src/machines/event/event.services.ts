@@ -22,7 +22,10 @@ function eventUpdater({ selectedEvent }: EventCtx) {
     VEvent.firebaseConverter()
   );
 
-  return setDoc(eventRef, { ...selectedEvent, updatedAt: Timestamp.now() });
+  return setDoc(
+    eventRef,
+    VEvent.from({ ...selectedEvent, updatedAt: Timestamp.now() })
+  );
 }
 
 function eventDuplicator({ selectedEvent }: EventCtx) {
