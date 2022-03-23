@@ -7,7 +7,7 @@
   const dispatch = createEventDispatcher();
 
   function selectJob(jobId: string) {
-    dispatch('selectjob', jobId);
+    dispatch('selectjob', { jobId, shiftIds: [] });
   }
 </script>
 

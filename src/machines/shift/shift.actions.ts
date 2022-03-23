@@ -28,7 +28,7 @@ export const actions = {
   stopSignUpsObservable: stop(({ signUpsRef }: ShiftCtx) => signUpsRef),
 
   spawnCommentSaver: assign({
-    commentSaverRef: ({ selectedEventId }: ShiftCtx) => {
+    commentSaverRef: ({ selectedEventId, commentSaverRef }: ShiftCtx) => {
       return spawn(
         commentSaverMachine.withContext({
           selectedEventId,

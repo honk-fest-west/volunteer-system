@@ -17,6 +17,10 @@
   function nextPage() {
     dispatch('nextschedulepage');
   }
+
+  function selectJob(jobId: string) {
+    dispatch('selectjob', { jobId, shiftIds: [] });
+  }
 </script>
 
 <div
@@ -46,15 +50,16 @@
     {/if}
   </div>
   {#each jobs as job}
-    <div
-      class="flex items-center justify-center py-3 opacity-80"
+    <button
+      on:click={selectJob(job.id)}
+      class="flex items-center justify-center py-3 opacity-80 hover:opacity-100"
       style="background-color: {job.color}"
     >
       <span
         class="items-center justify-center font-semibold text-white text-center"
         >{job.name}</span
       >
-    </div>
+    </button>
   {/each}
   <div
     class="w-14 flex items-center justify-center"

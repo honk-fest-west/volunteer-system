@@ -20,8 +20,8 @@
 
   const color = job.color;
 
-  function selectJob() {
-    dispatch('selectjob', job.id);
+  function selectJob(shiftId) {
+    dispatch('selectjob', { jobId: job.id, shiftIds: [shiftId] });
   }
 </script>
 
@@ -36,7 +36,7 @@
       {color}
       {date}
       from={timeToInt(shift.from)}
-      on:click={selectJob}
+      on:click={() => selectJob(shift.id)}
     />
   </ShiftPosition>
 {/each}

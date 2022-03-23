@@ -71,6 +71,7 @@ export function createShiftMachine(
         signUpsRef: null,
         commentSaverRef: null,
       },
+
       on: {
         'INDEX.AT': {
           target: 'index',
@@ -86,7 +87,6 @@ export function createShiftMachine(
           on: {
             'INDEX.GOTO_SHOW': {
               actions: ['gotoShow', 'setSelectedEventId'],
-              target: 'show',
             },
             'EVENTS.UPDATE': {
               actions: 'setEvents',
@@ -103,7 +103,6 @@ export function createShiftMachine(
           on: {
             'SHOW.GOTO_INDEX': {
               actions: 'gotoIndex',
-              target: 'index',
             },
             'SIGN_UPS.UPDATE': {
               actions: 'setSignUps',

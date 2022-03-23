@@ -28,6 +28,7 @@
   $: autoSave = $state.context.autoSaveRef;
   $: status = $state.context.selectedEvent?.status;
   $: selectedJobId = $state.context.selectedJobId;
+  $: selectedShiftIds = $state.context.selectedShiftIds;
   $: currentPage = $state.context.schedulePage;
   $: allowPrevPage = $state.can('SCHEDULE.PREV_PAGE');
   $: allowNextPage = $state.can('SCHEDULE.NEXT_PAGE');
@@ -160,7 +161,8 @@
   on:close={closeScheduleInfo}
   {selectedEvent}
   {selectedJobId}
-  {signUps}
+  {selectedShiftIds}
+  signUps={signUps[selectedJobId] || {}}
 />
 
 {#if confirmOpenStatus}

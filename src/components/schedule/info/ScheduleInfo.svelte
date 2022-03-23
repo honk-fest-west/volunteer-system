@@ -1,17 +1,15 @@
 <script lang="ts">
-  import type { JobSignUpCollection } from '$types';
+  import type { ShiftSignUp, VEvent } from '$models';
   import { createEventDispatcher } from 'svelte';
   import { fly } from 'svelte/transition';
-  // import { Job, type VEvent } from '$models';
-  import type { VEvent } from '$models';
+  import ScheduleInfoShift from './ScheduleInfoShift.svelte';
 
   export let selectedEvent: VEvent;
   export let selectedJobId: string;
-  export let signUps: JobSignUpCollection;
-  // export let disabled = true;
+  export let selectedShiftIds: string[];
+  export let signUps: { [shiftId: string]: ShiftSignUp[] };
 
   $: job = selectedEvent?.jobs[selectedJobId];
-  // $: shifts = job ? Job.from(job).selectableShifts(signUps) : [];
 
   const dispatch = createEventDispatcher();
 
@@ -38,9 +36,7 @@
           class="pointer-events-auto w-screen max-w-md"
           transition:fly={{ x: 100, duration: 100 }}
         >
-          <div
-            class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl"
-          >
+          <div class="flex h-full flex-col bg-white shadow-xl">
             <div
               class="py-6 px-4 sm:px-6"
               style="background-color: {job.color};"
@@ -84,23 +80,20 @@
                 </p>
               </div>
             </div>
-            <div class="relative flex-1 py-6 px-4 sm:px-6">
+            <div class="relative flex-1 py-6 px-4 sm:px-6 overflow-y-scroll">
               <div class="absolute inset-0 py-6 px-4 sm:px-6">
-                <fieldset class="border-t border-b border-gray-200">
-                  <legend class="sr-only">Select Shifts</legend>
-                  <div class="divide-y divide-gray-200">
-                    <!-- {#each shifts as selectableShift}
-                      <SelectShift
-                        {selectableShift}
-                        {disabled}
-                        eventLocation={selectedEvent.location}
-                        on:signUp={signUp}
-                        on:unsignUp={unsignUp}
-                        on:comment
+                <div class="border-t border-b border-gray-200">
+                  <legend class="sr-only">Shift Sign Ups</legend>
+                  <div class="divide-y divide-gray-200 ">
+                    {#each Object.values(job.shifts) as shift}
+                      <ScheduleInfoShift
+                        {shift}
+                        selected={selectedShiftIds.includes(shift.id)}
+                        signUps={signUps[shift.id] || []}
                       />
-                    {/each} -->
+                    {/each}
                   </div>
-                </fieldset>
+                </div>
               </div>
             </div>
           </div>

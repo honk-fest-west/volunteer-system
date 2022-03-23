@@ -23,7 +23,7 @@ export const commentSaverMachine = createMachine<
   CommentSaverEvt
 >(
   {
-    id: 'autoSave',
+    id: 'commentSaver',
     initial: 'waitingChanges',
     context: {
       selectedEventId: null,

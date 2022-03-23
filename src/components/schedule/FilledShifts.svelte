@@ -42,8 +42,9 @@
     return acc;
   }, [] as Array<{ from: number; to: number; signUps: ShiftSignUp[] }>);
 
-  function selectJob() {
-    dispatch('selectjob', job.id);
+  function selectJob(signUps) {
+    const shiftIds = signUps.map((signUp) => signUp.shiftId);
+    dispatch('selectjob', { jobId: job.id, shiftIds });
   }
 </script>
 
@@ -59,7 +60,7 @@
       {date}
       from={shiftSignUps.from}
       signUps={shiftSignUps.signUps}
-      on:click={selectJob}
+      on:click={() => selectJob(shiftSignUps.signUps)}
     />
   </ShiftPosition>
 {/each}

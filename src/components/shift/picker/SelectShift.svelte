@@ -62,7 +62,7 @@
       <label for="candidates" class="font-medium text-gray-700"
         >{shortTime(shift.from)} to {shortTime(shift.to)}</label
       >
-      <p id="candidates-description" class="text-gray-500">
+      <p class="text-gray-500">
         {shift.location || eventLocation}
       </p>
       {#if checked}

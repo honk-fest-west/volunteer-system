@@ -32,6 +32,7 @@
         {jobs}
         {allowPrevPage}
         {allowNextPage}
+        on:selectjob
         on:prevschedulepage
         on:nextschedulepage
       />

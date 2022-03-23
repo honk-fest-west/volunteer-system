@@ -1,11 +1,18 @@
 import { assign } from 'xstate';
-import type { EventEvt } from '../event.machine';
+import type { EventCtx, EventEvt } from '../event.machine';
 
 export const scheduleActions = {
-  setSelectedJobId: assign({
-    selectedJobId: (_ctx, evt: EventEvt) => evt.data,
+  setSelectedJobShiftIds: assign({
+    selectedJobId: (ctx: EventCtx, evt: EventEvt) => {
+      if (evt.type !== 'SCHEDULE.SHOW_INFO') return ctx.selectedJobId;
+      return evt.data.jobId;
+    },
+    selectedShiftIds: (ctx: EventCtx, evt: EventEvt) => {
+      if (evt.type !== 'SCHEDULE.SHOW_INFO') return ctx.selectedShiftIds;
+      return evt.data.shiftIds;
+    },
   }),
-  clearSelectedJobId: assign({
+  clearSelectedJobShiftIds: assign({
     selectedJobId: (_ctx, evt: EventEvt) => null,
   }),
   prevSchedulePage: assign({
