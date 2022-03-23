@@ -52,7 +52,7 @@
       >
         <div
           class="pointer-events-auto w-screen max-w-md"
-          transition:fly={{ x: 100, duration: 300 }}
+          transition:fly={{ x: 100, duration: 100 }}
         >
           <div
             class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl"
