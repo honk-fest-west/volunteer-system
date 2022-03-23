@@ -1,12 +1,9 @@
 <script lang="ts">
-  import Actions from '$components/event/Actions.svelte';
   import type { Job, ShiftSignUp } from '$models';
+  import { createEventDispatcher } from 'svelte';
   import ShiftPosition from './ShiftPosition.svelte';
   import { timeToInt } from '$util';
-  import FilledShiftContent from './FilledShiftContent.svelte';
-  import { mapValues } from 'xstate/lib/utils';
   import OpenShiftContent from './OpenShiftContent.svelte';
-  import type { Shift } from '$types';
 
   export let date: string;
   export let job: Job;
@@ -14,6 +11,7 @@
   export let startTime: number;
   export let jobSignUps: { [shiftId: string]: ShiftSignUp[] };
 
+  const dispatch = createEventDispatcher();
   const filledShiftIds = Object.keys(jobSignUps);
 
   const openShifts = Object.values(job.shifts).filter(
@@ -21,6 +19,10 @@
   );
 
   const color = job.color;
+
+  function selectJob() {
+    dispatch('selectjob', job.id);
+  }
 </script>
 
 {#each openShifts as shift}
@@ -30,6 +32,11 @@
     from={timeToInt(shift.from)}
     to={timeToInt(shift.to)}
   >
-    <OpenShiftContent {color} {date} from={timeToInt(shift.from)} />
+    <OpenShiftContent
+      {color}
+      {date}
+      from={timeToInt(shift.from)}
+      on:click={selectJob}
+    />
   </ShiftPosition>
 {/each}

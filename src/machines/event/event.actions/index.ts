@@ -4,12 +4,14 @@ import { draftActions } from './draft.actions';
 import { gotoActions } from './goto.actions';
 import { spawnActions } from './spawn.actions';
 import { statusActions } from './status.actions';
+import { scheduleActions } from './schedule.actions';
 
 export const actions = {
   ...draftActions,
   ...gotoActions,
   ...spawnActions,
   ...statusActions,
+  ...scheduleActions,
 
   setEvents: assign({
     events: (ctx: EventCtx, evt: EventEvt) => {

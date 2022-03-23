@@ -1,11 +1,9 @@
 <script lang="ts">
-  import Actions from '$components/event/Actions.svelte';
   import type { Job, ShiftSignUp } from '$models';
+  import { createEventDispatcher } from 'svelte';
   import ShiftPosition from './ShiftPosition.svelte';
   import { timeToInt } from '$util';
   import FilledShiftContent from './FilledShiftContent.svelte';
-  import { mapValues } from 'xstate/lib/utils';
-  import OpenShiftContent from './OpenShiftContent.svelte';
 
   export let date: string;
   export let job: Job;
@@ -13,6 +11,7 @@
   export let startTime: number;
   export let jobSignUps: { [shiftId: string]: ShiftSignUp[] };
 
+  const dispatch = createEventDispatcher();
   const color = job.color;
   const shiftSignUps = Object.entries(jobSignUps);
   const mergedShiftSignUps = shiftSignUps.reduce((acc, [shiftId, signUps]) => {
@@ -39,6 +38,10 @@
     }
     return acc;
   }, [] as Array<{ from: number; to: number; signUps: ShiftSignUp[] }>);
+
+  function selectJob() {
+    dispatch('selectjob', job.id);
+  }
 </script>
 
 {#each mergedShiftSignUps as shiftSignUps}
@@ -53,6 +56,7 @@
       {date}
       from={shiftSignUps.from}
       signUps={shiftSignUps.signUps}
+      on:click={selectJob}
     />
   </ShiftPosition>
 {/each}

@@ -13,6 +13,7 @@
   import AutoSave from '$components/event/form/AutoSave.svelte';
   import JobsForm from '$components/event/form/JobsForm.svelte';
   import ConfirmationModal from '$components/event/form/ConfirmationModal.svelte';
+  import ScheduleInfo from '$components/schedule/info/ScheduleInfo.svelte';
   export let params: { id?: string } = {};
 
   const { state, send } = getContext('eventMachine');
@@ -20,10 +21,13 @@
   $: selectedEvent = $state.context.selectedEvent;
   $: error = $state.context.error;
   $: signUps = $state.context.signUps;
-  $: confirmingArchiveStatus = $state.matches('confirmingArchiveEvent');
-  $: confirmOpenStatus = $state.matches('confirmingOpenEvent');
+  $: confirmingArchiveStatus = $state.matches(
+    'viewingEvent.confirmingArchiveEvent'
+  );
+  $: confirmOpenStatus = $state.matches('viewingEvent.confirmingOpenEvent');
   $: autoSave = $state.context.autoSaveRef;
   $: status = $state.context.selectedEvent?.status;
+  $: selectedJobId = $state.context.selectedJobId;
 
   onMount(() => send('AT.EVENT', { data: params.id }));
 
@@ -67,6 +71,15 @@
 
   function gotoIndex() {
     send('GOTO.INDEX');
+  }
+
+  function selectJob(e) {
+    console.log('selectJob', e.detail);
+    send('SCHEDULE.SHOW_INFO', { data: e.detail });
+  }
+
+  function closeScheduleInfo() {
+    send('SCHEDULE.CLOSE_INFO');
   }
 </script>
 
@@ -115,7 +128,11 @@
               date={selectedEvent.date}
             />
             {#key signUps}
-              <EventSchedule {selectedEvent} {signUps} />
+              <EventSchedule
+                {selectedEvent}
+                {signUps}
+                on:selectjob={selectJob}
+              />
             {/key}
           </div>
         {/key}
@@ -123,6 +140,13 @@
     </MainContainer>
   </div>
 {/if}
+
+<ScheduleInfo
+  on:close={closeScheduleInfo}
+  {selectedEvent}
+  {selectedJobId}
+  {signUps}
+/>
 
 {#if confirmOpenStatus}
   <ConfirmationModal {send}>

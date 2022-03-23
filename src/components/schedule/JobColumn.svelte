@@ -11,5 +11,5 @@
   export let jobSignUps: { [shiftId: string]: ShiftSignUp[] };
 </script>
 
-<FilledShifts {date} {job} {startTime} {col} {jobSignUps} />
-<OpenShifts {date} {job} {startTime} {col} {jobSignUps} />
+<FilledShifts {date} {job} {startTime} {col} {jobSignUps} on:selectjob />
+<OpenShifts {date} {job} {startTime} {col} {jobSignUps} on:selectjob />

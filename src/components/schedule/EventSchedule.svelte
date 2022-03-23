@@ -40,7 +40,7 @@
           <VerticalLines numJobs={jobs.length} />
 
           <!-- Shifts -->
-          <Jobs {date} {jobs} {signUps} {startTime} {endTime} />
+          <Jobs {date} {jobs} {signUps} {startTime} {endTime} on:selectjob />
         </div>
       </div>
     </div>

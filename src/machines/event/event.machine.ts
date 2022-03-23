@@ -11,6 +11,7 @@ export interface EventCtx {
   signUps: JobSignUpCollection;
   selectedEventId: string | null;
   selectedEvent: VEvent | null;
+  selectedJobId: string | null;
   error: string | null;
   autoSaveRef: any;
   eventsLoaderRef: any;
@@ -41,6 +42,8 @@ export type EventEvt =
   | { type: 'STATUS.SET_OPEN'; data: null }
   | { type: 'STATUS.SET_LOCK'; data: null }
   | { type: 'STATUS.SET_ARCHIVE'; data: null }
+  | { type: 'SCHEDULE.SHOW_INFO'; data: string }
+  | { type: 'SCHEDULE.CLOSE_INFO'; data: null }
   | { type: 'done.invoke.eventAdder'; data: string }
   | { type: 'done.invoke.eventDuplicator'; data: string }
   | { type: 'error.invoke.eventAdder'; data: string }
@@ -59,6 +62,7 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
     signUps: {},
     selectedEventId: null,
     selectedEvent: null,
+    selectedJobId: null,
     error: null,
     autoSaveRef: null,
     eventsLoaderRef: null,
@@ -109,7 +113,6 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
         },
       },
     },
-
     loadingSelectedEvent: {
       entry: 'spawnSelectedEventLoader',
       on: {
@@ -141,6 +144,12 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
       on: {
         'EVENT.DUPLICATE': {
           target: '.duplicatingEvent',
+        },
+        'SCHEDULE.SHOW_INFO': {
+          actions: 'setSelectedJobId',
+        },
+        'SCHEDULE.CLOSE_INFO': {
+          actions: 'clearSelectedJobId',
         },
       },
       states: {

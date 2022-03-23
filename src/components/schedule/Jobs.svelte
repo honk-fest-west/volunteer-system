@@ -27,6 +27,7 @@
         {startTime}
         col={i + 1}
         jobSignUps={signUps[job.id] || {}}
+        on:selectjob
       />
     {/each}
   </ol>

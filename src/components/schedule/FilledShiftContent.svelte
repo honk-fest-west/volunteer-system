@@ -15,8 +15,8 @@
   });
 </script>
 
-<a
-  href="#"
+<button
+  on:click
   class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg p-2 text-xs leading-5 opacity-80 hover:opacity-100"
   style="background-color: {color};"
 >
@@ -29,4 +29,4 @@
   <p class="text-white opacity-50 group-hover:opacity-70">
     <time datetime="{date}T{time}">{shortTime(time)}</time>
   </p>
-</a>
+</button>
