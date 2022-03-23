@@ -21,7 +21,6 @@
   {#each jobs as job, i}
     <button on:click={() => selectJob(job.id)}>
       <div class="row-span-full" style="grid-column-start: {i + 1};" />
-      //aka row-span
     </button>
   {/each}
   <div
