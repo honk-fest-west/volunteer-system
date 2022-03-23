@@ -12,7 +12,7 @@
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "emulators": "firebase emulators:start --import=./emulatorData",
-    "emulators:export": "firebase emulators:start --import=./emulatorData --export-on-exit",
+    "emulators:seed": "firebase emulators:start --import=./emulatorData --export-on-exit",
     "cypress": "npx cypress open"
   },
   "devDependencies": {

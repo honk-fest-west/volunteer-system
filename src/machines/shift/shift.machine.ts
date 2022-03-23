@@ -58,7 +58,6 @@ export function createShiftMachine(
   return createMachine<ShiftCtx, ShiftEvt>(
     {
       id: 'shift',
-
       context: {
         user,
         events: [],
@@ -120,7 +119,6 @@ export function createShiftMachine(
                 'SELECTED_EVENT.UPDATE': {
                   actions: 'setSelectedEvent',
                 },
-
                 'SHOW.SIGN_UP': {
                   target: 'signingUp',
                 },
@@ -179,7 +177,6 @@ export function createShiftMachine(
             'stopSelectedEventObservable',
             'stopSignUpsObservable',
             'stopCommentSaver',
-            () => console.log('SHOW.EXIT'),
           ],
         },
       },

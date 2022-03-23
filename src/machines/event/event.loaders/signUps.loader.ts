@@ -5,7 +5,6 @@ import { collectionData } from 'rxfire/firestore';
 import { map, catchError, tap } from 'rxjs/operators';
 
 export const createSignUpsLoader = (eventId: string) => {
-  console.log('createSignUpsLoader', eventId);
   return collectionData(signUpsQuery(eventId), { idField: 'id' }).pipe(
     map((signUps) => ({ type: 'LOAD.SIGN_UPS', data: signUps })),
     catchError((err) => [{ type: 'LOAD.ERROR', data: err }])

@@ -53,6 +53,7 @@ export type EventEvt =
 
 const config: MachineConfig<EventCtx, any, EventEvt> = {
   id: 'event',
+  initial: 'idle',
   context: {
     events: [],
     signUps: {},
@@ -77,6 +78,7 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
     },
   },
   states: {
+    idle: {},
     listingEvents: {
       entry: ['spawnEventsLoader', 'clearSelectedEvent'],
       on: {
@@ -107,6 +109,7 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
         },
       },
     },
+
     loadingSelectedEvent: {
       entry: 'spawnSelectedEventLoader',
       on: {
@@ -125,7 +128,7 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
       on: {
         'LOAD.SIGN_UPS': {
           actions: 'setSignUps',
-          target: 'determiningEventStatus',
+          target: 'viewingEvent',
         },
         'LOAD.ERROR': {
           actions: ['setError', 'gotoIndex'],
@@ -133,161 +136,155 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
       },
       exit: 'stopSignUpsLoader',
     },
-    determiningEventStatus: {
-      always: [
-        { target: 'draftingEvent', cond: 'eventStatusIsDraft' },
-        { target: 'previewingEvent', cond: 'eventStatusIsPreview' },
-        { target: 'openedEvent', cond: 'eventStatusIsOpen' },
-        { target: 'lockedEvent', cond: 'eventStatusIsLock' },
-        { target: 'archivedEvent', cond: 'eventStatusIsArchive' },
-      ],
-    },
-    draftingEvent: {
-      entry: ['setDraftStatus', 'spawnAutoSave'],
+    viewingEvent: {
+      initial: 'determiningEventStatus',
       on: {
-        'STATUS.SET_PREVIEW': {
-          target: 'validatingEvent',
-        },
-        'EVENT.SAVE': {
-          actions: ['clearError', 'saveEvent'],
-        },
-        'EVENT.ADD_JOB': {
-          actions: ['clearError', 'addJob', 'saveEvent'],
-        },
-        'EVENT.REMOVE_JOB': {
-          actions: ['clearError', 'removeJob', 'saveEvent'],
-        },
-        'EVENT.ADD_SHIFT': {
-          actions: ['clearError', 'addShift', 'saveEvent'],
-        },
-        'EVENT.REMOVE_SHIFT': {
-          actions: ['clearError', 'removeShift', 'saveEvent'],
-        },
         'EVENT.DUPLICATE': {
-          actions: 'clearError',
-          target: 'duplicatingEvent',
+          target: '.duplicatingEvent',
         },
       },
-      invoke: {
-        id: 'updatingStatusToDraft',
-        src: 'eventUpdater',
-        onError: {
-          actions: ['setError', 'gotoIndex'],
+      states: {
+        determiningEventStatus: {
+          always: [
+            { target: 'draftingEvent', cond: 'eventStatusIsDraft' },
+            { target: 'previewingEvent', cond: 'eventStatusIsPreview' },
+            { target: 'openedEvent', cond: 'eventStatusIsOpen' },
+            { target: 'lockedEvent', cond: 'eventStatusIsLock' },
+            { target: 'archivedEvent', cond: 'eventStatusIsArchive' },
+          ],
         },
-      },
-      exit: 'stopAutoSave',
-    },
-    validatingEvent: {
-      entry: 'validateEvent',
-      always: [
-        { target: 'draftingEvent', cond: 'eventIsInvalid' },
-        { target: 'previewingEvent', cond: 'eventIsValid' },
-      ],
-    },
-    previewingEvent: {
-      entry: 'setPreviewStatus',
-      on: {
-        'STATUS.SET_DRAFT': {
-          target: 'draftingEvent',
+        draftingEvent: {
+          entry: ['setDraftStatus', 'spawnAutoSave'],
+          invoke: {
+            id: 'updatingStatusToDraft',
+            src: 'eventUpdater',
+            onError: {
+              actions: ['setError', 'gotoIndex'],
+            },
+          },
+          on: {
+            'STATUS.SET_PREVIEW': {
+              target: 'validatingEvent',
+            },
+            'EVENT.SAVE': {
+              actions: ['clearError', 'saveEvent'],
+            },
+            'EVENT.ADD_JOB': {
+              actions: ['clearError', 'addJob', 'saveEvent'],
+            },
+            'EVENT.REMOVE_JOB': {
+              actions: ['clearError', 'removeJob', 'saveEvent'],
+            },
+            'EVENT.ADD_SHIFT': {
+              actions: ['clearError', 'addShift', 'saveEvent'],
+            },
+            'EVENT.REMOVE_SHIFT': {
+              actions: ['clearError', 'removeShift', 'saveEvent'],
+            },
+          },
+          exit: 'stopAutoSave',
         },
-        'STATUS.SET_OPEN': {
-          target: 'confirmingOpenEvent',
+        validatingEvent: {
+          entry: 'validateEvent',
+          always: [
+            { target: 'draftingEvent', cond: 'eventIsInvalid' },
+            { target: 'previewingEvent', cond: 'eventIsValid' },
+          ],
         },
-        'EVENT.DUPLICATE': {
-          target: 'duplicatingEvent',
+        previewingEvent: {
+          entry: 'setPreviewStatus',
+          invoke: {
+            id: 'updatingStatusToPreview',
+            src: 'eventUpdater',
+            onError: {
+              actions: ['setError', 'gotoIndex'],
+            },
+          },
+          on: {
+            'STATUS.SET_DRAFT': {
+              target: 'draftingEvent',
+            },
+            'STATUS.SET_OPEN': {
+              target: 'confirmingOpenEvent',
+            },
+          },
         },
-      },
-      invoke: {
-        id: 'updatingStatusToPreview',
-        src: 'eventUpdater',
-        onError: {
-          actions: ['setError', 'gotoIndex'],
+        confirmingOpenEvent: {
+          on: {
+            'STATUS.CONFIRM': {
+              target: 'openedEvent',
+            },
+            'STATUS.CANCEL': {
+              target: 'previewingEvent',
+            },
+          },
         },
-      },
-    },
-    confirmingOpenEvent: {
-      on: {
-        'STATUS.CONFIRM': {
-          target: 'openedEvent',
+        openedEvent: {
+          entry: 'setOpenStatus',
+          invoke: {
+            id: 'updatingStatusToOpen',
+            src: 'eventUpdater',
+            onError: {
+              actions: ['setError', 'gotoIndex'],
+            },
+          },
+          on: {
+            'STATUS.SET_LOCK': {
+              target: 'lockedEvent',
+            },
+            'STATUS.SET_ARCHIVE': {
+              target: 'archivedEvent',
+            },
+          },
         },
-        'STATUS.CANCEL': {
-          target: 'previewingEvent',
+        lockedEvent: {
+          entry: 'setLockStatus',
+          invoke: {
+            id: 'updatingStatusToLock',
+            src: 'eventUpdater',
+            onError: {
+              actions: ['setError', 'gotoIndex'],
+            },
+          },
+          on: {
+            'STATUS.SET_OPEN': {
+              target: 'openedEvent',
+            },
+            'STATUS.SET_ARCHIVE': {
+              target: 'archivedEvent',
+            },
+          },
         },
-      },
-    },
-    openedEvent: {
-      entry: 'setOpenStatus',
-      on: {
-        'STATUS.SET_LOCK': {
-          target: 'lockedEvent',
+        archivedEvent: {
+          entry: 'setArchiveStatus',
+          invoke: {
+            id: 'updatingStatusToArchive',
+            src: 'eventUpdater',
+            onError: {
+              actions: ['setError', 'gotoIndex'],
+            },
+          },
+          on: {
+            'STATUS.SET_OPEN': {
+              target: 'openedEvent',
+            },
+            'STATUS.SET_LOCK': {
+              target: 'lockedEvent',
+            },
+          },
         },
-        'STATUS.SET_ARCHIVE': {
-          target: 'archivedEvent',
-        },
-        'EVENT.DUPLICATE': {
-          target: 'duplicatingEvent',
-        },
-      },
-      invoke: {
-        id: 'updatingStatusToOpen',
-        src: 'eventUpdater',
-        onError: {
-          actions: ['setError', 'gotoIndex'],
-        },
-      },
-    },
-    lockedEvent: {
-      entry: 'setLockStatus',
-      on: {
-        'STATUS.SET_OPEN': {
-          target: 'openedEvent',
-        },
-        'STATUS.SET_ARCHIVE': {
-          target: 'archivedEvent',
-        },
-        'EVENT.DUPLICATE': {
-          target: 'duplicatingEvent',
-        },
-      },
-      invoke: {
-        id: 'updatingStatusToLock',
-        src: 'eventUpdater',
-        onError: {
-          actions: ['setError', 'gotoIndex'],
-        },
-      },
-    },
-    archivedEvent: {
-      entry: 'setArchiveStatus',
-      on: {
-        'STATUS.SET_OPEN': {
-          target: 'openedEvent',
-        },
-        'STATUS.SET_LOCK': {
-          target: 'lockedEvent',
-        },
-        'EVENT.DUPLICATE': {
-          target: 'duplicatingEvent',
-        },
-      },
-      invoke: {
-        id: 'updatingStatusToArchive',
-        src: 'eventUpdater',
-        onError: {
-          actions: ['setError', 'gotoIndex'],
-        },
-      },
-    },
-    duplicatingEvent: {
-      invoke: {
-        id: 'eventDuplicator',
-        src: 'eventDuplicator',
-        onDone: {
-          actions: ['setSelectedEventId', 'gotoEvent'],
-          target: 'loadingSelectedEvent',
-        },
-        onError: {
-          actions: ['setError', 'gotoIndex'],
+        duplicatingEvent: {
+          id: 'duplicating',
+          invoke: {
+            id: 'eventDuplicator',
+            src: 'eventDuplicator',
+            onDone: {
+              actions: ['gotoIndex'],
+            },
+            onError: {
+              actions: ['setError', 'gotoIndex'],
+            },
+          },
         },
       },
     },
