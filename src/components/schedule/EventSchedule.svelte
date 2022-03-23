@@ -11,6 +11,7 @@
   export let signUps: JobSignUpCollection;
 
   $: event = VEvent.from(selectedEvent);
+  //$: jobs = event.sortedJobs?.slice(0, 7) || [];
   $: jobs = event.sortedJobs || [];
   $: date = event.date;
   $: [startTime, endTime] = event.roundedTimeRange || [0, 0];
