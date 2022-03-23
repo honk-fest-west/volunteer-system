@@ -5,7 +5,7 @@
   export let jobs: Job[] = [];
 
   const dispatch = createEventDispatcher();
-  const numJobs = Array.from({ length: jobs.length }, (v, i) => i + 1);
+  const rowSpans = Array.from({ length: jobs.length }, (v, i) => i + 1);
 
   function selectJob(jobId: string) {
     console.log('selectJob', jobId);
@@ -16,7 +16,7 @@
 <div
   data-file="VerticalLines.svelte"
   class="variable-cols col-start-1 col-end-2 row-start-1 hidden grid-rows-1 divide-x divide-gray-100 sm:grid"
-  style="--num-jobs: {numJobs}"
+  style="--num-jobs: {jobs.length}"
 >
   {#each jobs as job, i}
     <button on:click={() => selectJob(job.id)}>
