@@ -36,11 +36,11 @@
           <!-- Horizontal lines -->
           <HorizontalLines {startTime} {endTime} />
 
-          <!-- Vertical lines -->
-          <VerticalLines numJobs={jobs.length} />
-
-          <!-- Shifts -->
+          <!-- Job Columns -->
           <Jobs {date} {jobs} {signUps} {startTime} {endTime} on:selectjob />
+
+          <!-- Vertical lines -->
+          <VerticalLines {jobs} on:selectjob />
         </div>
       </div>
     </div>

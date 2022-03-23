@@ -11,9 +11,12 @@
   export let startTime: number;
   export let jobSignUps: { [shiftId: string]: ShiftSignUp[] };
 
-  const dispatch = createEventDispatcher();
   const color = job.color;
   const shiftSignUps = Object.entries(jobSignUps);
+  const dispatch = createEventDispatcher();
+
+  // Merged ShiftSignUps
+  //
   const mergedShiftSignUps = shiftSignUps.reduce((acc, [shiftId, signUps]) => {
     const shift = job.shifts[shiftId];
     const from = timeToInt(shift.from);

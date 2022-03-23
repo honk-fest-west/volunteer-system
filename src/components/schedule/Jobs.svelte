@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Job } from '$models';
   import type { JobSignUpCollection } from '$types';
+
   import { hoursToMilliseconds } from '$util';
   import JobColumn from './JobColumn.svelte';
 

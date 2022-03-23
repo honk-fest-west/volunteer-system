@@ -1,17 +1,33 @@
 <script lang="ts">
-  export let numJobs: number;
+  import type { Job } from '$models';
+  import { createEventDispatcher } from 'svelte';
 
-  const rowSpans = Array.from({ length: numJobs }, (v, i) => i + 1);
+  export let jobs: Job[] = [];
+
+  const dispatch = createEventDispatcher();
+  const numJobs = Array.from({ length: jobs.length }, (v, i) => i + 1);
+
+  function selectJob(jobId: string) {
+    console.log('selectJob', jobId);
+    dispatch('selectjob', jobId);
+  }
 </script>
 
 <div
+  data-file="VerticalLines.svelte"
   class="variable-cols col-start-1 col-end-2 row-start-1 hidden grid-rows-1 divide-x divide-gray-100 sm:grid"
   style="--num-jobs: {numJobs}"
 >
-  {#each rowSpans as rowSpan}
-    <div class="row-span-full" style="grid-column-start: {rowSpan};" />
+  {#each jobs as job, i}
+    <button on:click={() => selectJob(job.id)}>
+      <div class="row-span-full" style="grid-column-start: {i + 1};" />
+      //aka row-span
+    </button>
   {/each}
-  <div class="row-span-full w-8" style="grid-column-start: {numJobs + 1};" />
+  <div
+    class="row-span-full w-8"
+    style="grid-column-start: {jobs.length + 1};"
+  />
 </div>
 
 <style>
