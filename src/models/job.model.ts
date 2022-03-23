@@ -3,6 +3,8 @@ import type { Shifts, Shift, JobSignUpCollection } from '$types';
 import { Timestamp } from 'firebase/firestore';
 
 export class Job {
+  static PER_SCHEDULE_PAGE = 7;
+
   id: string;
   createdAt: Timestamp;
   color: string;

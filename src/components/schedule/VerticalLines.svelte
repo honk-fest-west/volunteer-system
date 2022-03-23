@@ -5,10 +5,8 @@
   export let jobs: Job[] = [];
 
   const dispatch = createEventDispatcher();
-  const rowSpans = Array.from({ length: jobs.length }, (v, i) => i + 1);
 
   function selectJob(jobId: string) {
-    console.log('selectJob', jobId);
     dispatch('selectjob', jobId);
   }
 </script>
@@ -19,12 +17,15 @@
   style="--num-jobs: {jobs.length}"
 >
   {#each jobs as job, i}
-    <button on:click={() => selectJob(job.id)}>
+    <button
+      class="hover:bg-opacity-10 hover:bg-indigo-200"
+      on:click={() => selectJob(job.id)}
+    >
       <div class="row-span-full" style="grid-column-start: {i + 1};" />
     </button>
   {/each}
   <div
-    class="row-span-full w-8"
+    class="row-span-full w-14"
     style="grid-column-start: {jobs.length + 1};"
   />
 </div>

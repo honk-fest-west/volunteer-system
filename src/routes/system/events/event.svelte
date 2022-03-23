@@ -28,6 +28,9 @@
   $: autoSave = $state.context.autoSaveRef;
   $: status = $state.context.selectedEvent?.status;
   $: selectedJobId = $state.context.selectedJobId;
+  $: currentPage = $state.context.schedulePage;
+  $: allowPrevPage = $state.can('SCHEDULE.PREV_PAGE');
+  $: allowNextPage = $state.can('SCHEDULE.NEXT_PAGE');
 
   onMount(() => send('AT.EVENT', { data: params.id }));
 
@@ -74,12 +77,19 @@
   }
 
   function selectJob(e) {
-    console.log('selectJob', e.detail);
     send('SCHEDULE.SHOW_INFO', { data: e.detail });
   }
 
   function closeScheduleInfo() {
     send('SCHEDULE.CLOSE_INFO');
+  }
+
+  function prevSchedulePage() {
+    send('SCHEDULE.PREV_PAGE');
+  }
+
+  function nextSchedulePage() {
+    send('SCHEDULE.NEXT_PAGE');
   }
 </script>
 
@@ -131,7 +141,12 @@
               <EventSchedule
                 {selectedEvent}
                 {signUps}
+                {allowNextPage}
+                {allowPrevPage}
+                {currentPage}
                 on:selectjob={selectJob}
+                on:prevschedulepage={prevSchedulePage}
+                on:nextschedulepage={nextSchedulePage}
               />
             {/key}
           </div>

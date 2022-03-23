@@ -1,5 +1,5 @@
 import type { Jobs, Shifts, Shift, EventStatus } from '$types';
-import type { Job } from '$models';
+import { Job } from '$models';
 import { Timestamp, type FirestoreDataConverter } from 'firebase/firestore';
 import { hoursToMilliseconds, timeToInt } from '$util';
 
@@ -69,10 +69,10 @@ export class VEvent {
    * Returns an array of jobs sorted by their time created.
    * @return {Job[]} Jobs sorted by their time created.
    */
-  get sortedJobs(): Job[] {
-    return Object.values(this.jobs).sort(
-      (a: Job, b: Job) => a.createdAt?.seconds - b.createdAt?.seconds
-    );
+  sortedJobs(currentPage): Job[] {
+    return Object.values(this.jobs)
+      .sort((a: Job, b: Job) => a.createdAt?.seconds - b.createdAt?.seconds)
+      .splice(currentPage * Job.PER_SCHEDULE_PAGE, Job.PER_SCHEDULE_PAGE);
   }
 
   /**

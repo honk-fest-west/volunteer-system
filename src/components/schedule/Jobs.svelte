@@ -18,7 +18,7 @@
 
 {#if signUps}
   <ol
-    class="variable-cols col-start-1 col-end-2 row-start-1 grid grid-cols-1 sm:pr-8"
+    class="variable-cols col-start-1 col-end-2 row-start-1 grid grid-cols-1 sm:pr-14"
     style="--num-jobs: {numJobs}; grid-template-rows: 1.75rem repeat({numRows}, minmax(0, 1fr)) auto"
   >
     {#each jobs as job, i}

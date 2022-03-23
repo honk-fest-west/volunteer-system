@@ -12,6 +12,7 @@ export interface EventCtx {
   selectedEventId: string | null;
   selectedEvent: VEvent | null;
   selectedJobId: string | null;
+  schedulePage: number;
   error: string | null;
   autoSaveRef: any;
   eventsLoaderRef: any;
@@ -44,6 +45,8 @@ export type EventEvt =
   | { type: 'STATUS.SET_ARCHIVE'; data: null }
   | { type: 'SCHEDULE.SHOW_INFO'; data: string }
   | { type: 'SCHEDULE.CLOSE_INFO'; data: null }
+  | { type: 'SCHEDULE.NEXT_PAGE'; data: null }
+  | { type: 'SCHEDULE.PREV_PAGE'; data: null }
   | { type: 'done.invoke.eventAdder'; data: string }
   | { type: 'done.invoke.eventDuplicator'; data: string }
   | { type: 'error.invoke.eventAdder'; data: string }
@@ -63,6 +66,7 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
     selectedEventId: null,
     selectedEvent: null,
     selectedJobId: null,
+    schedulePage: 0,
     error: null,
     autoSaveRef: null,
     eventsLoaderRef: null,
@@ -150,6 +154,14 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
         },
         'SCHEDULE.CLOSE_INFO': {
           actions: 'clearSelectedJobId',
+        },
+        'SCHEDULE.PREV_PAGE': {
+          actions: 'prevSchedulePage',
+          cond: 'allowPrevSchedulePage',
+        },
+        'SCHEDULE.NEXT_PAGE': {
+          actions: 'nextSchedulePage',
+          cond: 'allowNextSchedulePage',
         },
       },
       states: {
