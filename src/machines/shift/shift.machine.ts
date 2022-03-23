@@ -72,20 +72,16 @@ export function createShiftMachine(
         signUpsRef: null,
         commentSaverRef: null,
       },
-
-      initial: 'router',
-      states: {
-        router: {
-          on: {
-            'INDEX.AT': {
-              target: 'index',
-            },
-            'SHOW.AT': {
-              actions: 'setSelectedEventId',
-              target: 'show',
-            },
-          },
+      on: {
+        'INDEX.AT': {
+          target: 'index',
         },
+        'SHOW.AT': {
+          actions: 'setSelectedEventId',
+          target: 'show',
+        },
+      },
+      states: {
         index: {
           entry: 'spawnEventsObservable',
           on: {

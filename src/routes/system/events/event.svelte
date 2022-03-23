@@ -25,7 +25,7 @@
   $: autoSave = $state.context.autoSaveRef;
   $: status = $state.context.selectedEvent?.status;
 
-  onMount(() => send('AT.EVENT', { data: { eventId: params.id } }));
+  onMount(() => send('AT.EVENT', { data: params.id }));
 
   function handleStatusChange(event) {
     if (event.detail === 'draft') {

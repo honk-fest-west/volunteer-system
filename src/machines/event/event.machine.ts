@@ -53,7 +53,6 @@ export type EventEvt =
 
 const config: MachineConfig<EventCtx, any, EventEvt> = {
   id: 'event',
-  initial: 'routing',
   context: {
     events: [],
     signUps: {},
@@ -65,18 +64,19 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
     selectedEventLoaderRef: null,
     signUpsLoaderRef: null,
   },
-  states: {
-    routing: {
-      on: {
-        'AT.INDEX': {
-          target: 'listingEvents',
-        },
-        'AT.EVENT': {
-          actions: 'setSelectedEventId',
-          target: 'loadingSelectedEvent',
-        },
-      },
+  on: {
+    'AT.INDEX': {
+      target: 'listingEvents',
     },
+    'AT.EVENT': {
+      actions: 'setSelectedEventId',
+      target: 'loadingSelectedEvent',
+    },
+    'GOTO.INDEX': {
+      actions: ['clearError', 'gotoIndex'],
+    },
+  },
+  states: {
     listingEvents: {
       entry: ['spawnEventsLoader', 'clearSelectedEvent'],
       on: {
@@ -85,7 +85,6 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
         },
         'EVENT.SELECT': {
           actions: ['setSelectedEventId', 'gotoEvent'],
-          target: 'loadingSelectedEvent',
         },
         'LOAD.EVENTS': {
           actions: 'setEvents',
@@ -102,11 +101,9 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
         src: 'eventAdder',
         onDone: {
           actions: ['setSelectedEventId', 'gotoEvent'],
-          target: 'loadingSelectedEvent',
         },
         onError: {
           actions: ['setError', 'gotoIndex'],
-          target: 'listingEvents',
         },
       },
     },
@@ -119,7 +116,6 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
         },
         'LOAD.ERROR': {
           actions: ['setError', 'gotoIndex'],
-          target: 'listingEvents',
         },
       },
       exit: 'stopSelectedEventLoader',
@@ -133,7 +129,6 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
         },
         'LOAD.ERROR': {
           actions: ['setError', 'gotoIndex'],
-          target: 'listingEvents',
         },
       },
       exit: 'stopSignUpsLoader',
@@ -172,17 +167,12 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
           actions: 'clearError',
           target: 'duplicatingEvent',
         },
-        'GOTO.INDEX': {
-          target: 'listingEvents',
-          actions: ['clearError', 'gotoIndex'],
-        },
       },
       invoke: {
         id: 'updatingStatusToDraft',
         src: 'eventUpdater',
         onError: {
           actions: ['setError', 'gotoIndex'],
-          target: 'listingEvents',
         },
       },
       exit: 'stopAutoSave',
@@ -206,17 +196,12 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
         'EVENT.DUPLICATE': {
           target: 'duplicatingEvent',
         },
-        'GOTO.INDEX': {
-          target: 'listingEvents',
-          actions: 'gotoIndex',
-        },
       },
       invoke: {
         id: 'updatingStatusToPreview',
         src: 'eventUpdater',
         onError: {
           actions: ['setError', 'gotoIndex'],
-          target: 'listingEvents',
         },
       },
     },
@@ -242,17 +227,12 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
         'EVENT.DUPLICATE': {
           target: 'duplicatingEvent',
         },
-        'GOTO.INDEX': {
-          target: 'listingEvents',
-          actions: 'gotoIndex',
-        },
       },
       invoke: {
         id: 'updatingStatusToOpen',
         src: 'eventUpdater',
         onError: {
           actions: ['setError', 'gotoIndex'],
-          target: 'listingEvents',
         },
       },
     },
@@ -268,17 +248,12 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
         'EVENT.DUPLICATE': {
           target: 'duplicatingEvent',
         },
-        'GOTO.INDEX': {
-          target: 'listingEvents',
-          actions: 'gotoIndex',
-        },
       },
       invoke: {
         id: 'updatingStatusToLock',
         src: 'eventUpdater',
         onError: {
           actions: ['setError', 'gotoIndex'],
-          target: 'listingEvents',
         },
       },
     },
@@ -294,17 +269,12 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
         'EVENT.DUPLICATE': {
           target: 'duplicatingEvent',
         },
-        'GOTO.INDEX': {
-          target: 'listingEvents',
-          actions: 'gotoIndex',
-        },
       },
       invoke: {
         id: 'updatingStatusToArchive',
         src: 'eventUpdater',
         onError: {
           actions: ['setError', 'gotoIndex'],
-          target: 'listingEvents',
         },
       },
     },
@@ -318,7 +288,6 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
         },
         onError: {
           actions: ['setError', 'gotoIndex'],
-          target: 'listingEvents',
         },
       },
     },
