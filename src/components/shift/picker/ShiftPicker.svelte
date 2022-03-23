@@ -112,6 +112,7 @@
                         eventLocation={selectedEvent.location}
                         on:signUp={signUp}
                         on:unsignUp={unsignUp}
+                        on:comment
                       />
                     {/each}
                   </div>

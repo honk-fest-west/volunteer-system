@@ -16,6 +16,7 @@ export interface ShiftCtx {
   eventsRef: ReturnType<typeof import('xstate').spawn> | null;
   selectedEventRef: ReturnType<typeof import('xstate').spawn> | null;
   signUpsRef: ReturnType<typeof import('xstate').spawn> | null;
+  commentSaverRef: any;
 }
 
 export type ShiftEvt =
@@ -46,6 +47,7 @@ export type ShiftEvt =
         signUpId: string;
       };
     }
+  | { type: 'SIGN_UP.COMMENT'; data: { comment: string; signUpId: string } }
   | { type: 'EVENTS.UPDATE'; data: VEvent[] }
   | { type: 'SELECTED_EVENT.UPDATE'; data: VEvent }
   | { type: 'SIGN_UPS.UPDATE'; data: ShiftSignUp[] };
@@ -68,6 +70,7 @@ export function createShiftMachine(
         eventsRef: null,
         selectedEventRef: null,
         signUpsRef: null,
+        commentSaverRef: null,
       },
 
       initial: 'router',
@@ -97,7 +100,11 @@ export function createShiftMachine(
           exit: 'stopEventsObservable',
         },
         show: {
-          entry: ['spawnSelectedEventObservable', 'spawnSignUpsObservable'],
+          entry: [
+            'spawnSelectedEventObservable',
+            'spawnSignUpsObservable',
+            'spawnCommentSaver',
+          ],
           on: {
             'SHOW.GOTO_INDEX': {
               actions: 'gotoIndex',
@@ -126,6 +133,9 @@ export function createShiftMachine(
                 },
                 'SHOW.CLEAR_SELECTED_JOB': {
                   actions: 'clearSelectedJobId',
+                },
+                'SIGN_UP.COMMENT': {
+                  actions: 'saveComment',
                 },
               },
             },
@@ -172,6 +182,7 @@ export function createShiftMachine(
           exit: [
             'stopSelectedEventObservable',
             'stopSignUpsObservable',
+            'stopCommentSaver',
             () => console.log('SHOW.EXIT'),
           ],
         },

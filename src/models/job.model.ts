@@ -38,7 +38,7 @@ export class Job {
   // another signed up shift and sets a conflict marker.
   public selectableShifts(
     signUps: JobSignUpCollection
-  ): { shift: Shift; signUpId: string; checked: boolean }[] {
+  ): { shift: Shift; signUpId: string; comment: string; checked: boolean }[] {
     const shiftSignedUpIds = Object.keys(signUps[this.id] || {});
     return this.sortedShifts
       .filter(
@@ -48,14 +48,12 @@ export class Job {
           shift.slots > shift.signedUp || shiftSignedUpIds.includes(shift.id)
       )
       .map((shift) => {
-        // Set a selected marker if the shift is already signed up.
-        // shift.selected = shiftSignedUpIds.includes(shift.id);
-        // if (shift.selected) {
         const signUpId = ((signUps[this.id] || {})[shift.id] || [])[0]?.id;
+        const comment = ((signUps[this.id] || {})[shift.id] || [])[0]?.comment;
 
         // Set a conflict marker if the shift conflicts with user schedule
         //shift.conflict = false; // TODO: Implement conflict detection
-        return { shift, signUpId, checked: !!signUpId };
+        return { shift, signUpId, comment, checked: !!signUpId };
       });
   }
 

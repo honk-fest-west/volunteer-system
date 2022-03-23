@@ -43,6 +43,10 @@
   function unsignUp(e) {
     send('SHOW.UNSIGN_UP', { data: e.detail });
   }
+
+  function comment(e) {
+    send('SIGN_UP.COMMENT', { data: e.detail });
+  }
 </script>
 
 {#if selectedEvent}
@@ -67,6 +71,7 @@
 <ShiftPicker
   on:signUp={signUp}
   on:unsignUp={unsignUp}
+  on:comment={comment}
   on:close={closeJobShifts}
   disabled={disableShiftPicker}
   {selectedEvent}

@@ -1,10 +1,11 @@
 import type { ShiftCtx, ShiftEvt } from './shift.machine';
-import { stop } from 'xstate/lib/actions';
+import { stop, send } from 'xstate/lib/actions';
 import { createEventsObservable } from '$machines/events.observable';
 import { createSelectedEventObservable } from '$machines/selectedEvent.observable';
 import { push } from 'svelte-spa-router';
 import { assign, spawn } from 'xstate';
 import { createSignUpsObservable } from '$machines/signUps.observable';
+import { commentSaverMachine } from './commentSaver.machine';
 
 export const actions = {
   spawnEventsObservable: assign({
@@ -25,6 +26,28 @@ export const actions = {
       spawn(createSignUpsObservable(ctx.selectedEventId, ctx.user.uid)),
   }),
   stopSignUpsObservable: stop(({ signUpsRef }: ShiftCtx) => signUpsRef),
+
+  spawnCommentSaver: assign({
+    commentSaverRef: ({ selectedEventId }: ShiftCtx) => {
+      return spawn(
+        commentSaverMachine.withContext({
+          selectedEventId,
+          data: { comment: null, signUpId: null },
+        })
+      );
+    },
+  }),
+  stopCommentSaver: stop(({ commentSaverRef }: ShiftCtx) => commentSaverRef),
+  saveComment: send(
+    (_, evt: ShiftEvt) => {
+      if (evt.type !== 'SIGN_UP.COMMENT') return;
+      return {
+        type: 'COMMENT_CHANGED',
+        data: evt.data,
+      };
+    },
+    { to: (ctx: ShiftCtx) => ctx.commentSaverRef }
+  ),
 
   setSelectedEventId: assign({
     selectedEventId: (ctx: ShiftCtx, evt: ShiftEvt) => {
