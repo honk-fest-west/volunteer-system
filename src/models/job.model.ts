@@ -34,6 +34,7 @@ export class Job {
   }
 
   // Takes a list of current signUps and returns
+
   // a list of shifts that are available for signup.
   //
   // Takes into account if a shift conflicts with
