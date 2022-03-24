@@ -25,7 +25,7 @@
       >
     </p>
   </div>
-  <ul class="mt-1 ">
+  <ul class="mt-1">
     {#each signUps as signUp}
       <li class="flex items-center mt-1">
         <div class="ml-4 flex items-start ">
@@ -38,5 +38,12 @@
         </div>
       </li>
     {/each}
+    {#if signUps.length === 0}
+      <li class="flex items-center mt-1">
+        <div class="ml-4 flex items-start ">
+          <p class="font-medium text-gray-400 opacity-80">No sign ups yet</p>
+        </div>
+      </li>
+    {/if}
   </ul>
 </div>

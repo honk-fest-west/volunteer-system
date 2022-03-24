@@ -80,10 +80,15 @@
                 </p>
               </div>
             </div>
-            <div class="relative flex-1 py-6 px-4 sm:px-6 overflow-y-scroll">
-              <div class="absolute inset-0 py-6 px-4 sm:px-6">
+            <div
+              class="flex justify-end pl-6 pr-10 pt-2 pb-2 text-sm font-medium text-gray-00 opacity-80 bg-gray-100 "
+            >
+              <span>signed-up / slots</span>
+            </div>
+            <div class="relative flex-1  px-4 sm:px-6 overflow-y-scroll">
+              <div class="absolute inset-0 pb-6 px-4 sm:px-6">
                 <div class="border-t border-b border-gray-200">
-                  <legend class="sr-only">Shift Sign Ups</legend>
+                  <h3 class="sr-only">Shift Sign Ups</h3>
                   <div class="divide-y divide-gray-200 ">
                     {#each Object.values(job.shifts) as shift}
                       <ScheduleInfoShift

@@ -51,7 +51,7 @@
   </div>
   {#each jobs as job}
     <button
-      on:click={selectJob(job.id)}
+      on:click={() => selectJob(job.id)}
       class="flex items-center justify-center py-3 opacity-80 hover:opacity-100"
       style="background-color: {job.color}"
     >
