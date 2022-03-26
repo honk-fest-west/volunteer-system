@@ -23,7 +23,7 @@
 
 <div class="flex-col shadow-sm rounded-md h-full hidden sm:flex">
   <div
-    class="h-10 flex-shrink-0 flex items-center justify-center w-full text-white text-sm font-medium rounded-t-md"
+    class="h-10 flex-shrink-0 flex text-center items-center justify-center w-full text-white text-sm font-medium rounded-t-md"
     style="background-color: {job.color};"
   >
     {job.name}

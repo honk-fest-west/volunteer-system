@@ -17,7 +17,7 @@
     class="text-gray-500 hover:text-gray-700 pt-2 pl-2"
     on:click={() => (eventMenuOpen = !eventMenuOpen)}
   >
-    <span class="material-icons"> more_vert </span>
+    <span class="material-icons !text-lg"> more_vert </span>
   </button>
   {#if eventMenuOpen}
     <div
@@ -39,7 +39,7 @@
           tabindex="-1"
           id="options-menu-item-0"
         >
-          <span class="material-icons mr-2"> content_copy </span>
+          <span class="material-icons mr-2 !text-lg"> content_copy </span>
           Duplicate
         </button>
       </div>

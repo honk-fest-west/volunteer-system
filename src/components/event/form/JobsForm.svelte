@@ -32,7 +32,7 @@
       class="text-sm font-medium text-indigo-700 flex items-center hover:bg-gray-200 py-1 pr-3 pl-1 rounded"
       on:click={addJob}
     >
-      <span class="material-icons mr-1"> add </span>
+      <span class="material-icons mr-1 !text-lg"> add </span>
       Add Job
     </button>
   </div>

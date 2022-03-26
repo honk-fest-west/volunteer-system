@@ -29,9 +29,9 @@
         on:click={() => (minimized = !minimized)}
       >
         {#if minimized}
-          <span class="material-icons"> expand_more </span>
+          <span class="material-icons !text-lg"> expand_more </span>
         {:else}
-          <span class="material-icons"> expand_less </span>
+          <span class="material-icons !text-lg"> expand_less </span>
         {/if}
       </button>
       {#if !minimized}
@@ -39,7 +39,7 @@
           class="mt-3 rounded-lg border border-gray-300 flex items-center hover:bg-gray-200"
           on:click={removeJob}
         >
-          <span class="material-icons"> delete </span>
+          <span class="material-icons !text-lg"> delete </span>
         </button>
       {/if}
     </div>
@@ -90,7 +90,7 @@
               class="text-sm font-medium text-indigo-700 flex items-center hover:bg-gray-200 py-1 pr-3 pl-1 rounded mt-2"
               on:click={addShift}
             >
-              <span class="material-icons mr-1"> add </span>
+              <span class="material-icons mr-1 !text-lg"> add </span>
               Add Shift
             </button>
           </div>

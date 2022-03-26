@@ -25,14 +25,14 @@
         .job.color}"
     >
       <div
-        class="text-md bg-gray-50 flex flex-col items-center px-1 font-bold w-2/6"
+        class="text-md bg-gray-50 flex flex-col items-center px-1 font-bold w-2/6 flex-none text-center"
         style="color: {shift.job.color}"
       >
         {shortTime(shift.from)} <span class="opacity-70">to</span>
         {shortTime(shift.to)}
       </div>
       <div
-        class="opacity-90 flex flex-col justify-center items-center flex-grow"
+        class="opacity-90 flex flex-col justify-center items-center flex-grow text-center px-2"
       >
         <span class="block font-semibold text-xl">{shift.job.name}</span>
         <span class="block text-md " class:hidden={!shift.location}

@@ -71,7 +71,7 @@
             class="h-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 text-gray-700 rounded-md"
             id={`shift-comment-${shift.id}`}
             name={`shift-comment-${shift.id}`}
-            placeholder="Add a comment"
+            placeholder="Add a remark"
             value={comment}
             on:input={handleComment}
           />

@@ -9,7 +9,7 @@
 <button
   type="button"
   on:click={goBack}
-  class="mr-2 inline-flex items-center border border-opacity-20 shadow-md  text-sm font-medium rounded-full text-indigo-500 hover:text-indigo-700  outline-none border-gray-800 focus:border-indigo-400"
+  class="mr-2 inline-flex items-center border border-opacity-20 shadow-md font-medium rounded-full text-indigo-500 hover:text-indigo-700  outline-none border-gray-800 focus:border-indigo-400"
 >
-  <span class="material-icons"> arrow_back </span>
+  <span class="material-icons !text-lg"> arrow_back </span>
 </button>

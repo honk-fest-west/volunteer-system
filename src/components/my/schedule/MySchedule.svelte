@@ -7,7 +7,7 @@
   $: events = $state.context.schedule;
 </script>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
   {#each events as event}
     <div class="rounded-lg shadow-md overflow-hidden ">
       <div class="px-6 pb-4  border border-gray-200 ">

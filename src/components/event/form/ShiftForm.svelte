@@ -17,7 +17,7 @@
       class="mt-3 rounded-lg border border-gray-300 flex items-center hover:bg-gray-200"
       on:click={removeShift}
     >
-      <span class="material-icons"> delete </span>
+      <span class="material-icons !text-lg"> delete </span>
     </button>
   </div>
   <fieldset class="grid grid-cols-4 gap-3 mb-3">
