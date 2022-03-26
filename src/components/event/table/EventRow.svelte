@@ -20,7 +20,12 @@
   </td>
   <td class="px-6 py-4 whitespace-nowrap text-right">
     <div class:hidden={!event.date} class="text-sm text-gray-500">
-      {event.date}
+      {new Date(event.date).toLocaleDateString('en-US', {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })}
     </div>
   </td>
   <td class="px-6 py-4 whitespace-nowrap text-center">

@@ -16,12 +16,17 @@ service cloud.firestore {
     }
 
     match/events/{eventId}/signUps/{signUpId} {
-      allow read, write: if signedIn();
-      // allow create: if signedIn();
-      // allow read, write: if belongsTo(resource.data.uid) 
+      allow read, write: if isLead();
+      allow create: if signedIn();
+      allow read, write: if belongsTo(resource.data.volunteerUid) 
+    }
+
+    match /{path=**}/signUps/{signUpId} {
+      allow read: if signedIn(); 
     }
 
     function belongsTo(userId) {
+      
       return signedIn() && request.auth.uid == userId;
     }
 

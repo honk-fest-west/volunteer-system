@@ -6,13 +6,13 @@
   import { interpret } from 'xstate';
   import { createScheduleMachine } from '$machines/schedule';
   import { setContext } from 'svelte';
+  import MySchedule from '$components/my/schedule/MySchedule.svelte';
 
   const { state } = useAuth();
-  let scheduleState;
 
   $: if ($state.context?.user?.uid) {
     const scheduleMachine = createScheduleMachine($state.context.user);
-    scheduleState = interpret(scheduleMachine).start();
+    const scheduleState = interpret(scheduleMachine).start();
 
     setContext('scheduleMachine', {
       state: scheduleState,
@@ -27,5 +27,6 @@
       <Header name="My Schedule" />
     </div>
     <div class="bg-white space-y-6 divide-y divide-gray-200" />
+    <MySchedule />
   </MainContainer>
 </div>

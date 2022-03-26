@@ -12,7 +12,12 @@
     <h3 class="text-xl font-medium text-gray-900">{name}</h3>
     <div class="text-gray-600">{location}</div>
     <time datetime={date} class="text-gray-600 mt-2">
-      {date}
+      {new Date(date).toLocaleDateString('en-US', {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      })}
     </time>
   </div>
   {#if description}
