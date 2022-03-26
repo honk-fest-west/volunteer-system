@@ -4,6 +4,7 @@
   import { fly } from 'svelte/transition';
   import { Job, type VEvent } from '$models';
   import SelectShift from './SelectShift.svelte';
+  import { timeToInt } from '$util';
 
   export let selectedEvent: VEvent;
   export let selectedJobId: string;
@@ -11,7 +12,11 @@
   export let disabled = true;
 
   $: job = selectedEvent?.jobs[selectedJobId];
-  $: shifts = job ? Job.from(job).selectableShifts(signUps) : [];
+  $: shifts = job
+    ? Job.from(job)
+        .selectableShifts(signUps)
+        .sort((a, b) => timeToInt(a.shift.from) - timeToInt(b.shift.from))
+    : [];
 
   const dispatch = createEventDispatcher();
 

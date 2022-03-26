@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ShiftSignUp, VEvent } from '$models';
+  import { timeToInt } from '$util';
   import { createEventDispatcher } from 'svelte';
   import { fly } from 'svelte/transition';
   import ScheduleInfoShift from './ScheduleInfoShift.svelte';
@@ -10,6 +11,9 @@
   export let signUps: { [shiftId: string]: ShiftSignUp[] };
 
   $: job = selectedEvent?.jobs[selectedJobId];
+  $: shifts = Object.values(job?.shifts || {}).sort(
+    (a, b) => timeToInt(a.from) - timeToInt(b.from)
+  );
 
   const dispatch = createEventDispatcher();
 
@@ -90,7 +94,7 @@
                 <div class="border-t border-b border-gray-200">
                   <h3 class="sr-only">Shift Sign Ups</h3>
                   <div class="divide-y divide-gray-200 ">
-                    {#each Object.values(job.shifts) as shift}
+                    {#each shifts as shift}
                       <ScheduleInfoShift
                         {shift}
                         selected={selectedShiftIds.includes(shift.id)}

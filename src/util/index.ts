@@ -1,10 +1,16 @@
 export function shortTime(time: string): string {
   const date = new Date(timeToInt(time));
-  return date.toLocaleTimeString('en-US', {
-    // timeStyle: 'short',
-    hour: 'numeric',
-    minute: 'numeric',
-  });
+
+  if (date.getMinutes() > 0) {
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+    });
+  } else {
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+    });
+  }
 }
 
 export function timeToInt(time: string): number {
