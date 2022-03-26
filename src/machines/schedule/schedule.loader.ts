@@ -8,19 +8,18 @@ import {
   collection,
 } from 'firebase/firestore';
 import { collectionData } from 'rxfire/firestore';
-import { firstValueFrom, lastValueFrom, Observable } from 'rxjs';
+import type { Observable } from 'rxjs';
 import { map, switchMap, tap, catchError } from 'rxjs/operators';
-import type { ScheduleCtx } from './schedule.machine';
 
-export const services = {
-  scheduleLoader,
-};
-
-function scheduleLoader(ctx: ScheduleCtx): Promise<VEvent[]> {
-  return firstValueFrom(
-    collectionData(eventsQuery(), { idField: 'id' }).pipe(
-      switchMap((events) => eventsToSchedule(events, ctx.user.uid))
-    )
+export function createScheduleLoader(uid: string) {
+  console.log('UID', uid);
+  return collectionData(eventsQuery(), { idField: 'id' }).pipe(
+    switchMap((events) => eventsToSchedule(events, uid)),
+    map((schedule) => ({ type: 'LOAD.SCHEDULE', data: schedule })),
+    catchError((err) => {
+      console.log('Error loading schedule', err);
+      return [{ type: 'LOAD.ERROR', data: err }];
+    })
   );
 }
 
@@ -40,7 +39,7 @@ function eventsToSchedule(events: VEvent[], uid: string): Observable<VEvent[]> {
     { idField: 'id' }
   ).pipe(
     catchError((err) => {
-      console.log('Error loading schedule', err);
+      console.log('Error loading schedule signUps', err);
       return [];
     }),
     map((signUps) => buildSchedule(events, signUps))

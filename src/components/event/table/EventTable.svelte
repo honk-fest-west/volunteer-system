@@ -2,6 +2,8 @@
   import EventRow from './EventRow.svelte';
   import type { VEvent } from '$models';
   export let events: VEvent[];
+
+  $: sortedEvents = events.sort((a: VEvent, b: VEvent) => a.compareTo(b));
 </script>
 
 <div class="flex flex-col">
@@ -31,7 +33,7 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            {#each events as event}
+            {#each sortedEvents as event}
               <EventRow {event} on:select />
             {/each}
           </tbody>

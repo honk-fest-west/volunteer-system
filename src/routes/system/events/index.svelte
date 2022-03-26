@@ -5,9 +5,16 @@
 
   import MainContainer from '$components/MainContainer.svelte';
   import EventTable from '$components/event/table/EventTable.svelte';
+  import TableContainer from '$components/table/TableContainer.svelte';
+  import TableHead from '$components/table/TableHead.svelte';
+  import TableRow from '$components/table/TableRow.svelte';
+  import TableCell from '$components/table/TableCell.svelte';
+  import EventRow from '$components/event/table/EventRow.svelte';
 
   const { state, send } = getContext('eventMachine');
-  $: events = Object.values($state.context.events) as VEvent[];
+  $: events = Object.values($state.context.events).sort(
+    (a: VEvent, b: VEvent) => a.compareTo(b)
+  ) as VEvent[];
 
   function selectEvent(e) {
     send('EVENT.SELECT', { data: e.detail });
@@ -36,6 +43,17 @@
       <span class="material-icons mr-1 !text-lg"> add </span>
       New Event
     </button>
-    <EventTable {events} on:select={selectEvent} />
+    <TableContainer>
+      <TableRow slot="head">
+        <TableHead side="left" text="left">Name</TableHead>
+        <TableHead text="right">Date</TableHead>
+        <TableHead side="right">Status</TableHead>
+      </TableRow>
+      {#each events as event}
+        <TableRow>
+          <EventRow on:select={selectEvent} {event} />
+        </TableRow>
+      {/each}
+    </TableContainer>
   </MainContainer>
 </div>

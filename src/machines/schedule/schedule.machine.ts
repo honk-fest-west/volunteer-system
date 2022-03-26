@@ -1,19 +1,24 @@
 import type { VEvent } from '$models';
 import type { User } from '$types';
 import { createMachine, type StateMachine } from 'xstate';
-import { services } from './schedule.services';
 import { actions } from './schedule.actions';
 
 export interface ScheduleCtx {
   user: User;
   schedule: VEvent[];
   error: string | null;
+  scheduleLoaderRef: any;
 }
 
-export type ScheduleEvt = {
-  type: 'done.invoke.scheduleLoader';
-  data: VEvent[];
-};
+export type ScheduleEvt =
+  | {
+      type: 'LOAD.SCHEDULE';
+      data: VEvent[];
+    }
+  | {
+      type: 'LOAD.ERROR';
+      data: string;
+    };
 
 export function createScheduleMachine(
   user: User
@@ -25,25 +30,23 @@ export function createScheduleMachine(
         user,
         schedule: [],
         error: null,
+        scheduleLoaderRef: null,
       },
-      initial: 'loading',
+      initial: 'idle',
+      entry: 'spawnScheduleLoader',
       states: {
-        loading: {
-          invoke: {
-            id: 'scheduleLoader',
-            src: 'scheduleLoader',
-            onDone: {
+        idle: {
+          on: {
+            'LOAD.SCHEDULE': {
               actions: 'setSchedule',
-              target: 'idle',
             },
-            onError: {
+            'LOAD.ERROR': {
               actions: 'setError',
             },
           },
         },
-        idle: {},
       },
     },
-    { services, actions }
+    { actions }
   );
 }

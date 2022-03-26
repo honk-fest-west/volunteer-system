@@ -113,6 +113,12 @@ export class VEvent {
     return [roundedStartTime, roundedEndTime];
   }
 
+  public compareTo(other: VEvent): number {
+    const aDate = new Date(this.date);
+    const bDate = new Date(other.date);
+    return aDate.getTime() - bDate.getTime();
+  }
+
   public update(data: Partial<VEvent>): VEvent {
     delete data.id;
     Object.assign(this, data);

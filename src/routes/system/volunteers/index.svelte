@@ -24,8 +24,8 @@
     </h1>
     <TableContainer>
       <TableRow slot="head">
-        <TableHead side="left">Name</TableHead>
-        <TableHead>Telephone</TableHead>
+        <TableHead side="left" text="left">Name</TableHead>
+        <TableHead text="right">Telephone</TableHead>
         <TableHead side="right">Status</TableHead>
       </TableRow>
 
@@ -50,8 +50,10 @@
               </div>
             </div>
           </TableCell>
-          <TableCell
-            ><a class="cursor-text" href={`tel:${volunteer.phoneNumber}`}
+          <TableCell text="right">
+            <a
+              class="text-indigo-500 hover:underline sm:hover:no-underline md:text-gray-500 md:cursor-text"
+              href={`tel:${volunteer.phoneNumber}`}
               >{formatPhoneNumber(volunteer.phoneNumber)}</a
             ></TableCell
           >
