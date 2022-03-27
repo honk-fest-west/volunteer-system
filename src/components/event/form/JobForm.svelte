@@ -22,7 +22,7 @@
 </script>
 
 <fieldset class="mb-4 ">
-  <div class="p-4 rounded bg-gray-100 flex">
+  <div class="p-4 rounded bg-gray-100 flex " class:items-center={minimized}>
     <div class="mr-4 text-gray-500 flex-none flex flex-col items-center">
       <button
         class="rounded-lg border border-gray-300 flex items-center hover:bg-gray-200"
@@ -44,10 +44,12 @@
       {/if}
     </div>
     {#if minimized}
-      <div>
-        <h3 class="text-md font-medium text-gray-700" class:hidden={!job.name}>
-          {job.name}
-        </h3>
+      <h3 class="text-md font-medium text-gray-700" class:hidden={!job.name}>
+        {job.name}
+      </h3>
+
+      <div class="flex-grow flex justify-end">
+        <div class="h-7 w-8 " style="background-color: {job.color}" />
       </div>
     {:else}
       <div class="grid grid-cols-6 gap-6 pt-1 flex-grow">
@@ -72,7 +74,7 @@
             <input
               type="color"
               name="color"
-              class="w-9 h-9 mt-2 rounded"
+              class="w-9 h-9 mt-2 rounded cursor-pointer"
               bind:value={job.color}
             />
           </div>
