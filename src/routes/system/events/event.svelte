@@ -32,6 +32,11 @@
   $: currentPage = $state.context.schedulePage;
   $: allowPrevPage = $state.can('SCHEDULE.PREV_PAGE');
   $: allowNextPage = $state.can('SCHEDULE.NEXT_PAGE');
+  $: isDraftDisabled = !$state.can('STATUS.SET_DRAFT');
+  $: isPreviewDisabled = !$state.can('STATUS.SET_PREVIEW');
+  $: isOpenDisabled = !$state.can('STATUS.SET_OPEN');
+  $: isLockDisabled = !$state.can('STATUS.SET_LOCK');
+  $: isArchiveDisabled = !$state.can('STATUS.SET_ARCHIVE');
 
   onMount(() => send('AT.EVENT', { data: params.id }));
 
@@ -117,7 +122,15 @@
           on:input={updateEvent}
           class="bg-white space-y-6 divide-y divide-gray-200"
         >
-          <StatusSelector {status} on:changeStatus={handleStatusChange} />
+          <StatusSelector
+            {status}
+            {isDraftDisabled}
+            {isPreviewDisabled}
+            {isOpenDisabled}
+            {isLockDisabled}
+            {isArchiveDisabled}
+            on:changeStatus={handleStatusChange}
+          />
           <Errors {error} />
           <DetailsForm bind:selectedEvent />
           <JobsForm
@@ -131,7 +144,15 @@
       {:else}
         {#key status}
           <div class="bg-white space-y-6 divide-y divide-gray-200">
-            <StatusSelector {status} on:changeStatus={handleStatusChange} />
+            <StatusSelector
+              {status}
+              {isDraftDisabled}
+              {isPreviewDisabled}
+              {isOpenDisabled}
+              {isLockDisabled}
+              {isArchiveDisabled}
+              on:changeStatus={handleStatusChange}
+            />
             <Errors {error} />
             <Details
               name={selectedEvent.name}

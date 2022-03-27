@@ -5,21 +5,11 @@
   import StatusButton from './StatusButton.svelte';
 
   export let status: EventStatus = 'draft';
-
-  const isDraftActive = status === 'draft';
-  const isDraftDisabled = status !== 'draft' && status !== 'preview';
-
-  const isPreviewActive = status === 'preview';
-  const isPreviewDisabled = status !== 'preview' && status !== 'draft';
-
-  const isOpenActive = status === 'open';
-  const isOpenDisabled = ['draft', 'archive'].includes(status);
-
-  const isLockActive = status === 'lock';
-  const isLockDisabled = ['draft', 'archive', 'preview'].includes(status);
-
-  const isArchiveActive = status === 'archive';
-  const isArchiveDisabled = ['draft', 'preview'].includes(status);
+  export let isDraftDisabled = true;
+  export let isPreviewDisabled = true;
+  export let isOpenDisabled = true;
+  export let isLockDisabled = true;
+  export let isArchiveDisabled = true;
 
   const dispatch = createEventDispatcher();
 
@@ -34,7 +24,7 @@
     <div class="grid grid-cols-5 gap-3 mt-4">
       <StatusButton
         on:click={() => handleClick('draft')}
-        active={isDraftActive}
+        active={status === 'draft'}
         disabled={isDraftDisabled}
       >
         <span slot="name"
@@ -46,7 +36,7 @@
       </StatusButton>
       <StatusButton
         on:click={() => handleClick('preview')}
-        active={isPreviewActive}
+        active={status === 'preview'}
         disabled={isPreviewDisabled}
       >
         <span slot="name"
@@ -59,7 +49,7 @@
       </StatusButton>
       <StatusButton
         on:click={() => handleClick('open')}
-        active={isOpenActive}
+        active={status === 'open'}
         disabled={isOpenDisabled}
       >
         <span slot="name"
@@ -72,7 +62,7 @@
       </StatusButton>
       <StatusButton
         on:click={() => handleClick('lock')}
-        active={isLockActive}
+        active={status === 'lock'}
         disabled={isLockDisabled}
       >
         <span slot="name"
@@ -85,7 +75,7 @@
       </StatusButton>
       <StatusButton
         on:click={() => handleClick('archive')}
-        active={isArchiveActive}
+        active={status === 'archive'}
         disabled={isArchiveDisabled}
       >
         <span slot="name"
