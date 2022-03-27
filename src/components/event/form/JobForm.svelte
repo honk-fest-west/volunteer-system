@@ -49,7 +49,7 @@
       </div>
     {:else}
       <div class="grid grid-cols-6 gap-6 pt-1 flex-grow">
-        <div class="col-span-6 sm:col-span-3">
+        <div class="col-span-5 sm:col-span-3">
           <label for="name" class="block text-sm font-medium text-gray-700"
             >Name</label
           >
@@ -60,6 +60,20 @@
             class="mt-2 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
             bind:value={job.name}
           />
+        </div>
+
+        <div class="col-span-1 sm:col-span-3 flex justify-end">
+          <div>
+            <label for="color" class="block text-sm font-medium text-gray-700"
+              >Color</label
+            >
+            <input
+              type="color"
+              name="color"
+              class="w-9 h-9 mt-2 rounded"
+              bind:value={job.color}
+            />
+          </div>
         </div>
 
         <div class="col-span-6">
@@ -77,6 +91,7 @@
             />
           </div>
         </div>
+
         <div class="col-span-6">
           <label for="shifts" class="block text-sm font-medium text-gray-700"
             >Shifts</label
