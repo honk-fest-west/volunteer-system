@@ -21,7 +21,7 @@
   $: selectedEvent = $state.context.selectedEvent;
   $: error = $state.context.error;
   $: signUps = $state.context.signUps;
-  $: confirmingArchiveStatus = $state.matches(
+  $: confirmArchiveStatus = $state.matches(
     'viewingEvent.confirmingArchiveEvent'
   );
   $: confirmOpenStatus = $state.matches('viewingEvent.confirmingOpenEvent');
@@ -173,5 +173,12 @@
       >This event can not be edited once it is opened.</span
     >
     Please confirm everything is correct.
+  </ConfirmationModal>
+{/if}
+
+{#if confirmArchiveStatus}
+  <ConfirmationModal {send}>
+    <span slot="title" class="title">Archive Event</span>
+    An archived an event will no longer be available to volunteers. Please confirm.
   </ConfirmationModal>
 {/if}

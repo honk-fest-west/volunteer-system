@@ -256,7 +256,7 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
               target: 'lockedEvent',
             },
             'STATUS.SET_ARCHIVE': {
-              target: 'archivedEvent',
+              target: 'confirmingArchiveEvent',
             },
           },
         },
@@ -274,7 +274,17 @@ const config: MachineConfig<EventCtx, any, EventEvt> = {
               target: 'openedEvent',
             },
             'STATUS.SET_ARCHIVE': {
+              target: 'confirmingArchiveEvent',
+            },
+          },
+        },
+        confirmingArchiveEvent: {
+          on: {
+            'STATUS.CONFIRM': {
               target: 'archivedEvent',
+            },
+            'STATUS.CANCEL': {
+              target: 'lockedEvent',
             },
           },
         },
