@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { VEvent } from '$models';
   import type { JobSignUpCollection } from '$types';
+  import { VEvent } from '$models';
   import HorizontalLines from './HorizontalLines.svelte';
   import JobsXAxis from './JobsXAxis.svelte';
   import JobsXAxisMobile from './JobsXAxisMobile.svelte';
@@ -29,7 +29,14 @@
     <div
       class="sticky top-[8rem] sm:top-[5rem] z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 "
     >
-      <JobsXAxisMobile {jobs} bind:mobileJob />
+      <JobsXAxisMobile
+        {jobs}
+        {allowPrevPage}
+        {allowNextPage}
+        bind:mobileJob
+        on:prevschedulepage
+        on:nextschedulepage
+      />
       <JobsXAxis
         {jobs}
         {allowPrevPage}
