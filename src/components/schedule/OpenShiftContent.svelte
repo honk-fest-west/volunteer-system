@@ -1,6 +1,7 @@
 <script lang="ts">
   import { shortTime } from '$util';
 
+  export let jobName: string;
   export let color: string;
   export let date: string;
   export let from: number;
@@ -18,7 +19,8 @@
   class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg p-2 text-xs leading-5 opacity-80 hover:opacity-100 border-2 border-dashed hover:bg-opacity-10 hover:bg-indigo-200"
   style="border-color: {color};"
 >
-  <p class="opacity-50 group-hover:opacity-70">
+  <div class="opacity-50 group-hover:opacity-70 flex justify-between w-full">
     <time datetime="{date}T{time}">{shortTime(time)}</time>
-  </p>
+    <p class="underline">{jobName}</p>
+  </div>
 </button>

@@ -10,6 +10,7 @@
   export let col: number;
   export let startTime: number;
   export let jobSignUps: { [shiftId: string]: ShiftSignUp[] };
+  export let mobileJob: number;
 
   const color = job.color;
   const shiftSignUps = Object.entries(jobSignUps);
@@ -52,12 +53,14 @@
   <ShiftPosition
     {col}
     {startTime}
+    {mobileJob}
     from={shiftSignUps.from}
     to={shiftSignUps.to}
   >
     <FilledShiftContent
       {color}
       {date}
+      jobName={job.name}
       from={shiftSignUps.from}
       signUps={shiftSignUps.signUps}
       on:click={() => selectJob(shiftSignUps.signUps)}

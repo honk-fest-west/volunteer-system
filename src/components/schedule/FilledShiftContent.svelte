@@ -2,6 +2,7 @@
   import type { ShiftSignUp } from '$models';
   import { shortTime } from '$util';
 
+  export let jobName: string;
   export let color: string;
   export let date: string;
   export let from: number;
@@ -26,7 +27,10 @@
     </p>
   {/each}
 
-  <p class="text-white opacity-50 group-hover:opacity-70">
+  <div
+    class="text-white opacity-50 group-hover:opacity-70 flex justify-between w-full"
+  >
     <time datetime="{date}T{time}">{shortTime(time)}</time>
-  </p>
+    <p class="underline ">{jobName}</p>
+  </div>
 </button>

@@ -17,6 +17,8 @@
   $: jobs = event.sortedJobs(currentPage) || [];
   $: date = event.date;
   $: [startTime, endTime] = event.roundedTimeRange || [0, 0];
+
+  let mobileJob = 0;
 </script>
 
 <div class="flex flex-auto flex-col  bg-white">
@@ -27,7 +29,7 @@
     <div
       class="sticky top-[8rem] sm:top-[5rem] z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 "
     >
-      <JobsXAxisMobile {jobs} />
+      <JobsXAxisMobile {jobs} bind:mobileJob />
       <JobsXAxis
         {jobs}
         {allowPrevPage}
@@ -46,7 +48,15 @@
         <HorizontalLines {startTime} {endTime} />
 
         <!-- Job Columns -->
-        <Jobs {date} {jobs} {signUps} {startTime} {endTime} on:selectjob />
+        <Jobs
+          {date}
+          {jobs}
+          {signUps}
+          {startTime}
+          {endTime}
+          {mobileJob}
+          on:selectjob
+        />
 
         <!-- Vertical lines -->
         <VerticalLines {jobs} on:selectjob />

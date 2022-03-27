@@ -10,6 +10,7 @@
   export let col: number;
   export let startTime: number;
   export let jobSignUps: { [shiftId: string]: ShiftSignUp[] };
+  export let mobileJob: number;
 
   const dispatch = createEventDispatcher();
   const filledShiftIds = Object.keys(jobSignUps);
@@ -29,12 +30,14 @@
   <ShiftPosition
     {col}
     {startTime}
+    {mobileJob}
     from={timeToInt(shift.from)}
     to={timeToInt(shift.to)}
   >
     <OpenShiftContent
       {color}
       {date}
+      jobName={job.name}
       from={timeToInt(shift.from)}
       on:click={() => selectJob(shift.id)}
     />

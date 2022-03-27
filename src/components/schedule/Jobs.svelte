@@ -10,6 +10,7 @@
   export let signUps: JobSignUpCollection = {};
   export let startTime: number;
   export let endTime: number;
+  export let mobileJob: number;
 
   const numRows = ((endTime - startTime) * 12) / hoursToMilliseconds();
 
@@ -26,6 +27,7 @@
         {date}
         {job}
         {startTime}
+        {mobileJob}
         col={i + 1}
         jobSignUps={signUps[job.id] || {}}
         on:selectjob

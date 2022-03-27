@@ -3,6 +3,7 @@
   export let startTime: number;
   export let from: number;
   export let to: number;
+  export let mobileJob: number;
 
   const startDate = new Date(startTime);
   const fromDate = new Date(from);
@@ -19,12 +20,21 @@
     rowStart;
 </script>
 
-<li
-  class="shift relative mt-px flex"
-  style="--col-num: {col}; grid-row: {rowStart} / span {rowEnd}"
->
-  <slot />
-</li>
+{#if mobileJob === col - 1}
+  <li
+    class="shift relative mt-px flex"
+    style="--col-num: {col}; grid-row: {rowStart} / span {rowEnd}"
+  >
+    <slot />
+  </li>
+{:else}
+  <li
+    class="shift relative mt-px hidden md:flex"
+    style="--col-num: {col}; grid-row: {rowStart} / span {rowEnd}"
+  >
+    <slot />
+  </li>
+{/if}
 
 <style>
   @media (min-width: 640px) {
