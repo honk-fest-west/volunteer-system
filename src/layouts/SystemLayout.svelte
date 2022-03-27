@@ -14,7 +14,10 @@
 <div>
   {#if $state.matches('signedIn')}
     <SidebarMobile bind:open={openSidebar}>
-      <Sidebar className="flex-1 h-0 pt-5 pb-4 overflow-y-auto" />
+      <Sidebar
+        className="flex-1 h-0 pt-5 pb-4 overflow-y-auto"
+        bind:open={openSidebar}
+      />
     </SidebarMobile>
     <div class="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0">
       <SidebarDesktop>

@@ -2,12 +2,13 @@
   import SidebarAccount from './SidebarAccount.svelte';
   import SidebarItem from './SidebarItem.svelte';
   export let className = '';
+  export let open = false;
 </script>
 
 <div class={className}>
   <SidebarAccount />
   <nav class="mt-5 flex-1 px-2 space-y-1">
-    <SidebarItem href="/system">
+    <SidebarItem href="/system" on:click={() => (open = !open)}>
       <!-- Heroicon name: outline/home -->
       <svg
         class=" mr-3 flex-shrink-0 h-6 w-6"
@@ -27,7 +28,7 @@
       Home
     </SidebarItem>
 
-    <SidebarItem href="/system/volunteers">
+    <SidebarItem href="/system/volunteers" on:click={() => (open = !open)}>
       <!-- Heroicon name: outline/users -->
       <svg
         class=" group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
@@ -47,7 +48,7 @@
       Volunteers
     </SidebarItem>
 
-    <SidebarItem href="/system/events">
+    <SidebarItem href="/system/events" on:click={() => (open = !open)}>
       <!-- Heroicon name: outline/calendar -->
       <svg
         class=" group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
@@ -67,7 +68,7 @@
       Events
     </SidebarItem>
 
-    <SidebarItem href="/system/shifts">
+    <SidebarItem href="/system/shifts" on:click={() => (open = !open)}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class=" group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
@@ -85,7 +86,7 @@
       Sign Up Here >></SidebarItem
     >
 
-    <SidebarItem href="/system/my-schedule">
+    <SidebarItem href="/system/my-schedule" on:click={() => (open = !open)}>
       <!-- Heroicon name: outline/calendar -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +105,7 @@
       My Schedule
     </SidebarItem>
 
-    <SidebarItem href="/system/documents">
+    <SidebarItem href="/system/documents" on:click={() => (open = !open)}>
       <!-- Heroicon name: outline/inbox -->
       <svg
         class="group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"

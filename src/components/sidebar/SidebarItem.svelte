@@ -24,6 +24,7 @@
 {#if pathname && shouldDisplayRoute && isCurrent()}
   <a
     {href}
+    on:click
     class="bg-gray-900 text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
     use:link
   >
@@ -32,6 +33,7 @@
 {:else if shouldDisplayRoute}
   <a
     {href}
+    on:click
     class="text-gray-400 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
     use:link
   >
