@@ -10,13 +10,13 @@
     dispatch('selectJobId', job.id);
   }
 
-  function shiftCount() {
+  function shiftCount(text = 'Job') {
     if (shiftsSignedUpCount > 1) {
       return `${shiftsSignedUpCount} Shifts`;
     } else if (shiftsSignedUpCount === 1) {
       return `${shiftsSignedUpCount} Shift`;
     } else {
-      return 'Job';
+      return text;
     }
   }
 </script>
@@ -51,13 +51,17 @@
   </div>
 </div>
 
+<!-- MOBILE BUTTON -->
 <div class="flex-col shadow-sm rounded-md h-full flex sm:hidden">
   <button
     type="button"
     on:click={selectJob}
-    class="flex w-full shadow-md items-center px-4 py-2 border border-transparent text-xl font-medium rounded-md  text-white opacity-70  hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    class="flex w-full justify-between shadow-md items-center px-4 py-2 border border-transparent text-xl font-medium rounded-md text-white opacity-70  hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
     style="background-color: {job.color};"
   >
-    <span class:font-bold={shiftsSignedUpCount}>{shiftCount()}&nbsp;</span>| {job.name}
+    <span class:hidden={!shiftsSignedUpCount} class="text-left"
+      >{shiftsSignedUpCount}</span
+    >
+    <span class="text-right flex-grow">{job.name}</span>
   </button>
 </div>

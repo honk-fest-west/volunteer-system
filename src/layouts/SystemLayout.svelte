@@ -24,9 +24,9 @@
         <Sidebar className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto" />
       </SidebarDesktop>
     </div>
-    <div class="md:pl-64 flex flex-col flex-1">
+    <div class="md:pl-64 flex-col flex-1 flex py-2 align-middle px-1">
       <div
-        class="sticky top-0 z-30 md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3 bg-gray-100"
+        class="sticky top-0 z-30 md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3 bg-gray-100 min-w-screen"
       >
         <button
           type="button"
