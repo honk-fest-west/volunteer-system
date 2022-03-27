@@ -102,7 +102,7 @@ const config = {
     },
 
     requestingRequired: {
-      entry: 'gotoAuthRequired',
+      entry: ['gotoAuthRequired', 'clearError'],
       always: [{ target: 'signedIn', cond: 'completeRequired' }],
       on: {
         SUBMIT_REQUIRED: {
