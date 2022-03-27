@@ -8,12 +8,12 @@
   import Errors from '$components/event/Errors.svelte';
   import Details from '$components/event/Details.svelte';
   import DetailsForm from '$components/event/form/DetailsForm.svelte';
-  import EventSchedule from '$components/schedule/EventSchedule.svelte';
+  import EventSchedule from '$components/event/schedule/EventSchedule.svelte';
   import BackButton from '$components/header/BackButton.svelte';
   import AutoSave from '$components/event/form/AutoSave.svelte';
   import JobsForm from '$components/event/form/JobsForm.svelte';
   import ConfirmationModal from '$components/event/form/ConfirmationModal.svelte';
-  import ScheduleInfo from '$components/schedule/info/ScheduleInfo.svelte';
+  import ScheduleInfo from '$components/event/schedule/info/ScheduleInfo.svelte';
   export let params: { id?: string } = {};
 
   const { state, send } = getContext('eventMachine');
