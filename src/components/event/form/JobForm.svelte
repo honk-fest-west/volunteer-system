@@ -45,7 +45,9 @@
     </div>
     {#if minimized}
       <div>
-        <h3 class="text-md font-medium text-gray-700">{job.name}</h3>
+        <h3 class="text-md font-medium text-gray-700" class:hidden={!job.name}>
+          {job.name}
+        </h3>
       </div>
     {:else}
       <div class="grid grid-cols-6 gap-6 pt-1 flex-grow">
