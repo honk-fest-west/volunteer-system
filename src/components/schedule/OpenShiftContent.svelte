@@ -16,11 +16,11 @@
 
 <button
   on:click
-  class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg p-2 text-xs leading-5 opacity-80 hover:opacity-100 border-2 border-dashed hover:bg-opacity-10 hover:bg-indigo-200"
+  class="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg p-2 sm:text-xs leading-5 opacity-80 hover:opacity-100 border-2 border-dashed hover:bg-opacity-10 hover:bg-indigo-200"
   style="border-color: {color};"
 >
   <div class="opacity-50 group-hover:opacity-70 flex justify-between w-full">
     <time datetime="{date}T{time}">{shortTime(time)}</time>
-    <p class="underline">{jobName}</p>
+    <p class="underline sm:hidden text-right">{jobName}</p>
   </div>
 </button>
