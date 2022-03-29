@@ -2,6 +2,7 @@
   import { location, link } from 'svelte-spa-router';
   import { useAuth } from '$machines/auth';
   export let href = '#';
+  export let external = false;
 
   const { state } = useAuth();
   $: pathname = $location || '/system';
@@ -21,7 +22,15 @@
   }
 </script>
 
-{#if pathname && shouldDisplayRoute && isCurrent()}
+{#if external && shouldDisplayRoute}
+  <a
+    {href}
+    target="_blank"
+    class="text-gray-400 hover:bg-gray-700 hover:text-white group flex items-center px-2 py-2 text-sm font-medium rounded-md"
+  >
+    <slot />
+  </a>
+{:else if pathname && shouldDisplayRoute && isCurrent()}
   <a
     {href}
     on:click

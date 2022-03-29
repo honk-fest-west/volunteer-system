@@ -105,7 +105,11 @@
       My Schedule
     </SidebarItem>
 
-    <SidebarItem href="/system/documents" on:click={() => (open = !open)}>
+    <SidebarItem
+      external={true}
+      href="https://drive.google.com/drive/folders/1xRGarudRsANgvnOpEQRIxwuqx3ctdAJz?usp=sharing"
+      on:click={() => (open = !open)}
+    >
       <!-- Heroicon name: outline/inbox -->
       <svg
         class="group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
