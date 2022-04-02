@@ -12,12 +12,10 @@ import type { Observable } from 'rxjs';
 import { map, switchMap, tap, catchError } from 'rxjs/operators';
 
 export function createScheduleLoader(uid: string) {
-  console.log('UID', uid);
   return collectionData(eventsQuery(), { idField: 'id' }).pipe(
     switchMap((events) => eventsToSchedule(events, uid)),
     map((schedule) => ({ type: 'LOAD.SCHEDULE', data: schedule })),
     catchError((err) => {
-      console.log('Error loading schedule', err);
       return [{ type: 'LOAD.ERROR', data: err }];
     })
   );

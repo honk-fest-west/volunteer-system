@@ -53,7 +53,6 @@
       touchendX,
       touchendY
     );
-    console.log('direction', direction);
     if (direction === 'left' && mobileJob < jobs.length - 1) {
       mobileJob = mobileJob + 1;
     } else if (direction === 'left' && allowNextPage) {

@@ -10,7 +10,6 @@ export const actions = {
       .find((row) => row.startsWith('_routeLocation='))
       ?.split('=') || [])[1];
 
-    console.log('cookieLocation', cookieLocation);
     if (cookieLocation) {
       replace(cookieLocation);
     } else {
