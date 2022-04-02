@@ -20,6 +20,7 @@
   }
 
   function routeLoaded(e) {
+    console.log('route loaded', e.detail.location);
     const cookieLocation = (document.cookie
       .split('; ')
       .find((row) => row.startsWith('_routeLocation='))

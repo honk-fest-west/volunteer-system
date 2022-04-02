@@ -129,7 +129,7 @@ const config = {
     },
 
     signedIn: {
-      entry: 'gotoIndex',
+      entry: 'gotoSystem',
       // when receiving 'LOGOUT' event
       // transition to singingOut state
       on: {
