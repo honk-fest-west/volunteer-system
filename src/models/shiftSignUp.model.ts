@@ -8,6 +8,7 @@ export class ShiftSignUp {
   createdAt: Timestamp;
   updatedAt: Timestamp;
   volunteerUid: string;
+  volunteerEmail: string;
   volunteerDisplayName: string | null;
   volunteerPhotoURL: string | null;
   comment: string | null;
@@ -19,6 +20,7 @@ export class ShiftSignUp {
     this.createdAt = null;
     this.updatedAt = null;
     this.volunteerUid = null;
+    this.volunteerEmail = null;
     this.volunteerDisplayName = null;
     this.volunteerPhotoURL = null;
     this.comment = null;
@@ -46,6 +48,7 @@ export class ShiftSignUp {
       volunteerUid: user.uid,
       volunteerDisplayName: user.displayName,
       volunteerPhotoURL: user.photoURL,
+      volunteerEmail: user.email,
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now(),
       ...data,

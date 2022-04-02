@@ -4,6 +4,7 @@
   import { createEventDispatcher } from 'svelte';
   import { fly } from 'svelte/transition';
   import ScheduleInfoShift from './ScheduleInfoShift.svelte';
+  import VolunteerEmail from '$components/volunteer/VolunteerEmail.svelte';
 
   export let selectedEvent: VEvent;
   export let selectedJobId: string;
@@ -13,6 +14,10 @@
   $: job = selectedEvent?.jobs[selectedJobId];
   $: shifts = Object.values(job?.shifts || {}).sort(
     (a, b) => timeToInt(a.from) - timeToInt(b.from)
+  );
+  $: emailAddresses = Object.values(signUps || {}).reduce(
+    (acc, signUp) => [...acc, ...signUp.map((s) => s.volunteerEmail)],
+    [] as string[]
   );
 
   const dispatch = createEventDispatcher();
@@ -85,8 +90,13 @@
               </div>
             </div>
             <div
-              class="flex justify-end pl-6 pr-10 pt-2 pb-2 text-sm font-medium text-gray-00 opacity-80 bg-gray-100 "
+              class="flex justify-between pl-6 pr-10 pt-2 pb-2 text-sm font-medium text-gray-00 opacity-80 bg-gray-100 items-end"
             >
+              <div>
+                {#if emailAddresses.length}
+                  <VolunteerEmail {emailAddresses}>Signed Up</VolunteerEmail>
+                {/if}
+              </div>
               <span>signed-up / slots</span>
             </div>
             <div class="relative flex-1  px-4 sm:px-6 overflow-y-scroll">

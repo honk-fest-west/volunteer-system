@@ -1,4 +1,6 @@
 <script lang="ts">
+  import unique from 'just-unique';
+  import { fade } from 'svelte/transition';
   export let emailAddresses: string[] = [];
 
   const volunteerEmail = 'volunteer@honkfestwest.org';
@@ -6,7 +8,8 @@
 
 <a
   class="bg-pink-500 hover:bg-pink-700 text-white font-semibold py-2 px-4 rounded flex"
-  href="mailto:{volunteerEmail}?bcc={emailAddresses.join(',')}"
+  href="mailto:{volunteerEmail}?bcc={unique(emailAddresses).join(',')}"
+  transition:fade={{ duration: 100 }}
 >
   <div class="mr-2">
     <svg
@@ -27,7 +30,7 @@
       />
     </svg>
   </div>
-  <span class="block">Selected</span>
+  <span class="block"><slot /></span>
 </a>
 
 <!-- <button
