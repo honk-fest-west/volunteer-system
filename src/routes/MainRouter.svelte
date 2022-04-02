@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Router, { replace } from 'svelte-spa-router';
+  import Router, { replace, push, location } from 'svelte-spa-router';
   import wrap from 'svelte-spa-router/wrap';
   import { useAuth } from '$machines/auth';
   import SystemRouter from '$routes/system/SystemRouter.svelte';
@@ -40,6 +40,23 @@
     '/info/*': infoRoute,
     '*': authRoute,
   };
+
+  $: routeLocation = $location;
+
+  $: if (routeLocation) {
+    if (routeLocation === '/system') {
+      const cookieLocation = (document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('_routeLocation='))
+        ?.split('=') || [])[1];
+
+      if (cookieLocation) {
+        push(cookieLocation);
+      }
+    } else if (routeLocation.startsWith('/system/')) {
+      document.cookie = `_routeLocation=${routeLocation}`;
+    }
+  }
 
   function notSignedIn() {
     replace('/auth');

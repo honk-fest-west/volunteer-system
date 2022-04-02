@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Router from 'svelte-spa-router';
+  import Router, { push } from 'svelte-spa-router';
   import SystemLayout from '$layouts/SystemLayout.svelte';
   import wrap from 'svelte-spa-router/wrap';
   import home from '$routes/system/home/index.svelte';
@@ -17,6 +17,17 @@
 
   function isLead(): boolean {
     return $state.context.user.role === 'lead';
+  }
+
+  function routeLoaded(e) {
+    const cookieLocation = (document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('_routeLocation='))
+      ?.split('=') || [])[1];
+
+    if (cookieLocation !== e.detail.location) {
+      document.cookie = `_routeLocation=${e.detail.location}`;
+    }
   }
 
   const eventsRoute = wrap({
@@ -46,5 +57,5 @@
 </script>
 
 <SystemLayout>
-  <Router {routes} {prefix} />
+  <Router {routes} {prefix} on:routeLoaded={routeLoaded} />
 </SystemLayout>

@@ -4,7 +4,19 @@ import type { AuthCtx, AuthEvt } from './auth.machine';
 
 export const actions = {
   // clear user info on logout
-  gotoIndex: () => replace('/system'),
+  gotoIndex: () => {
+    const cookieLocation = (document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('_routeLocation='))
+      ?.split('=') || [])[1];
+
+    console.log('cookieLocation', cookieLocation);
+    if (cookieLocation) {
+      replace(cookieLocation);
+    } else {
+      replace('/system');
+    }
+  },
   gotoAuth: () => replace('/auth'),
   gotoAuthRequired: () => replace('/auth/required'),
   clearAuth: assign<AuthCtx>({ user: null, auth: null, error: null }),
