@@ -98,7 +98,7 @@
                   alt=""
                 />
               </div>
-              <div class="ml-4">
+              <div class="ml-4 text-left">
                 <div class="font-medium text-gray-900">
                   {volunteer.displayName}
                 </div>

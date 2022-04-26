@@ -19,7 +19,7 @@
 </TableCell>
 <TableCell text="right">
   <div class:hidden={!event.date} class="text-sm text-gray-500">
-    {new Date(event.date).toLocaleDateString('en-US', {
+    {new Date(event.date + ' PDT').toLocaleDateString('en-US', {
       weekday: 'short',
       year: 'numeric',
       month: 'short',
