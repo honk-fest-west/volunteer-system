@@ -2,6 +2,7 @@ import type { Jobs, Shifts, Shift, EventStatus } from '$types';
 import { Job } from '$models';
 import { Timestamp, type FirestoreDataConverter } from 'firebase/firestore';
 import { hoursToMilliseconds, timeToInt } from '$util';
+import range from 'just-range';
 
 export function sortedJobs(jobs: Jobs): Job[] {
   return Object.values(jobs).sort(
@@ -111,6 +112,11 @@ export class VEvent {
       end - (end % hoursToMilliseconds(1)) + hoursToMilliseconds(1);
 
     return [roundedStartTime, roundedEndTime];
+  }
+
+  roundedTimeList(division = 2): number[] {
+    const [startTime, endTime] = this.roundedTimeRange;
+    return range(startTime, endTime, hoursToMilliseconds() / division);
   }
 
   public compareTo(other: VEvent): number {
