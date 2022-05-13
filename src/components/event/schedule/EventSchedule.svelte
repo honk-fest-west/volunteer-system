@@ -111,14 +111,14 @@
           [] as Array<{ from: number; to: number; signUps: ShiftSignUp[] }>
         );
 
-        const jobShifts = times.map((time) => {
+        const jobShifts = times.map((time, i) => {
           const shiftSignUp = mergedShiftSignUps.find(
             (signUp) => signUp.from === time
           );
           return shiftSignUp
             ? shiftSignUp.signUps
                 .map((signUp) => signUp.volunteerDisplayName)
-                .join('\n')
+                .join('\n' + ','.repeat(i + 1))
             : '';
         });
 
