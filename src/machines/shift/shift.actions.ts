@@ -65,7 +65,8 @@ export const actions = {
   setEvents: assign({
     events: (ctx: ShiftCtx, evt: ShiftEvt) => {
       if (evt.type !== 'EVENTS.UPDATE') return ctx.events;
-      return evt.data;
+
+      return evt.data.sort((a, b) => a.date.localeCompare(b.date));
     },
   }),
   setSignUps: assign({

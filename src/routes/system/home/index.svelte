@@ -45,6 +45,39 @@
     </li>
   </ul>
 
+  <br />
+  <p class="text-gray-800 text-xl font-semibold mb-3">Festival Dates:</p>
+  <ul class="list-disc list-inside leading-loose text-xl">
+    <li>
+      <a
+        class="text-indigo-700 font-semibold underline"
+        href="/system/shifts/TneHyo4uUIPSSgKx4HwU"
+        use:link>Thursday, June 2nd, 7-10pm</a
+      >
+    </li>
+    <li>
+      <a
+        class="text-indigo-700 font-semibold underline"
+        href="/system/shifts/LaUrDapLOWRckhPKHxSm"
+        use:link>Friday, June 3rd, 6-10pm</a
+      >
+    </li>
+    <li>
+      <a
+        class="text-indigo-700 font-semibold underline"
+        href="/system/shifts/o2C5A07SPkEPEvXie0gk"
+        use:link>Saturday, June 4th, 12-7pm</a
+      >
+    </li>
+    <li>
+      <a
+        class="text-indigo-700 font-semibold underline"
+        href="/system/shifts/EthQ2gBLPY6WldGRJCIK"
+        use:link>Sunday, June 5th, 12-6pm</a
+      >
+    </li>
+  </ul>
+
   <br /><br />
   <p class="text-gray-800 text-xl">
     Please send any questions you may have to
