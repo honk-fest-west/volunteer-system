@@ -30,3 +30,12 @@ export function formatPhoneNumber(phoneNumberString) {
   }
   return phoneNumberString;
 }
+
+export function formatDate(date: string): string {
+  return new Date(date + ' PDT').toLocaleDateString('en-US', {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+}

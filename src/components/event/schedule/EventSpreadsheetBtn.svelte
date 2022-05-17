@@ -2,7 +2,7 @@
   import type { JobSignUpCollection } from '$types';
   import { Job } from '$models';
   import { VEvent } from '$models';
-  import { shortTime } from '$util';
+  import { shortTime, formatDate } from '$util';
 
   export let selectedEvent: VEvent;
   export let signUps: JobSignUpCollection;
@@ -21,21 +21,28 @@
     });
     const jobs = Object.values(event.jobs);
 
-    const rows = jobs.reduce((acc, job) => {
-      const jobModel = Job.from(job);
-      const shifts = jobModel.sortedShifts;
-      const shiftSignUps = signUps[job.id];
+    const rows = [
+      [event.name],
+      [event.location],
+      [`${formatDate(event.date)}`],
+      [''],
 
-      const volunteers = shifts.map((shift) => [
-        `${shortTime(shift.from)}-${shortTime(shift.to)}`,
-        `${shift.location ? '(' + shift.location + ')' : ''}`,
-        ...(shiftSignUps ? shiftSignUps[shift.id] || [] : []).map(
-          (signUp) => signUp.volunteerDisplayName
-        ),
-      ]);
+      ...jobs.reduce((acc, job) => {
+        const jobModel = Job.from(job);
+        const shifts = jobModel.sortedShifts;
+        const shiftSignUps = signUps[job.id];
 
-      return [...acc, [job.name], ...volunteers, ['']];
-    }, [] as Array<string[]>);
+        const volunteers = shifts.map((shift) => [
+          `${shortTime(shift.from)}-${shortTime(shift.to)}`,
+          `${shift.location ? '(' + shift.location + ')' : ''}`,
+          ...(shiftSignUps ? shiftSignUps[shift.id] || [] : []).map(
+            (signUp) => signUp.volunteerDisplayName
+          ),
+        ]);
+
+        return [...acc, [job.name], ...volunteers, ['']];
+      }, [] as Array<string[]>),
+    ];
 
     let csvContent =
       'data:text/csv;charset=utf-8,' + rows.map((e) => e.join(',')).join('\n');

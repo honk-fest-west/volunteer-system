@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   import TableCell from '$components/table/TableCell.svelte';
+  import { formatDate } from '$util';
   export let event;
 
   const dispatch = createEventDispatcher();
@@ -19,12 +20,7 @@
 </TableCell>
 <TableCell text="right">
   <div class:hidden={!event.date} class="text-sm text-gray-500">
-    {new Date(event.date + ' PDT').toLocaleDateString('en-US', {
-      weekday: 'short',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    })}
+    {formatDate(event.date)}
   </div>
 </TableCell>
 <TableCell>
