@@ -7,7 +7,8 @@
   import JobsXAxisMobile from './JobsXAxisMobile.svelte';
   import Jobs from './Jobs.svelte';
   import VerticalLines from './VerticalLines.svelte';
-  import { timeToInt } from '$util';
+
+  import EventSpreadsheetBtn from './EventSpreadsheetBtn.svelte';
 
   export let selectedEvent: VEvent;
   export let signUps: JobSignUpCollection;
@@ -64,96 +65,10 @@
       dispatch('prevschedulepage');
     }
   }
-
-  function spreadsheet() {
-    const event = VEvent.from(selectedEvent);
-    const times = event.roundedTimeList();
-    const timeDisplays = times.map((time) => {
-      const date = new Date(time);
-      return date
-        .toLocaleTimeString('en-US', {
-          hour: 'numeric',
-          minute: 'numeric',
-        })
-        .replace(/\s/g, '');
-    });
-    const jobs = Object.values(event.jobs);
-
-    const rows = [
-      ['', ...timeDisplays],
-      ...jobs.map((job) => {
-        const shiftSignUps = Object.entries(signUps[job.id] || {});
-        const mergedShiftSignUps = shiftSignUps.reduce(
-          (acc, [shiftId, signUps]) => {
-            const shift = job.shifts[shiftId];
-            const from = timeToInt(shift.from);
-            const to = timeToInt(shift.to);
-
-            const newGlobIndex = acc.findIndex((glob) => {
-              return glob.from <= from && glob.to >= to;
-            });
-
-            if (newGlobIndex > -1) {
-              const newGlob = acc[newGlobIndex];
-              newGlob.from = Math.min(newGlob.from, from);
-              newGlob.to = Math.max(newGlob.to, to);
-              newGlob.signUps = [...newGlob.signUps, ...signUps];
-              acc[newGlobIndex] = newGlob;
-            } else {
-              acc.push({
-                from,
-                to,
-                signUps,
-              });
-            }
-            return acc;
-          },
-          [] as Array<{ from: number; to: number; signUps: ShiftSignUp[] }>
-        );
-
-        const jobShifts = times.map((time, i) => {
-          const shiftSignUp = mergedShiftSignUps.find(
-            (signUp) => signUp.from === time
-          );
-          return shiftSignUp
-            ? shiftSignUp.signUps
-                .map((signUp) => signUp.volunteerDisplayName)
-                .join('\n' + ','.repeat(i + 1))
-            : '';
-        });
-
-        return [job.name, jobShifts];
-      }),
-    ];
-
-    let csvContent =
-      'data:text/csv;charset=utf-8,' + rows.map((e) => e.join(',')).join('\n');
-
-    var encodedUri = encodeURI(csvContent);
-    window.open(encodedUri);
-  }
 </script>
 
 <div class="hidden sm:flex justify-end pt-5">
-  <button
-    on:click={spreadsheet}
-    class="text-indigo-700 font-semibold 
-    opacity-70 hover:opacity-100 flex items-center"
-    ><svg
-      xmlns="http://www.w3.org/2000/svg"
-      class="h-6 w-6"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      stroke-width="2"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-      />
-    </svg> &nbsp;spreadsheet</button
-  >
+  <EventSpreadsheetBtn {selectedEvent} {signUps} />
 </div>
 
 <div
