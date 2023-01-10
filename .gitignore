@@ -24,6 +24,3 @@ dist-ssr
 *.sw?
 
 .env
-
-# Firestore emulator data
-emulatorData/**/*
