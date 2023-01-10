@@ -27,7 +27,9 @@ export const spawnActions = {
   // EVENTS
   spawnEventsLoader: assign({
     eventsLoaderRef: () =>
-      spawn(createEventsLoader(['draft', 'preview', 'open', 'lock'])),
+      spawn(
+        createEventsLoader(['draft', 'preview', 'open', 'lock', 'archive'])
+      ),
   }),
   stopEventsLoader: stop(({ eventsLoaderRef }: EventCtx) => eventsLoaderRef),
 
