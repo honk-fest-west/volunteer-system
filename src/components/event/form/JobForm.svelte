@@ -49,7 +49,12 @@
       </h3>
 
       <div class="flex-grow flex justify-end">
-        <div class="h-7 w-8 " style="background-color: {job.color}" />
+        <input
+          type="color"
+          name="color"
+          class="w-9 h-9 mt-2 rounded cursor-pointer"
+          bind:value={job.color}
+        />
       </div>
     {:else}
       <div class="grid grid-cols-6 gap-6 pt-1 flex-grow">
