@@ -1,6 +1,26 @@
+# Volunteer System
+
+A barebones volunteer system for authoring and publishing Events, Jobs, and Shifts.
+
+![Volunteer System Admin Interface](./volunteer-system-screenshot.jpg)
+
+## Tech Stack
+
+- [Svelte](https://svelte.dev/): UI Framework
+- [svelte-spa-router](https://github.com/ItalyPaleAle/svelte-spa-router): UI Router
+- [XState](https://xstate.js.org/): UI State Manager
+- [tailwindcss](https://tailwindcss.com/): CSS Framework
+- [Firebase](https://firebase.google.com/): Authentication & Datastore
+- [Netlify](https://www.netlify.com/): Webhost
+
 ## Setup
 
-### Install asdf
+### Install Dependancies
+
+- nodejs lte
+- java
+
+### Install Dependancies with asdf
 
 asdf is a tool version manager used to install versions of nodejs and java required by this application.
 
@@ -46,6 +66,16 @@ firebase init
 1. Copy the `.env-template` to an new `.env` file.
 2. Look up current environment variables from the Netlify volunteer-system dashboard.
 
-## Hosting
+## Running
 
-Hosting is provided by [Netlify](https://netlify.com/) under the `admin@honkfestwest.org` account.
+1. Start up the firebase emulator for authentication and firestore:
+
+```
+npm run emulators
+```
+
+2. Start up the Svelte Dev server
+
+```
+npm run dev
+```
