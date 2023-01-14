@@ -15,68 +15,9 @@
     H!FW Volunteers
   </h1>
 
-  <p class="text-gray-800 text-xl font-semibold mb-3">
-    We're ready if you are!
+  <p class="text-gray-800 text-2xl font-semibold mb-3">
+    More information coming in April.
   </p>
-
-  <ul class="list-disc list-inside leading-loose text-xl">
-    <li>
-      Select <a
-        class="text-indigo-700 font-semibold underline"
-        href="/system/shifts"
-        use:link>Sign Up Here >></a
-      > from the menu and select an Event to sign up for volunteer shifts.
-    </li>
-    <li>
-      <a
-        class="text-indigo-700 font-semibold underline"
-        href="/system/my-schedule"
-        use:link>My Schedule</a
-      > will show you your selected shifts for the upcomming event.
-    </li>
-
-    <li>
-      The <a
-        class="text-indigo-700 font-semibold underline"
-        href="https://drive.google.com/drive/folders/1xRGarudRsANgvnOpEQRIxwuqx3ctdAJz?usp=sharing"
-        >Documents</a
-      > folder provides information regarding job descriptions, volunteer requirements,
-      and other documents.
-    </li>
-  </ul>
-
-  <br />
-  <p class="text-gray-800 text-xl font-semibold mb-3">Festival Dates:</p>
-  <ul class="list-disc list-inside leading-loose text-xl">
-    <li>
-      <a
-        class="text-indigo-700 font-semibold underline"
-        href="/system/shifts/TneHyo4uUIPSSgKx4HwU"
-        use:link>Thursday, June 2nd, 7-10pm</a
-      >
-    </li>
-    <li>
-      <a
-        class="text-indigo-700 font-semibold underline"
-        href="/system/shifts/LaUrDapLOWRckhPKHxSm"
-        use:link>Friday, June 3rd, 6-10pm</a
-      >
-    </li>
-    <li>
-      <a
-        class="text-indigo-700 font-semibold underline"
-        href="/system/shifts/o2C5A07SPkEPEvXie0gk"
-        use:link>Saturday, June 4th, 12-7pm</a
-      >
-    </li>
-    <li>
-      <a
-        class="text-indigo-700 font-semibold underline"
-        href="/system/shifts/EthQ2gBLPY6WldGRJCIK"
-        use:link>Sunday, June 5th, 12-6pm</a
-      >
-    </li>
-  </ul>
 
   <br /><br />
   <p class="text-gray-800 text-xl">
