@@ -11,8 +11,13 @@ service cloud.firestore {
     }
 
     match /events/{eventId} {
-    	allow read, write: if isLead();
       allow read, update: if signedIn()
+    	allow read, write: if isLead();
+    }
+
+    match /questions/{questionId} {
+      allow read: if signedIn()
+      allow read, write: if isLead();
     }
 
     match/events/{eventId}/signUps/{signUpId} {

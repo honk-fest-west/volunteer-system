@@ -8,15 +8,24 @@
   import ShiftsRouter from '$routes/system/shifts/ShiftsRouter.svelte';
   import VolunteersRouter from '$routes/system/volunteers/VolunteersRouter.svelte';
   import { useAuth } from '$machines/auth';
-  import { setContext } from 'svelte';
+  import { getContext, setContext } from 'svelte';
+  import { createQuestionMachine } from '$machines/question';
+  import { interpret } from 'xstate';
+  import QuestionsModal from '$components/questions/QuestionsModal.svelte';
 
   const { state } = useAuth();
-  // const eventsRoute = wrap({
-  //   asyncComponent: () => import('$routes/system/events/EventsRouter.svelte'),
-  // });
+
+  $: user = $state?.context?.user;
+
+  $: if (user) {
+    const questionsMachine = createQuestionMachine(user);
+    const state = interpret(questionsMachine).start();
+
+    setContext('questionsMachine', { state, send: state.send });
+  }
 
   function isLead(): boolean {
-    return $state.context.user.role === 'lead';
+    return user.role === 'lead';
   }
 
   function routeLoaded(e) {
@@ -60,3 +69,5 @@
 <SystemLayout>
   <Router {routes} {prefix} on:routeLoaded={routeLoaded} />
 </SystemLayout>
+
+<QuestionsModal />

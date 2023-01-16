@@ -5,7 +5,6 @@ import type { AuthCtx, AuthEvt } from './auth.machine';
 export const actions = {
   // clear user info on logout
   gotoSystem: () => {
-    console.log('gotoSystem');
     const cookieLocation = (document.cookie
       .split('; ')
       .find((row) => row.startsWith('_routeLocation='))

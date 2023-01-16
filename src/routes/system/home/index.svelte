@@ -4,8 +4,10 @@
   import MainContainer from '$components/MainContainer.svelte';
   import { useAuth } from '$machines/auth';
 
+  import { createQuestionMachine } from '$machines/question';
+  import { interpret } from 'xstate';
+
   const { state } = useAuth();
-  // const { state } = getContext('auth');
 
   $: user = $state?.context?.user;
 </script>
