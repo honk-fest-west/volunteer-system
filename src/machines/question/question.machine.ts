@@ -64,12 +64,18 @@ export function createQuestionMachine(
           on: {
             'LOAD.QUESTIONS': {
               actions: 'setQuestions',
-              target: 'introducingQuestions',
+              target: 'checkingQuestions',
             },
             'LOAD.ERROR': {
               actions: 'setError',
             },
           },
+        },
+        checkingQuestions: {
+          always: [
+            { target: 'introducingQuestions', cond: 'hasQuestions' },
+            { target: 'idle', cond: 'noQuestions' },
+          ],
         },
         introducingQuestions: {
           on: {
