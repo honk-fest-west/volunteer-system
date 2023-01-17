@@ -1,9 +1,9 @@
 import type { User, XStateSend } from '$types';
 import type { Answer, Question } from '$models';
 import { createMachine } from 'xstate';
-import { actions } from './question.actions';
-import { guards } from './question.guards';
-import { services } from './question.services';
+import { actions } from './questionModal.actions';
+import { guards } from './questionModal.guards';
+import { services } from './questionModal.services';
 import type { StateMachine } from 'xstate';
 
 export interface QuestionCtx {

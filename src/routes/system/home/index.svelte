@@ -4,7 +4,7 @@
   import MainContainer from '$components/MainContainer.svelte';
   import { useAuth } from '$machines/auth';
 
-  import { createQuestionMachine } from '$machines/question';
+  import { createQuestionMachine } from '$machines/questionModal';
   import { interpret } from 'xstate';
 
   const { state } = useAuth();

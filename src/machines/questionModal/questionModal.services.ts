@@ -1,6 +1,6 @@
 import { db } from '$config/firebase';
 import { collection, doc, setDoc } from 'firebase/firestore';
-import type { QuestionCtx, QuestionEvt } from './question.machine';
+import type { QuestionCtx, QuestionEvt } from './questionModal.machine';
 import { Answer } from '$models';
 
 function initServices(db) {

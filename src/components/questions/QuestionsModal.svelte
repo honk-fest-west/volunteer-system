@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { QuestionStateSend } from '$machines/question';
+  import type { QuestionStateSend } from '$machines/questionModal';
   import { getContext, tick } from 'svelte';
 
   const { state, send } = getContext<QuestionStateSend>('questionsMachine');
@@ -73,16 +73,16 @@
           >
         </div>
       {:else if asking}
-        <div
-          class="flex justify-start flex-wrap items-start w-full py-2 pr-2 gap-2"
-        >
-          {#each questions as question, index}
-            <button
-              data-index={index}
-              class="btn btn-xs"
-              on:click={handleGotoQuestion}>{index + 1}</button
-            >
-          {/each}
+        <div class="w-full py-2 pr-2 overflow-x-auto">
+          <ul class="steps">
+            {#each questions as question, index}
+              <li
+                class="step"
+                class:step-neutral={currentQuestionIndex > index}
+                class:step-primary={currentQuestionIndex === index}
+              />
+            {/each}
+          </ul>
         </div>
         <button
           class="btn btn-primary btn-sm my-2"

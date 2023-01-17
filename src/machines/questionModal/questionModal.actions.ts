@@ -1,6 +1,6 @@
-import type { QuestionCtx, QuestionEvt } from './question.machine';
+import type { QuestionCtx, QuestionEvt } from './questionModal.machine';
 import { assign, spawn } from 'xstate';
-import { createQuestionLoader } from './question.loader';
+import { createQuestionLoader } from './questionModal.loader';
 
 export const actions = {
   spawnQuestionsLoader: assign({

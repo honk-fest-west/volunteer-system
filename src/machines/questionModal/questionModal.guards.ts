@@ -1,4 +1,4 @@
-import type { QuestionCtx } from './question.machine';
+import type { QuestionCtx } from './questionModal.machine';
 
 export const guards = {
   hasQuestions: (ctx: QuestionCtx) => ctx.questions.length > ctx.answers.length,

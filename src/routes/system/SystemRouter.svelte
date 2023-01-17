@@ -9,7 +9,7 @@
   import VolunteersRouter from '$routes/system/volunteers/VolunteersRouter.svelte';
   import { useAuth } from '$machines/auth';
   import { getContext, setContext } from 'svelte';
-  import { createQuestionMachine } from '$machines/question';
+  import { createQuestionMachine } from '$machines/questionModal';
   import { interpret } from 'xstate';
   import QuestionsModal from '$components/questions/QuestionsModal.svelte';
 
