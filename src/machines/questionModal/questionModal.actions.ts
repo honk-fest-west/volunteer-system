@@ -23,19 +23,11 @@ export const actions = {
   nextQuestion: assign({
     currentQuestionIndex: (ctx: QuestionCtx) => ctx.currentQuestionIndex + 1,
   }),
-  gotoQuestion: assign({
-    currentQuestionIndex: (ctx: QuestionCtx, evt: QuestionEvt) => {
-      console.log('gotoQuestion', evt);
-      if (evt.type !== 'GOTO_QUESTION') return ctx.currentQuestionIndex;
-      return evt.data;
-    },
-  }),
   addAnswer: assign({
     answers: (ctx: QuestionCtx, evt: QuestionEvt) => {
       if (evt.type !== 'ANSWER') return ctx.answers;
       const question = ctx.questions[ctx.currentQuestionIndex];
       const answer = question.answer(ctx.user.uid, evt.data);
-      console.log('addAnswer', question, answer);
       return [...ctx.answers, answer];
     },
   }),
@@ -49,7 +41,6 @@ export const actions = {
   }),
   setError: assign({
     error: (ctx: QuestionCtx, evt: QuestionEvt) => {
-      console.log('setError', evt);
       if (!['LOAD.ERROR', 'ANSWER', 'SKIP'].includes(evt.type))
         return ctx.error;
       return evt.data;

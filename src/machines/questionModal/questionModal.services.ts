@@ -6,7 +6,7 @@ import { Answer } from '$models';
 function initServices(db) {
   return {
     answerSaver: (ctx: QuestionCtx, evt: QuestionEvt) => {
-      if (evt.type !== 'ANSWER') return;
+      if (!['ANSWER', 'SKIP'].includes(evt.type)) return;
       const answersRef = doc(collection(db, 'answers')).withConverter(
         Answer.firebaseConverter()
       );

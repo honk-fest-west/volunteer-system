@@ -17,12 +17,8 @@ export interface QuestionCtx {
 
 export type QuestionEvt =
   | {
-      type: 'START_QUESTIONS';
+      type: 'START';
       data: null;
-    }
-  | {
-      type: 'GOTO_QUESTION';
-      data: number;
     }
   | {
       type: 'LOAD.QUESTIONS';
@@ -79,7 +75,7 @@ export function createQuestionMachine(
         },
         introducingQuestions: {
           on: {
-            START_QUESTIONS: {
+            START: {
               target: 'askingQuestions',
               actions: 'startQuestions',
             },
@@ -88,9 +84,6 @@ export function createQuestionMachine(
         askingQuestions: {
           always: [{ target: 'idle', cond: 'noQuestions' }],
           on: {
-            GOTO_QUESTION: {
-              actions: 'gotoQuestion',
-            },
             ANSWER: {
               actions: 'addAnswer',
               target: 'savingAnswer',

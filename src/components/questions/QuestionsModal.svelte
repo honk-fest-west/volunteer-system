@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { QuestionStateSend } from '$machines/questionModal';
-  import { getContext, tick } from 'svelte';
+  import { fade } from 'svelte/transition';
+  import { getContext } from 'svelte';
 
   const { state, send } = getContext<QuestionStateSend>('questionsMachine');
   let answers: string[] = [];
@@ -22,16 +23,15 @@
   }
 
   function handleStart() {
-    send('START_QUESTIONS');
+    send('START');
   }
 
   function handleAnswer() {
     send('ANSWER', { data: currentAnswer });
   }
 
-  function handleGotoQuestion({ target }) {
-    const index = target.dataset.index;
-    send('GOTO_QUESTION', { data: Number(index) });
+  function handleSkip() {
+    send('SKIP');
   }
 
   function scrollIntoView(index: number) {
@@ -55,19 +55,23 @@
         <div id={`question-${index}`} class="carousel-item w-full">
           <div class="flex flex-col items-center justify-center w-full h-full">
             <h2 class="text-xl font-bold h-20">{question.question}</h2>
-            <textarea
-              id={`answer-${index}`}
-              bind:value={answers[index]}
-              class="textarea textarea-primary w-full h-32 mt-4"
-            />
+            {#if index === currentQuestionIndex}
+              <textarea
+                id={`answer-${index}`}
+                bind:value={answers[index]}
+                class="textarea textarea-primary w-full h-32 mt-4"
+                in:fade
+                out:fade
+              />
+            {/if}
           </div>
         </div>
       {/each}
     </div>
 
-    <div class="modal-action flex justify-between">
+    <div class="modal-action flex justify-between items-center">
       {#if introducing}
-        <div class="flex justify-end w-full">
+        <div class="flex justify-center w-full">
           <button class="btn btn-primary btn-sm my-2" on:click={handleStart}
             >Start</button
           >
@@ -84,11 +88,16 @@
             {/each}
           </ul>
         </div>
-        <button
-          class="btn btn-primary btn-sm my-2"
-          disabled={isUnAnswered}
-          on:click|stopPropagation={handleAnswer}>Answer</button
-        >
+        <div class="flex justify-end items-center my-2 gap-2">
+          <button class="btn btn-ghost btn-sm my-2" on:click={handleSkip}
+            >Skip</button
+          >
+          <button
+            class="btn btn-primary btn-sm"
+            disabled={isUnAnswered}
+            on:click={handleAnswer}>Answer</button
+          >
+        </div>
       {/if}
     </div>
   </div>
