@@ -41,9 +41,9 @@ export class Question {
     return this;
   }
 
-  public answer(id, uid, answer): Answer {
+  public answer(uid, answer): Answer {
     return new Answer({
-      id,
+      id: uuidv4(),
       answer,
       volunteerUid: uid,
       questionId: this.id,
@@ -53,9 +53,9 @@ export class Question {
     });
   }
 
-  public skip(id, uid): Answer {
+  public skip(uid): Answer {
     return new Answer({
-      id,
+      id: uuidv4(),
       questionId: this.id,
       volunteerUid: uid,
       type: this.type,

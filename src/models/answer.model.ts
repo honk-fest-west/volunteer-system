@@ -24,6 +24,7 @@ export class Answer {
     this.question = data.question || null;
     this.answer = data.answer || null;
     this.status = data.status || 'unanswered';
+    this.skippedAt = data.skippedAt || null;
     this.createdAt = data.createdAt || Timestamp.now();
   }
 
@@ -38,26 +39,6 @@ export class Answer {
         return new Answer(snapshot.id).update(rest);
       },
     };
-  }
-
-  static answer(
-    id: string,
-    volunteerUid: string,
-    data: Partial<Answer>
-  ): Answer {
-    return new Answer({
-      id,
-      volunteerUid,
-      ...data,
-    });
-  }
-
-  static skip(id: string, volunteerUid: string, data: Partial<Answer>): Answer {
-    return new Answer({
-      id,
-      volunteerUid,
-      ...data,
-    });
   }
 
   public update(data: Partial<Answer>): Answer {

@@ -3,6 +3,7 @@ import type { Answer, Question } from '$models';
 import { createMachine } from 'xstate';
 import { actions } from './question.actions';
 import { guards } from './question.guards';
+import { services } from './question.services';
 import type { StateMachine } from 'xstate';
 
 export interface QuestionCtx {
@@ -33,11 +34,11 @@ export type QuestionEvt =
     }
   | {
       type: 'ANSWER';
-      data: { question: Question; answer: string };
+      data: string;
     }
   | {
       type: 'SKIP';
-      data: { question: Question };
+      data: null;
     };
 
 export type QuestionStateSend = XStateSend<QuestionCtx, QuestionEvt>;
@@ -52,7 +53,7 @@ export function createQuestionMachine(
         user,
         questions: [],
         answers: [],
-        currentQuestionIndex: 0,
+        currentQuestionIndex: null,
         error: null,
         questionsLoaderRef: null,
       },
@@ -74,6 +75,7 @@ export function createQuestionMachine(
           on: {
             START_QUESTIONS: {
               target: 'askingQuestions',
+              actions: 'startQuestions',
             },
           },
         },
@@ -84,14 +86,16 @@ export function createQuestionMachine(
               actions: 'gotoQuestion',
             },
             ANSWER: {
-              target: 'addingAnswer',
+              actions: 'addAnswer',
+              target: 'savingAnswer',
             },
             SKIP: {
-              target: 'skippingQuestion',
+              actions: 'skipQuestion',
+              target: 'savingAnswer',
             },
           },
         },
-        addingAnswer: {
+        savingAnswer: {
           invoke: {
             id: 'answerSaver',
             src: 'answerSaver',
@@ -121,6 +125,6 @@ export function createQuestionMachine(
         },
       },
     },
-    { actions, guards }
+    { actions, guards, services }
   );
 }

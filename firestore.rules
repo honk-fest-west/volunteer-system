@@ -20,6 +20,11 @@ service cloud.firestore {
       allow read, write: if isLead();
     }
 
+     match /answers/{answerId} {
+      allow read, write: if signedIn() && belongsTo(resource.data.volunteerUid);
+      allow read, write: if isLead();
+    }
+
     match/events/{eventId}/signUps/{signUpId} {
       allow read, write: if isLead();
       allow create: if signedIn();
