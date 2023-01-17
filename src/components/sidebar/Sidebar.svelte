@@ -1,6 +1,7 @@
 <script>
   import SidebarAccount from './SidebarAccount.svelte';
   import SidebarItem from './SidebarItem.svelte';
+  import SidebarLabel from './SidebarLabel.svelte';
   export let className = '';
   export let open = false;
 </script>
@@ -26,46 +27,6 @@
         />
       </svg>
       Home
-    </SidebarItem>
-
-    <SidebarItem href="/system/volunteers" on:click={() => (open = !open)}>
-      <!-- Heroicon name: outline/users -->
-      <svg
-        class=" group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-        />
-      </svg>
-      Volunteers
-    </SidebarItem>
-
-    <SidebarItem href="/system/events" on:click={() => (open = !open)}>
-      <!-- Heroicon name: outline/calendar -->
-      <svg
-        class=" group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-        />
-      </svg>
-      Events
     </SidebarItem>
 
     <SidebarItem href="/system/shifts" on:click={() => (open = !open)}>
@@ -127,6 +88,79 @@
         />
       </svg>
       Documents
+    </SidebarItem>
+
+    <SidebarLabel admin={true}>Admin</SidebarLabel>
+
+    <SidebarItem
+      admin={true}
+      href="/system/volunteers"
+      on:click={() => (open = !open)}
+    >
+      <!-- Heroicon name: outline/users -->
+      <svg
+        class=" group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+        />
+      </svg>
+      Volunteers
+    </SidebarItem>
+
+    <SidebarItem
+      admin={true}
+      href="/system/events"
+      on:click={() => (open = !open)}
+    >
+      <!-- Heroicon name: outline/calendar -->
+      <svg
+        class=" group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        aria-hidden="true"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+        />
+      </svg>
+      Events
+    </SidebarItem>
+
+    <SidebarItem
+      admin={true}
+      href="/system/questions"
+      on:click={() => (open = !open)}
+    >
+      <svg
+        class=" group-hover:text-gray-300 mr-3 flex-shrink-0 h-6 w-6"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+        />
+      </svg>
+
+      Questions
     </SidebarItem>
   </nav>
 </div>

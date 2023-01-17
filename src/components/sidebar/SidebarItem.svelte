@@ -3,16 +3,12 @@
   import { useAuth } from '$machines/auth';
   export let href = '#';
   export let external = false;
+  export let admin = false;
 
   const { state } = useAuth();
   $: pathname = $location || '/system';
 
-  $: shouldDisplayRoute =
-    $state.context?.user?.role === 'lead' ||
-    href === '/system' ||
-    href.startsWith('/system/shifts') ||
-    href.startsWith('/system/documents') ||
-    href.startsWith('/system/my-schedule');
+  $: shouldDisplayRoute = $state.context?.user?.role === 'lead' || !admin;
 
   function isCurrent() {
     return (
