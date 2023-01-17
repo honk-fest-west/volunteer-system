@@ -20,9 +20,9 @@ service cloud.firestore {
       allow read, write: if isLead();
     }
 
-     match /answers/{answerId} {
-      allow read, write: if signedIn() && belongsTo(resource.data.volunteerUid);
-      allow read, write: if isLead();
+    match /answers/{answerId} {
+      allow read, write: if signedIn();
+      // TODO: allow read, write: if belongsTo(resource.data.volunteerUid);
     }
 
     match/events/{eventId}/signUps/{signUpId} {

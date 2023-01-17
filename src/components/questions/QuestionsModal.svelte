@@ -48,9 +48,7 @@
     <div class="carousel w-[95]">
       <div class="carousel-item w-full">
         <div class="flex flex-col items-center justify-center w-full h-full">
-          <h2 class="text-xl font-bold">
-            We just have a few more questions...
-          </h2>
+          <h2 class="text-xl font-bold">Please answer a few questions...</h2>
         </div>
       </div>
       {#each questions as question, index}
