@@ -48,4 +48,4 @@ firebase init
 
 ## Hosting
 
-Hosting is provided by [Netlify](https://netlify.com/) under the `admin@honkfestwest.org` account.
+Default hosting setup for [Netlify](https://netlify.com/).
