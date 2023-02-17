@@ -76,6 +76,4 @@ npm run emulators
 
 2. Start up the Svelte Dev server
 
-```
-npm run dev
-```
+Default hosting setup for [Netlify](https://netlify.com/).
