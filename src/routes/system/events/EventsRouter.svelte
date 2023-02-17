@@ -4,7 +4,7 @@
   import { setContext } from 'svelte';
   import index from './index.svelte';
   import event from './event.svelte';
-  import { eventMachine } from '$machines/event';
+  import { eventMachine } from '$machines/admin/events';
 
   const eventState = interpret(eventMachine).start();
   setContext('eventMachine', { state: eventState, send: eventState.send });

@@ -4,7 +4,7 @@
   import { setContext } from 'svelte';
   import index from './index.svelte';
   // import event from './event.svelte';
-  import { volunteerMachine } from '$machines/volunteer';
+  import { volunteerMachine } from '$machines/admin/volunteers';
 
   const volunteerState = interpret(volunteerMachine).start();
   setContext('volunteerMachine', {

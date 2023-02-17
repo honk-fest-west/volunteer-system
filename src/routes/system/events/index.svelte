@@ -4,11 +4,9 @@
   import type { VEvent } from '$models';
 
   import MainContainer from '$components/MainContainer.svelte';
-  import EventTable from '$components/event/table/EventTable.svelte';
   import TableContainer from '$components/table/TableContainer.svelte';
   import TableHead from '$components/table/TableHead.svelte';
   import TableRow from '$components/table/TableRow.svelte';
-  import TableCell from '$components/table/TableCell.svelte';
   import EventRow from '$components/event/table/EventRow.svelte';
 
   const { state, send } = getContext('eventMachine');

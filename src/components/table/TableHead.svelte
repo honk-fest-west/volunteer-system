@@ -1,10 +1,12 @@
 <script lang="ts">
   export let side = 'middle';
   export let text = 'center';
+  export let width = null;
 </script>
 
 <th
   scope="col"
+  style={width ? `width: ${width}` : ''}
   class="sticky shadow-sm top-[8.25rem] sm:top-[5.25rem] z-10 border-b border-t border-gray-300 bg-gray-50 bg-opacity-75 px-6 py-4 text-sm font-semibold text-gray-900 backdrop-blur backdrop-filter"
   class:border-l={side === 'left'}
   class:border-r={side === 'right'}

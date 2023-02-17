@@ -48,5 +48,8 @@
     "vite": "^2.8.0",
     "vite-tsconfig-paths": "^3.4.1",
     "xstate": "^4.30.5"
+  },
+  "dependencies": {
+    "daisyui": "^2.46.1"
   }
 }
