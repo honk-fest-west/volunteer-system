@@ -37,7 +37,7 @@ export type QuestionEvt =
       data: null;
     };
 
-export type QuestionStateSend = XStateSend<QuestionCtx, QuestionEvt>;
+export type QuestionModalStateSend = XStateSend<QuestionCtx, QuestionEvt>;
 
 export function createQuestionMachine(
   user: User

@@ -1,25 +1,26 @@
 import { v4 as uuidv4 } from 'uuid';
 import type { QuestionType } from '$types';
 import { Timestamp } from 'firebase/firestore';
-import { Answer, type AnswerStatus } from '$models';
-
-export type QuestionStatus = 'draft' | 'published' | 'archived';
+import { Answer } from '$models';
+import type { User } from '$types';
 
 export class Question {
   id: string;
   createdAt: Timestamp;
+  updatedAt: Timestamp;
   question: string;
   type: QuestionType;
-  status: QuestionStatus;
+  active: boolean;
   required: boolean;
 
   constructor(data: Partial<Question>) {
     this.id = data.id || uuidv4();
     this.createdAt = data.createdAt || Timestamp.now();
+    this.updatedAt = Timestamp.now();
     this.question = data.question || null;
     this.type = data.type || 'text';
-    this.status = data.status || 'published';
     this.required = data.required || false;
+    this.active = data.active || false;
   }
 
   static firebaseConverter() {
@@ -35,17 +36,30 @@ export class Question {
     };
   }
 
+  public static from(data: Partial<Question>): Question {
+    const question = new Question({ id: data.id });
+    Object.assign(question, data);
+    return question;
+  }
+
+  public compareTo(other: Question): boolean {
+    const aDate = this.updatedAt;
+    const bDate = other.updatedAt;
+    return aDate.isEqual(bDate);
+  }
+
   public update(data: Partial<Question>): Question {
     delete data.id;
     Object.assign(this, data);
     return this;
   }
 
-  public answer(uid, answer): Answer {
+  public answer(user: User, answer): Answer {
     return new Answer({
       id: uuidv4(),
       answer,
-      volunteerUid: uid,
+      volunteerUid: user.uid,
+      volunteerDisplayName: user.displayName,
       questionId: this.id,
       type: this.type,
       question: this.question,

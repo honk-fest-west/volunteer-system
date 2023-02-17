@@ -27,7 +27,7 @@ export const actions = {
     answers: (ctx: QuestionCtx, evt: QuestionEvt) => {
       if (evt.type !== 'ANSWER') return ctx.answers;
       const question = ctx.questions[ctx.currentQuestionIndex];
-      const answer = question.answer(ctx.user.uid, evt.data);
+      const answer = question.answer(ctx.user, evt.data);
       return [...ctx.answers, answer];
     },
   }),

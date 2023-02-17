@@ -2,7 +2,7 @@ import { db } from '$config/firebase';
 import { collectionData } from 'rxfire/firestore';
 import { Question, Answer } from '$models';
 import { combineLatest, Observable } from 'rxjs';
-import { map, catchError, reduce } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { query, where, Query, collection } from 'firebase/firestore';
 
 export function createQuestionLoader(uid: string) {
@@ -29,7 +29,7 @@ function questionsData(): Observable<Question[]> {
 function questionsQuery(): Query<Question> {
   return query(
     collection(db, 'questions'),
-    where('status', '==', 'published')
+    where('active', '==', true)
   ).withConverter(Question.firebaseConverter());
 }
 

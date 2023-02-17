@@ -7,6 +7,7 @@ export type AnswerStatus = 'unanswered' | 'answered' | 'skipped';
 export class Answer {
   id: string;
   volunteerUid: string;
+  volunteerDisplayName: string;
   questionId: string;
   type: QuestionType;
   question: string;
@@ -19,6 +20,7 @@ export class Answer {
   constructor(data: Partial<Answer>) {
     this.id = data.id || uuidv4();
     this.volunteerUid = data.volunteerUid || null;
+    this.volunteerDisplayName = data.volunteerDisplayName || null;
     this.questionId = data.questionId || null;
     this.type = data.type || 'text';
     this.question = data.question || null;

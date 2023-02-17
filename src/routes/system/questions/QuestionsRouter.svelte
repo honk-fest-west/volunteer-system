@@ -3,16 +3,16 @@
   import { interpret } from 'xstate';
   import { setContext } from 'svelte';
   import index from './index.svelte';
-  import event from './event.svelte';
-  import { eventMachine } from '$machines/event';
+  import question from './question.svelte';
+  import { questionMachine } from '$machines/admin/questions';
 
-  const eventState = interpret(eventMachine).start();
-  setContext('eventMachine', { state: eventState, send: eventState.send });
+  const state = interpret(questionMachine).start();
+  setContext('questionMachine', { state, send: state.send });
 
-  const prefix = '/system/events';
+  const prefix = '/system/questions';
   const routes = {
     '/': index,
-    '/:id': event,
+    '/:id': question,
   };
 </script>
 

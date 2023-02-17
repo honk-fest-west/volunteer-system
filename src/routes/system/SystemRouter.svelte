@@ -7,6 +7,7 @@
   import EventsRouter from '$routes/system/events/EventsRouter.svelte';
   import ShiftsRouter from '$routes/system/shifts/ShiftsRouter.svelte';
   import VolunteersRouter from '$routes/system/volunteers/VolunteersRouter.svelte';
+  import QuestionsRouter from './questions/QuestionsRouter.svelte';
   import { useAuth } from '$machines/auth';
   import { getContext, setContext } from 'svelte';
   import { createQuestionMachine } from '$machines/questionModal';
@@ -18,10 +19,10 @@
   $: user = $state?.context?.user;
 
   $: if (user) {
-    const questionsMachine = createQuestionMachine(user);
-    const state = interpret(questionsMachine).start();
+    const questionModalMachine = createQuestionMachine(user);
+    const state = interpret(questionModalMachine).start();
 
-    setContext('questionsMachine', { state, send: state.send });
+    setContext('questionModalMachine', { state, send: state.send });
   }
 
   function isLead(): boolean {
@@ -57,12 +58,17 @@
     component: VolunteersRouter,
   });
 
+  const questionsRoute = wrap({
+    component: QuestionsRouter,
+  });
+
   const prefix = '/system';
   const routes = new Map();
   routes.set('/', home);
   routes.set(/^\/events.*$/, eventsRoute);
   routes.set(/^\/shifts.*$/, shiftsRoute);
   routes.set(/^\/volunteers.*$/, volunteersRoute);
+  routes.set(/^\/questions.*$/, questionsRoute);
   routes.set('/my-schedule', myScheduleRoute);
 </script>
 

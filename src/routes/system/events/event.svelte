@@ -10,7 +10,7 @@
   import DetailsForm from '$components/event/form/DetailsForm.svelte';
   import EventSchedule from '$components/event/schedule/EventSchedule.svelte';
   import BackButton from '$components/header/BackButton.svelte';
-  import AutoSave from '$components/event/form/AutoSave.svelte';
+  import AutoSaveNotification from '$components/AutoSaveNotification.svelte';
   import JobsForm from '$components/event/form/JobsForm.svelte';
   import ConfirmationModal from '$components/event/form/ConfirmationModal.svelte';
   import ScheduleInfo from '$components/event/schedule/info/ScheduleInfo.svelte';
@@ -111,7 +111,7 @@
       <div slot="actions">
         <div class="flex items-center">
           {#if status === 'draft'}
-            <AutoSave {autoSave} />
+            <AutoSaveNotification {autoSave} />
           {/if}
           <Actions on:duplicate={duplicateEvent} />
         </div>

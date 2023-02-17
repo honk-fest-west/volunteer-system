@@ -3,11 +3,8 @@
   import type { VEvent } from '$models';
 
   import MainContainer from '$components/MainContainer.svelte';
-  import EventTable from '$components/event/table/EventTable.svelte';
   import { getContext, onMount } from 'svelte';
-  import TableContainer from '$components/table/TableContainer.svelte';
-  import TableRow from '$components/table/TableRow.svelte';
-  import TableHead from '$components/table/TableHead.svelte';
+  import { TableContainer, TableRow, TableHead } from '$components/table';
   import EventRow from '$components/event/table/EventRow.svelte';
 
   const { state, send } = getContext('shiftMachine');

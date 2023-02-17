@@ -1,9 +1,8 @@
 <script lang="ts">
-  import type { QuestionStateSend } from '$machines/questionModal';
-  import { fade } from 'svelte/transition';
+  import type { QuestionModalStateSend } from '$machines/questionModal';
   import { getContext } from 'svelte';
 
-  const { state, send } = getContext<QuestionStateSend>('questionsMachine');
+  const { state, send } = getContext<QuestionModalStateSend>('questionModalMachine');
   let answers: string[] = [];
 
   $: introducing = ['introducingQuestions'].some($state.matches);
@@ -55,15 +54,11 @@
         <div id={`question-${index}`} class="carousel-item w-full">
           <div class="flex flex-col items-center justify-center w-full h-full">
             <h2 class="text-xl font-bold h-20">{question.question}</h2>
-            {#if index === currentQuestionIndex}
-              <textarea
-                id={`answer-${index}`}
-                bind:value={answers[index]}
-                class="textarea textarea-primary w-full h-32 mt-4"
-                in:fade
-                out:fade
-              />
-            {/if}
+            <textarea
+              id={`answer-${index}`}
+              bind:value={answers[index]}
+              class="textarea textarea-primary w-full h-32 mt-4"
+            />
           </div>
         </div>
       {/each}
@@ -76,7 +71,7 @@
             >Start</button
           >
         </div>
-      {:else if asking}
+      {:else if asking || saving}
         <div class="w-full py-2 pr-2 overflow-x-auto">
           <ul class="steps">
             {#each questions as question, index}
