@@ -41,6 +41,16 @@ export const actions = {
     },
   }),
 
+  toggleActive: assign({
+    selectedQuestion: (ctx: QuestionCtx) => {
+      if (!ctx.selectedQuestion) return ctx.selectedQuestion;
+      return {
+        ...ctx.selectedQuestion,
+        active: !ctx.selectedQuestion.active,
+      };
+    },
+  }),
+
   clearSelectedQuestion: assign({
     selectedQuestionId: () => null,
     selectedQuestion: () => null,

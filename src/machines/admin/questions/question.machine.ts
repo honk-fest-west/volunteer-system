@@ -30,6 +30,7 @@ export type QuestionEvt =
   | { type: 'QUESTION.ADD'; data: null }
   | { type: 'QUESTION.SELECT'; data: string }
   | { type: 'QUESTION.SAVE'; data: null }
+  | { type: 'QUESTION.TOGGLE_ACTIVE'; data: null }
   | { type: 'done.invoke.questionAdder'; data: string }
   | { type: 'error.invoke.questionAdder'; data: string };
 
@@ -135,6 +136,9 @@ const config: MachineConfig<QuestionCtx, any, QuestionEvt> = {
       on: {
         'QUESTION.SAVE': {
           actions: ['clearError', 'saveQuestion'],
+        },
+        'QUESTION.TOGGLE_ACTIVE': {
+          actions: ['clearError', 'toggleActive', 'saveQuestion'],
         },
         'GOTO.INDEX': {
           target: 'listingQuestions',
