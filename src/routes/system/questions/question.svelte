@@ -21,6 +21,7 @@
   $: question = $state.context.selectedQuestion;
   $: error = $state.context.error;
   $: answers = $state.context.answers;
+  $: console.log('answers', answers);
   $: autoSave = $state.context.autoSaveRef;
 
   onMount(() => send('AT.QUESTION', { data: params.id }));
@@ -102,7 +103,7 @@
           {/if}
         </div>
         <div class="pt-8 mx-8">
-          {#if answers}
+          {#if answers && answers.length > 0}
             <TableContainer>
               <TableRow slot="head">
                 <TableHead side="left" text="left">Volunteer</TableHead>
