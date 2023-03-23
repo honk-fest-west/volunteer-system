@@ -1,10 +1,10 @@
 # Volunteer System
 
-A barebones volunteer system for authoring and publishing Events, Jobs, and Shifts.
+A volunteer system for authoring and publishing Events, Jobs, and Shifts.
 
 ![Volunteer System Admin Interface](./volunteer-system-screenshot.jpg)
 
-## Tech Stack
+## Stack
 
 - [Svelte](https://svelte.dev/): UI Framework
 - [svelte-spa-router](https://github.com/ItalyPaleAle/svelte-spa-router): UI Router
