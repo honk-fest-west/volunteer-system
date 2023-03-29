@@ -15,21 +15,36 @@ A volunteer system for authoring and publishing Events, Jobs, and Shifts.
 
 ## Setup
 
-### Install Dependancies
+### Required Dependancies
 
 - nodejs lte
 - java
 
-### Install Dependancies with asdf
+### (Optional) Install Dependancies with asdf
 
 asdf is a tool version manager used to install versions of nodejs and java required by this application.
 
 1. Follow instructions on asdf's [getting started](https://asdf-vm.com/guide/getting-started.html)
-2. Run the asdf install instruction from the root directory of this project
+
+2. Make sure asdf plugins are installed for required libraries
+
+```
+asdf plugin add nodejs
+asdf plugin add java
+```
+
+3. Run the asdf install instruction from the root directory of this project
 
 ```
 asdf install
 ```
+
+### Install Node dependencies
+
+```
+npm install
+```
+
 
 ### Install the Local Emulator Suite
 
@@ -74,6 +89,15 @@ firebase init
 npm run emulators
 ```
 
+1a. (Optional) Start up firebase emulator and save any data to seed on next startup.
+```
+npm run emulators:seed
+```
+
 2. Start up the Svelte Dev server
+
+```
+npm run dev
+```
 
 Default hosting setup for [Netlify](https://netlify.com/).
