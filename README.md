@@ -74,7 +74,7 @@ firebase login
 firebase init
 ```
 
-3. Select **Firestore Emulator** and **Authentication Emulator**
+3. Select **Emulators** and **Firestore**
 
 ### Set Environment Variables
 
