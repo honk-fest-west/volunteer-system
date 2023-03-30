@@ -6,71 +6,64 @@
   import SignUp from '$components/auth/SignUp.svelte';
 
   const { send, state } = getContext('auth');
-  let form = 'signIn';
+  let email = '';
+  let form = 'emailInput';
 
-  $: if ($state.matches('signedOut.signUpForm')) {
-    form = 'signUp';
-  } else if ($state.matches('signedOut.signInForm')) {
-    form = 'signIn';
+  async function checkEmail() {
+    // TODO: Implement the logic to check if the email exists in the system.
+    // For now, we'll assume that the function returns true if the email exists, and false otherwise.
+    // const emailExists = await checkEmailExists(email);
+    const emailExists = true;
+    form = emailExists ? 'passwordInput' : 'signUp';
   }
 </script>
 
 <div>
   <h2 class="text-3xl font-extrabold text-center text-pink-700">
-    H!FW Volunteer
+    {#if form === 'emailInput'}
+      HONK! Volunteer
+    {:else if form === 'passwordInput'}
+      Welcome back!
+    {:else if form === 'signUp'}
+      Create an account
+    {/if}
   </h2>
 </div>
-<div class="mt-8 grid grid-cols-3 gap-3">
-  <AuthServices {send} />
-</div>
-
 <div class="mt-6 relative">
-  <div class="relative flex justify-evenly text-sm">
-    <button
-      class="px-10 py-2 bg-white border-b font-semibold {form === 'signIn'
-        ? 'text-gray-600  border-gray-300'
-        : 'text-indigo-600 hover:text-indigo-500 border-transparent'}"
-      disabled={form === 'signIn'}
-      on:click={() => send('VIEW_SIGN_IN')}
-    >
-      Sign In
-    </button>
-    <button
-      class="px-10 py-2 bg-white border-b font-semibold {form === 'signUp'
-        ? 'text-gray-600  border-gray-300'
-        : 'text-indigo-600 hover:text-indigo-500 border-transparent'}"
-      disabled={form === 'signUp'}
-      on:click={() => send('VIEW_SIGN_UP')}
-    >
-      Sign Up
-    </button>
-  </div>
-</div>
-
-<div class="relative h-[300px] mt-6">
-  {#if form === 'signIn'}
-    <div class="absolute left-0 inset-0" in:fly={{ x: 400, duration: 500 }}>
-      <SignIn />
-      <p class="mt-5 text-sm text-center">
-        <button
-          on:click={() => send('VIEW_SIGN_UP')}
-          class="font-medium text-indigo-600 hover:text-indigo-500"
-        >
-          First time here? Sign up.
-        </button>
-      </p>
+  {#if form === 'emailInput'}
+    <div class="flex gap-3">
+      <label for="email" class="sr-only">Email Address</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        bind:value={email}
+        placeholder="Email Address"
+        class="block w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md"
+        required
+      />
+      <button
+        class="px-4 py-2 bg-blue-600 text-white rounded-md"
+        on:click={checkEmail}
+        disabled={!email}
+      >
+        Next
+      </button>
     </div>
+  {:else if form === 'passwordInput'}
+    <SignIn />
   {:else if form === 'signUp'}
-    <div class="absolute left-0 inset-0" in:fly={{ x: -400, duration: 500 }}>
-      <SignUp />
-      <p class="mt-5 text-sm text-center">
-        <button
-          on:click={() => send('VIEW_SIGN_IN')}
-          class="font-medium text-indigo-600 hover:text-indigo-500"
-        >
-          Already have an account? Sign in.
-        </button>
-      </p>
-    </div>
+    <SignUp />
   {/if}
 </div>
+
+{#if form === 'emailInput'}
+  <div class="mt-8 flex justify-center">
+    <label class="text-gray-500 font-bold">or continue with</label>
+  </div>
+  <div class="mt-8 grid grid-flow-col justify-stretch gap-3">
+    <AuthServices {send} />
+  </div>
+{/if}
+
