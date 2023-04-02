@@ -1,3 +1,4 @@
+import type { XStateSend } from '$types';
 import type { Auth, User } from 'firebase/auth';
 import type { Firestore } from 'firebase/firestore';
 import { createMachine } from 'xstate';
@@ -13,13 +14,15 @@ export interface AuthCtx {
 }
 
 export type AuthEvt =
+  | { type: 'CHECK_EMAIL'; data: string }
   | { type: 'LOGOUT'; data: unknown }
   | { type: 'LOGIN'; data: unknown }
   | { type: 'SIGN_UP'; data: unknown }
   | { type: 'VIEW_SIGN_IN'; data: unknown }
   | { type: 'VIEW_SIGN_UP'; data: unknown }
   | { type: 'SUBMIT_REQUIRED'; data: unknown }
-  | { type: 'DELETE_ACCOUNT'; data: unknown };
+  | { type: 'DELETE_ACCOUNT'; data: unknown }
+  | { type: 'ERROR'; data: string };
 
 type AuthState =
   | { value: 'idle'; context: AuthCtx }
@@ -27,6 +30,7 @@ type AuthState =
   | { value: 'loadingProfile'; context: AuthCtx }
   | { value: 'signedIn'; context: AuthCtx }
   | { value: 'signedOut'; context: AuthCtx }
+  | { value: { signedOut: 'emailInput' }; context: AuthCtx }
   | { value: { signedOut: 'signInForm' }; context: AuthCtx }
   | { value: { signedOut: 'signUpForm' }; context: AuthCtx }
   | { value: 'signingIn'; context: AuthCtx }
@@ -35,6 +39,8 @@ type AuthState =
   | { value: 'requestingRequired'; context: AuthCtx }
   | { value: 'updatingProfile'; context: AuthCtx }
   | { value: 'deletingAccount'; context: AuthCtx };
+
+export type AuthStateSend = XStateSend<AuthCtx, AuthEvt>;
 
 const config = {
   schema: {
@@ -67,7 +73,7 @@ const config = {
         id: 'authChecker',
         src: 'authChecker',
         onDone: { target: 'loadingUser', actions: 'setAuth' },
-        onError: { target: 'signedOut.signInForm' },
+        onError: { target: 'signedOut.emailInput' },
       },
     },
 
@@ -80,7 +86,7 @@ const config = {
           actions: 'setUser',
         },
         onError: {
-          target: 'signedOut.signInForm',
+          target: 'signedOut.emailInput',
           actions: ['setError', 'clearAuth'],
         },
       },
@@ -95,7 +101,7 @@ const config = {
           actions: 'setUser',
         },
         onError: {
-          target: 'signedOut.signInForm',
+          target: 'signedOut.emailInput',
           actions: ['setError', 'clearAuth'],
         },
       },
@@ -143,11 +149,11 @@ const config = {
         id: 'logout',
         src: 'logout',
         onDone: {
-          target: 'signedOut.signInForm',
+          target: 'signedOut.emailInput',
           actions: ['clearAuth', 'clearError'],
         },
         onError: {
-          target: 'signedOut.signInForm',
+          target: 'signedOut.emailInput',
           actions: ['clearAuth', 'setError'],
         },
       },
@@ -159,17 +165,28 @@ const config = {
     // or network error
     signedOut: {
       entry: 'gotoAuth',
-      initial: 'signInForm',
+      initial: 'emailInput',
       states: {
+        emailInput: { type: 'final' } as { type: 'final' },
         signInForm: { type: 'final' } as { type: 'final' },
         signUpForm: { type: 'final' } as { type: 'final' },
       },
       on: {
+        CHECK_EMAIL: { target: 'checkingEmail' },
         LOGIN: { target: 'signingIn' },
         SIGN_UP: { target: 'signingUp' },
-        VIEW_SIGN_IN: { target: 'signedOut.signInForm', actions: 'clearAuth' },
-        VIEW_SIGN_UP: { target: 'signedOut.signUpForm', actions: 'clearAuth' },
       },
+    },
+
+    checkingEmail: {
+      invoke: {
+        id: 'emailChecker',
+        src: 'emailChecker',
+      },
+      on: {
+        VIEW_SIGN_IN: { target: 'signedOut.signInForm' },
+        VIEW_SIGN_UP: { target: 'signedOut.signUpForm' },
+      }
     },
 
     signingIn: {

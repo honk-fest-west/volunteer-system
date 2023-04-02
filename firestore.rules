@@ -8,6 +8,7 @@ service cloud.firestore {
     match /users/{userId} {
       allow get, write: if belongsTo(userId);         
       allow read, update, delete: if isLead();
+      allow list;
     }
 
     match /events/{eventId} {

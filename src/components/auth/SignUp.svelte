@@ -1,11 +1,23 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
+  import type { AuthStateSend } from '$machines/auth/auth.machine';
+	import { getContext, onMount } from 'svelte';
+	export let email: string;
 
-	const { send, state } = getContext('auth');
-	const data = { displayName: '', email: '', phoneNumber: '', password: '', re_enter_password: '' };
+	let passwordEl: HTMLInputElement;
+
+  onMount(() => {
+    passwordEl.focus();
+  });
+
+	const { send, state } = getContext<AuthStateSend>('auth');
+	const data = { displayName: '', email, phoneNumber: '', password: '', re_enter_password: '' };
 
 	const signUpHandler = async (e: Event) => {
-		send('SIGN_UP', { data });
+		if (data.password === data.re_enter_password) {
+			send('SIGN_UP', { data });
+		} else {
+			// TODO: show error message
+		}
 	};
 </script>
 
@@ -20,6 +32,7 @@
 				autocomplete="current-password"
 				required
 				class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+				bind:this={passwordEl}
 				bind:value={data.password}
 			/>
 		</div>

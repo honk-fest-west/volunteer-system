@@ -1,20 +1,29 @@
 <script lang="ts">
+  import type { AuthStateSend } from '$machines/auth/auth.machine';
   import { fly } from 'svelte/transition';
   import { getContext } from 'svelte';
   import AuthServices from '$components/auth/AuthServices.svelte';
   import SignIn from '$components/auth/SignIn.svelte';
   import SignUp from '$components/auth/SignUp.svelte';
 
-  const { send, state } = getContext('auth');
+  const { send, state } = getContext<AuthStateSend>('auth');
   let email = '';
   let form = 'emailInput';
 
-  async function checkEmail() {
-    // TODO: Implement the logic to check if the email exists in the system.
-    // For now, we'll assume that the function returns true if the email exists, and false otherwise.
-    // const emailExists = await checkEmailExists(email);
-    const emailExists = true;
-    form = emailExists ? 'passwordInput' : 'signUp';
+  function checkEmail() {
+    send('CHECK_EMAIL', {data: email});
+  }
+
+  function onKeydown(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      checkEmail();
+    }
+  }
+
+  $: if ($state.matches('signedOut.signUpForm')) {
+    form = 'signUp';
+  } else if ($state.matches('signedOut.signInForm')) {
+    form = 'passwordInput';
   }
 </script>
 
@@ -31,13 +40,14 @@
 </div>
 <div class="mt-6 relative">
   {#if form === 'emailInput'}
-    <div class="flex gap-3">
+    <form on:submit|preventDefault={checkEmail} class="flex gap-3">
       <label for="email" class="sr-only">Email Address</label>
       <input
         id="email"
         name="email"
         type="email"
         autocomplete="email"
+        on:keydown={onKeydown}
         bind:value={email}
         placeholder="Email Address"
         class="block w-full px-3 py-2 text-gray-700 bg-white border border-gray-300 rounded-md"
@@ -45,16 +55,16 @@
       />
       <button
         class="px-4 py-2 bg-blue-600 text-white rounded-md"
-        on:click={checkEmail}
         disabled={!email}
+        type="submit"
       >
         Next
       </button>
-    </div>
+    </form>
   {:else if form === 'passwordInput'}
-    <SignIn />
+    <SignIn {email} />
   {:else if form === 'signUp'}
-    <SignUp />
+    <SignUp {email} />
   {/if}
 </div>
 

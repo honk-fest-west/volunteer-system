@@ -10,10 +10,13 @@ import {
   createUserWithEmailAndPassword,
 } from 'firebase/auth';
 import { db, auth } from '$config/firebase';
-import { deleteDoc, doc, onSnapshot, setDoc } from 'firebase/firestore';
+import { deleteDoc, doc, onSnapshot, setDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import type { User } from '$types';
 import type { AuthCtx, AuthEvt } from './auth.machine';
 import { userMapper } from './user.mapper';
+import { collectionData } from 'rxfire/firestore';
+import { map, catchError, tap } from 'rxjs/operators';
+import { from } from 'rxjs';
 
 function initServices(useRedirect = false, { auth, db }) {
   const loginWithEmailPassword = (email, password) =>
@@ -51,6 +54,16 @@ function initServices(useRedirect = false, { auth, db }) {
           return auth?.currentUser ? resolve(auth) : reject();
         });
       }),
+    emailChecker: (_: never, evt: AuthEvt) => {
+      const emailQuery = query(
+        collection(db, 'users'),
+        where('email', '==', evt.data)
+      )
+      return from(getDocs(emailQuery)).pipe(
+        map((querySnapshot) => ({ type: querySnapshot.empty ? 'VIEW_SIGN_UP' : 'VIEW_SIGN_IN', data: evt.data })),
+        catchError((err) => [{ type: 'ERROR', data: err }])
+      );
+    },
     authenticator: (_: never, evt: AuthEvt) => {
       const event = evt as unknown as {
         provider: string;

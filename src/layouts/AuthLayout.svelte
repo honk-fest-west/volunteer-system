@@ -11,7 +11,7 @@
     class="flex-1 grid grid-cols-1 grid-rows-5 py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24 bg-white"
   >
     <div
-      class="row-span-4 flex flex-col justify-end mx-auto w-full max-w-sm lg:w-96"
+      class="row-span-4 flex flex-col justify-center mx-auto w-full max-w-sm lg:w-96"
     >
       <slot />
     </div>
