@@ -1,7 +1,6 @@
 import { browser } from '$app/env';
 
-import { getFirestore } from 'firebase/firestore';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query } from 'firebase/firestore';
 import { writable } from 'svelte/store';
 import { db } from '$config/firebase';
 
@@ -18,7 +17,8 @@ const createVolunteers = (db) => {
 
   async function listen() {
     const volunteers = collection(db, 'users');
-    const snapshot = await getDocs(volunteers);
+    const sortedVolunteers = query(volunteers, orderBy('createdAt', 'desc'));
+    const snapshot = await getDocs(sortedVolunteers);
     const data: Volunteer[] = snapshot.docs.map((doc) =>
       doc.data()
     ) as Volunteer[];

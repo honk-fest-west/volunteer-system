@@ -1,3 +1,5 @@
+import type { Timestamp } from "firebase/firestore";
+
 export function shortTime(time: string): string {
   const date = new Date(timeToInt(time));
 
@@ -38,4 +40,8 @@ export function formatDate(date: string): string {
     month: 'short',
     day: 'numeric',
   });
+}
+
+export function floatToLocaleDateString(value: Timestamp): string {
+  return new Date(Date(value)).toLocaleDateString();
 }

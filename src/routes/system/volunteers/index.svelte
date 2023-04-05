@@ -8,7 +8,7 @@
   import TableCell from '$components/table/TableCell.svelte';
   import VolunteerEmail from '$components/volunteer/VolunteerEmail.svelte';
   import { getContext, onMount } from 'svelte';
-  import { formatPhoneNumber } from '$util';
+  import { formatPhoneNumber, floatToLocaleDateString } from '$util';
   const { state, send } = getContext('volunteerMachine');
 
   $: volunteers = $state.context.volunteers as User[];
@@ -55,6 +55,7 @@
         <TableHead side="left" text="left">Name</TableHead>
         <TableHead text="right">Telephone</TableHead>
         <TableHead>Status</TableHead>
+        <TableHead>Registered</TableHead>
         <TableHead side="right">
           <div class="flex justify-center items-center">
             <label for="emailAddresses" class="mr-1">
@@ -116,6 +117,7 @@
             ></TableCell
           >
           <TableCell>{volunteer.status}</TableCell>
+          <TableCell>{floatToLocaleDateString(volunteer.createdAt)}</TableCell>
           <TableCell>
             <input
               type="checkbox"
