@@ -8,7 +8,7 @@
   import TableCell from '$components/table/TableCell.svelte';
   import VolunteerEmail from '$components/volunteer/VolunteerEmail.svelte';
   import { getContext, onMount } from 'svelte';
-  import { formatPhoneNumber, floatToLocaleDateString } from '$util';
+  import { formatPhoneNumber, timestampToDateString } from '$util';
   const { state, send } = getContext('volunteerMachine');
 
   $: volunteers = $state.context.volunteers as User[];
@@ -16,6 +16,16 @@
   $: allEmailAddresses = volunteers.map(
     (volunteer) => volunteer.email
   ) as string[];
+
+  $: sortedVolunteers = volunteers.sort((a, b) => {
+    if (a.createdAt > b.createdAt) {
+      return -1;
+    } else if (a.createdAt < b.createdAt) {
+      return 1;
+    } else {
+      return 0;
+    }
+  });
 
   let emailAddresses: string[] = [];
 
@@ -88,7 +98,7 @@
         </TableHead>
       </TableRow>
 
-      {#each volunteers as volunteer}
+      {#each sortedVolunteers as volunteer}
         <TableRow>
           <TableCell>
             <div class="flex items-center">
@@ -117,7 +127,7 @@
             ></TableCell
           >
           <TableCell>{volunteer.status}</TableCell>
-          <TableCell>{floatToLocaleDateString(volunteer.createdAt)}</TableCell>
+          <TableCell>{timestampToDateString(volunteer.createdAt)}</TableCell>
           <TableCell>
             <input
               type="checkbox"
