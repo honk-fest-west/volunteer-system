@@ -5,15 +5,15 @@
   import index from './index.svelte';
   import event from './event.svelte';
   import { eventMachine } from '$machines/admin/events';
+  import { prefix } from '$routes/prefix';
 
   const eventState = interpret(eventMachine).start();
   setContext('eventMachine', { state: eventState, send: eventState.send });
 
-  const prefix = '/system/events';
   const routes = {
     '/': index,
     '/:id': event,
   };
 </script>
 
-<Router {routes} {prefix} />
+<Router {routes} prefix={prefix.admin_events_path()} />

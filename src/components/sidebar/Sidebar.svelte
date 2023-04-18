@@ -1,4 +1,5 @@
 <script>
+    import { prefix } from '$routes/prefix';
   import SidebarAccount from './SidebarAccount.svelte';
   import SidebarItem from './SidebarItem.svelte';
   import SidebarLabel from './SidebarLabel.svelte';
@@ -94,7 +95,7 @@
 
     <SidebarItem
       admin={true}
-      href="/system/volunteers"
+      href={prefix.admin_volunteers_path()}
       on:click={() => (open = !open)}
     >
       <!-- Heroicon name: outline/users -->
@@ -118,7 +119,7 @@
 
     <SidebarItem
       admin={true}
-      href="/system/events"
+      href={prefix.admin_events_path()}
       on:click={() => (open = !open)}
     >
       <!-- Heroicon name: outline/calendar -->
@@ -142,7 +143,7 @@
 
     <SidebarItem
       admin={true}
-      href="/system/questions"
+      href={prefix.admin_questions_path()}
       on:click={() => (open = !open)}
     >
       <svg

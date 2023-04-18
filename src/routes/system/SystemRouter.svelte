@@ -4,10 +4,10 @@
   import wrap from 'svelte-spa-router/wrap';
   import home from '$routes/system/home/index.svelte';
   import MyScheduleRouter from '$routes/system/my-schedule.svelte';
-  import EventsRouter from '$routes/system/events/EventsRouter.svelte';
   import ShiftsRouter from '$routes/system/shifts/ShiftsRouter.svelte';
-  import VolunteersRouter from '$routes/system/volunteers/VolunteersRouter.svelte';
-  import QuestionsRouter from './questions/QuestionsRouter.svelte';
+  import VolunteersRouter from '$routes/system/admin/volunteers/VolunteersRouter.svelte';
+  import AdminQuestionsRouter from'$routes/system/admin/questions/AdminQuestionsRouter.svelte';
+  import EventsRouter from '$routes/system/admin/events/EventsRouter.svelte';
   import { useAuth } from '$machines/auth';
   import { getContext, setContext } from 'svelte';
   import { createQuestionMachine } from '$machines/questionModal';
@@ -41,11 +41,6 @@
     }
   }
 
-  const eventsRoute = wrap({
-    component: EventsRouter,
-    conditions: [() => isLead()],
-  });
-
   const shiftsRoute = wrap({
     component: ShiftsRouter,
   });
@@ -54,22 +49,29 @@
     component: MyScheduleRouter,
   });
 
+  const eventsRoute = wrap({
+    component: EventsRouter,
+    conditions: [() => isLead()],
+  });
+
   const volunteersRoute = wrap({
     component: VolunteersRouter,
+    conditions: [() => isLead()],
   });
 
   const questionsRoute = wrap({
-    component: QuestionsRouter,
+    component: AdminQuestionsRouter,
+    conditions: [() => isLead()],
   });
 
   const prefix = '/system';
   const routes = new Map();
   routes.set('/', home);
-  routes.set(/^\/events.*$/, eventsRoute);
   routes.set(/^\/shifts.*$/, shiftsRoute);
-  routes.set(/^\/volunteers.*$/, volunteersRoute);
-  routes.set(/^\/questions.*$/, questionsRoute);
   routes.set('/my-schedule', myScheduleRoute);
+  routes.set(/^\/admin\/events.*$/, eventsRoute);
+  routes.set(/^\/admin\/volunteers.*$/, volunteersRoute);
+  routes.set(/^\/admin\/questions.*$/, questionsRoute);
 </script>
 
 <SystemLayout>

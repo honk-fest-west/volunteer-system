@@ -3,8 +3,8 @@
   import { interpret } from 'xstate';
   import { setContext } from 'svelte';
   import index from './index.svelte';
-  // import event from './event.svelte';
   import { volunteerMachine } from '$machines/admin/volunteers';
+  import { prefix } from '$routes/prefix';
 
   const volunteerState = interpret(volunteerMachine).start();
   setContext('volunteerMachine', {
@@ -12,10 +12,9 @@
     send: volunteerState.send,
   });
 
-  const prefix = '/system/volunteers';
   const routes = {
     '/': index,
   };
 </script>
 
-<Router {routes} {prefix} />
+<Router {routes} prefix={prefix.admin_volunteers_path()} />

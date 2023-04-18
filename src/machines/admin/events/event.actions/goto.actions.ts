@@ -1,8 +1,9 @@
 import type { EventEvt } from '../event.machine';
 import { push } from 'svelte-spa-router';
+import { prefix } from '$routes/prefix';
 
 export const gotoActions = {
-  gotoIndex: () => push('/system/events'),
+  gotoIndex: () => push(prefix.admin_events_path()),
 
   gotoEvent: (_, evt: EventEvt) => {
     if (
@@ -11,6 +12,6 @@ export const gotoActions = {
       evt.type !== 'done.invoke.eventDuplicator'
     )
       return;
-    push(`/system/events/${evt.data}`);
+    push(prefix.admin_events_path(evt.data));
   },
 };

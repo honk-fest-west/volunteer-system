@@ -21,10 +21,12 @@
   $: question = $state.context.selectedQuestion;
   $: error = $state.context.error;
   $: answers = $state.context.answers;
-  $: console.log('answers', answers);
   $: autoSave = $state.context.autoSaveRef;
 
-  onMount(() => send('AT.QUESTION', { data: params.id }));
+  onMount(() => {
+    console.log('question mounted', params);
+    send('AT.QUESTION', { data: params.id })
+  });
 
   function gotoIndex() {
     send('GOTO.INDEX');
