@@ -1,14 +1,19 @@
 <script lang="ts">
-  import type { JobSignUpCollection } from '$types';
+  // Svelte imports
   import { createEventDispatcher } from 'svelte';
-  import { ShiftSignUp, VEvent } from '$models';
+
+  // Internal imports
+  import { VEvent } from '$models';
+  import type { JobSignUpCollection } from '$types';
+  
+  // Component imports
+  import EventSpreadsheetBtn from './EventSpreadsheetBtn.svelte';
   import HorizontalLines from './HorizontalLines.svelte';
+  import Jobs from './Jobs.svelte';
   import JobsXAxis from './JobsXAxis.svelte';
   import JobsXAxisMobile from './JobsXAxisMobile.svelte';
-  import Jobs from './Jobs.svelte';
   import VerticalLines from './VerticalLines.svelte';
 
-  import EventSpreadsheetBtn from './EventSpreadsheetBtn.svelte';
 
   export let selectedEvent: VEvent;
   export let signUps: JobSignUpCollection;
@@ -41,12 +46,12 @@
     } else return 'tap';
   }
 
-  function handleTouchStart(event: TouchEvent) {
+  function onTouchStart(event: TouchEvent) {
     touchstartX = event.touches[0].clientX;
     touchstartY = event.touches[0].clientY;
   }
 
-  function handleTouchEnd(event: TouchEvent) {
+  function onTouchEnd(event: TouchEvent) {
     touchendX = event.changedTouches[0].clientX;
     touchendY = event.changedTouches[0].clientY;
     const direction = handleGesture(
@@ -73,8 +78,8 @@
 
 <div
   class="flex flex-auto flex-col  bg-white"
-  on:touchstart={handleTouchStart}
-  on:touchend={handleTouchEnd}
+  on:touchstart={onTouchStart}
+  on:touchend={onTouchEnd}
 >
   <div
     style="width: 165%;"
@@ -105,10 +110,8 @@
         class="sticky left-0 z-10 w-14 flex-none bg-white ring-1 ring-gray-100"
       />
       <div class="grid flex-auto grid-cols-1 grid-rows-1">
-        <!-- Horizontal lines -->
         <HorizontalLines {startTime} {endTime} />
 
-        <!-- Job Columns -->
         <Jobs
           {date}
           {jobs}
@@ -119,7 +122,6 @@
           on:selectjob
         />
 
-        <!-- Vertical lines -->
         <VerticalLines {jobs} on:selectjob />
       </div>
     </div>
