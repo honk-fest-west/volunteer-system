@@ -17,9 +17,61 @@
     H!FW Volunteers
   </h1>
 
-  <p class="text-gray-800 text-2xl font-semibold mb-3">
-    More information coming in April.
+  <p class="text-gray-800 text-xl font-semibold mb-3">
+    We're ready if you are!
   </p>
+
+  <ul class="list-disc list-inside leading-loose text-xl">
+    <li>
+      Select <a
+        class="text-indigo-700 font-semibold underline"
+        href="/system/shifts"
+        use:link>Sign Up Here >></a
+      > from the menu and select an Event to sign up for volunteer shifts.
+    </li>
+    <li>
+      <a
+        class="text-indigo-700 font-semibold underline"
+        href="/system/my-schedule"
+        use:link>My Schedule</a
+      > will show you your selected shifts for the upcomming event.
+    </li>
+
+    <li>
+      The <a
+        class="text-indigo-700 font-semibold underline"
+        href="https://drive.google.com/drive/folders/1xRGarudRsANgvnOpEQRIxwuqx3ctdAJz?usp=sharing"
+        >Documents</a
+      > folder provides information regarding job descriptions, volunteer requirements,
+      and other documents.
+    </li>
+  </ul>
+
+  <br />
+  <p class="text-gray-800 text-xl font-semibold mb-3">Festival Dates:</p>
+  <ul class="list-disc list-inside leading-loose text-xl">
+    <li>
+      <a
+        class="text-indigo-700 font-semibold underline"
+        href="/system/shifts/f5PK6Zf9uZUtDl0n7etF"
+        use:link>Friday, June 2rd, 6-10pm</a
+      >
+    </li>
+    <li>
+      <a
+        class="text-indigo-700 font-semibold underline"
+        href="/system/shifts/Y6Kx1yPc0w8OlKuRYqdG"
+        use:link>Saturday, June 3th, 12-8pm</a
+      >
+    </li>
+    <li>
+      <a
+        class="text-indigo-700 font-semibold underline"
+        href="/system/shifts/7eVvSCGXxMjaeVtEMlZj"
+        use:link>Sunday, June 4th, 12-6pm</a
+      >
+    </li>
+  </ul>
 
   <br /><br />
   <p class="text-gray-800 text-xl">
