@@ -60,6 +60,15 @@ export class Job {
       });
   }
 
+  public get isClosed(): boolean {
+    return !Object.values(this.shifts).find(
+      (shift) =>
+        // Only return shifts that are not signed up
+        // or that the user has already signed up for.
+        shift.slots > shift.signedUp
+    )
+  }
+
   private getRandomDarkColor(): string {
     let color = '#';
     for (let i = 0; i < 6; i++) {

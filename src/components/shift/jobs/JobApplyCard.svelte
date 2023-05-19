@@ -7,6 +7,8 @@
   const dispatch = createEventDispatcher();
 
   function selectJob() {
+    if (job.isClosed && !shiftsSignedUpCount) return;
+
     dispatch('selectJobId', job.id);
   }
 
@@ -15,6 +17,8 @@
       return `${shiftsSignedUpCount} Shifts`;
     } else if (shiftsSignedUpCount === 1) {
       return `${shiftsSignedUpCount} Shift`;
+    } else if (job.isClosed) {
+      return 'Full';
     } else {
       return text;
     }
