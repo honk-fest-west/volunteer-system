@@ -121,8 +121,7 @@ const config: MachineConfig<QuestionCtx, any, QuestionEvt> = {
         'LOAD.ERROR': {
           actions: ['setError', 'gotoIndex'],
         },
-      },
-      exit: 'stopAnswersLoader',
+      }
     },
     viewingQuestion: {
       entry: ['setDraftStatus', 'spawnAutoSave'],
@@ -144,6 +143,9 @@ const config: MachineConfig<QuestionCtx, any, QuestionEvt> = {
           target: 'listingQuestions',
           actions: ['clearError', 'gotoIndex'],
         },
+        'LOAD.ANSWERS': {
+          actions: 'setAnswers',
+        }
       },
       exit: 'stopAutoSave',
     },

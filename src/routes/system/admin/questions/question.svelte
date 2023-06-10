@@ -24,8 +24,7 @@
   $: autoSave = $state.context.autoSaveRef;
 
   onMount(() => {
-    console.log('question mounted', params);
-    send('AT.QUESTION', { data: params.id })
+    send('AT.QUESTION', { data: params.id });
   });
 
   function gotoIndex() {
