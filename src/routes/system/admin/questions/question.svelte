@@ -13,6 +13,7 @@
     TableHead,
     TableRow,
   } from '$components/table';
+  import AnswersSpreadsheetBtn from '$components/questions/AnswersSpreadsheetBtn.svelte';
 
   export let params: { id?: string } = {};
 
@@ -112,6 +113,9 @@
                 <TableHead side="right" text="left" width="80%"
                   >Answer</TableHead
                 >
+                <TableHead side="right" text="right">
+                  <AnswersSpreadsheetBtn {question} answers={filteredAnswers} />
+                </TableHead>
               </TableRow>
               {#each filteredAnswers as answer}
                 <TableRow>
@@ -119,6 +123,7 @@
                     {answer.volunteerDisplayName}</TableCell
                   >
                   <TableCell text="left">{answer.answer}</TableCell>
+                  <TableCell />
                 </TableRow>
               {/each}
             </TableContainer>
