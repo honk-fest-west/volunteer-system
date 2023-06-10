@@ -15,6 +15,5 @@ function answersQuery(questionId: string) {
   return query(
     collection(db, 'answers'),
     where('questionId', '==', questionId),
-    where('answer', '!=', null)
   ).withConverter(Answer.firebaseConverter());
 }

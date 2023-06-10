@@ -21,6 +21,7 @@
   $: question = $state.context.selectedQuestion;
   $: error = $state.context.error;
   $: answers = $state.context.answers;
+  $: filteredAnswers = (answers || []).filter((a) => a.answer !== null);
   $: autoSave = $state.context.autoSaveRef;
 
   onMount(() => {
@@ -104,7 +105,7 @@
           {/if}
         </div>
         <div class="pt-8 mx-8">
-          {#if answers && answers.length > 0}
+          {#if filteredAnswers && filteredAnswers.length > 0}
             <TableContainer>
               <TableRow slot="head">
                 <TableHead side="left" text="left">Volunteer</TableHead>
@@ -112,7 +113,7 @@
                   >Answer</TableHead
                 >
               </TableRow>
-              {#each answers as answer}
+              {#each filteredAnswers as answer}
                 <TableRow>
                   <TableCell text="left">
                     {answer.volunteerDisplayName}</TableCell
