@@ -22,8 +22,12 @@
   $: question = $state.context.selectedQuestion;
   $: error = $state.context.error;
   $: answers = $state.context.answers;
-  $: filteredAnswers = (answers || []).filter((a) => a.answer !== null);
+  $: filteredAnswers = forceArray(answers).filter((a) => a.answer !== null);
   $: autoSave = $state.context.autoSaveRef;
+
+  function forceArray(value): Array<any> {
+    return typeof value != 'undefined' && value instanceof Array ? value : [];
+  }
 
   onMount(() => {
     send('AT.QUESTION', { data: params.id });

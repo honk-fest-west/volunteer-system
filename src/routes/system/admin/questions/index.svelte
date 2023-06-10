@@ -12,9 +12,9 @@
   } from '$components/table';
 
   const { state, send } = getContext<QuestionStateSend>('questionMachine');
-  $: questions = Object.values($state.context.questions).sort(
-    (a: Question, b: Question) => (a.compareTo(b) && 1) || -1
-  ) as Question[];
+  $: questions = Object.values($state.context.questions)
+    .sort((a: Question, b: Question) => (a.compareTo(b) && 1) || -1)
+    .filter((q) => q.question !== null) as Question[];
 
   function selectQuestion(e) {
     send('QUESTION.SELECT', { data: e.id });
