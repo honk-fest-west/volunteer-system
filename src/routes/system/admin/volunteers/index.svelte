@@ -1,15 +1,16 @@
 <script lang="ts">
-  import type { User } from '$types';
-  import { fade } from 'svelte/transition';
-  import MainContainer from '$components/MainContainer.svelte';
-  import TableContainer from '$components/table/TableContainer.svelte';
-  import TableHead from '$components/table/TableHead.svelte';
-  import TableRow from '$components/table/TableRow.svelte';
-  import TableCell from '$components/table/TableCell.svelte';
-  import VolunteerEmail from '$components/volunteer/VolunteerEmail.svelte';
-  import { getContext, onMount } from 'svelte';
-  import { formatPhoneNumber, timestampToDateString } from '$util';
-  const { state, send } = getContext('volunteerMachine');
+  import type { User } from "$types";
+  import { fade } from "svelte/transition";
+  import MainContainer from "$components/MainContainer.svelte";
+  import TableContainer from "$components/table/TableContainer.svelte";
+  import TableHead from "$components/table/TableHead.svelte";
+  import TableRow from "$components/table/TableRow.svelte";
+  import TableCell from "$components/table/TableCell.svelte";
+  import VolunteerEmail from "$components/volunteer/VolunteerEmail.svelte";
+  import { getContext, onMount } from "svelte";
+  import { formatPhoneNumber, timestampToDateString } from "$util";
+  import VolunteerSpreadsheetBtn from "$components/volunteer/VolunteerSpreadsheetBtn.svelte";
+  const { state, send } = getContext("volunteerMachine");
 
   $: volunteers = $state.context.volunteers as User[];
   $: allSelected = emailAddresses?.length === allEmailAddresses?.length;
@@ -46,7 +47,7 @@
   };
 
   onMount(() => {
-    send('AT.INDEX');
+    send("AT.INDEX");
   });
 </script>
 
@@ -59,6 +60,9 @@
       {#if emailAddresses.length}
         <VolunteerEmail {emailAddresses}>Email Selected</VolunteerEmail>
       {/if}
+      <VolunteerSpreadsheetBtn {volunteers}
+        >Download Spreadsheet</VolunteerSpreadsheetBtn
+      >
     </div>
     <TableContainer>
       <TableRow slot="head">
